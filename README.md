@@ -1,4 +1,6 @@
 # StuX
+## _Insight · Exchange · Community_
+
 A community-driven platform where students exchange authentic experiences and feedback.
 
 Insight:
@@ -13,4 +15,6 @@ Community:
 * Marketplace: Trade books, materials, and study resources.
 * Forum: Join open discussions on learning, ethics, and student life.
 
-Built to restore human connection in the AI era — where real experiences still matter.
+Built to restore human connection in the AI era - where real experiences still matter.
+
+_We use **Stunix** points system to reward survey participations and feedback contributions, creating a fair and active ecosystem._
