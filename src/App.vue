@@ -28,6 +28,16 @@ import { RouterLink, RouterView } from 'vue-router'
     <main class="page-content">
       <RouterView />
     </main>
+
+    <footer class="app-footer">
+      <div class="footer-branding">
+        <span class="footer-logo">StuX</span>
+        <span class="footer-tagline">Built on Insight · Exchange · Community</span>
+      </div>
+      <p>
+          <strong>StuX</strong> &copy; 2025 - The Human Insight Network.
+      </p>
+    </footer>
   </div>
 </template>
 
@@ -141,6 +151,30 @@ import { RouterLink, RouterView } from 'vue-router'
 .page-content {
   flex: 1;
   padding: 2.5rem 2rem 3.5rem;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+  color: #4b5563;
+}
+
+.footer-branding {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footer-logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4338ca;
 }
 
 @media (max-width: 880px) {
