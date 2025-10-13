@@ -20,18 +20,20 @@ const recentActions = [
 
 <template>
   <section class="profile">
+    <!-- Identity card -->
     <div class="identity-card">
-      <div class="avatar">JR</div>
+      <div class="avatar">KR</div>
       <div class="identity-text">
-        <h1>Jordan Rivers</h1>
-        <p>Explorer of peer wisdom, blending design research with community care.</p>
+        <h1>Keanu Reeves</h1>
+        <p>Explorer of peer wisdom, like having sandwich on a bench during break, can help with movie acting and bass playing advices.</p>
       </div>
-      <div class="credit-total">
-        <span class="label">Total credits</span>
+      <div class="stunix-total">
+        <span class="label">Total stunix</span>
         <span class="value">100 🪙</span>
       </div>
     </div>
 
+    <!-- Activity card -->
     <div class="activity-card">
       <h2>Recent actions</h2>
       <ul>
@@ -42,7 +44,7 @@ const recentActions = [
       </ul>
     </div>
 
-    <button type="button" class="earn-btn">Earn More Credits</button>
+    <button type="button" class="earn-btn">Earn More Stunix</button>
   </section>
 </template>
 
@@ -91,13 +93,13 @@ const recentActions = [
   line-height: 1.5;
 }
 
-.credit-total {
+.stunix-total {
   display: grid;
   gap: 0.4rem;
   text-align: right;
 }
 
-.credit-total .label {
+.stunix-total .label {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -105,7 +107,7 @@ const recentActions = [
   color: #64748b;
 }
 
-.credit-total .value {
+.stunix-total .value {
   font-size: 1.8rem;
   font-weight: 700;
   color: #4338ca;
@@ -176,7 +178,7 @@ const recentActions = [
     text-align: center;
   }
 
-  .credit-total {
+  .stunix-total {
     text-align: center;
   }
 
@@ -184,4 +186,4 @@ const recentActions = [
     justify-self: center;
   }
 }
-</style> 
+</style>

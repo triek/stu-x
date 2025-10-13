@@ -9,9 +9,10 @@ const props = defineProps({
 })
 
 const pillarConfigs = {
+  // Insight card
   insight: {
     title: 'Insight',
-    icon: '��',
+    icon: '💡',
     accent: '#4338ca',
     description: 'Share or join surveys & feedback.',
     actionLabel: 'Join',
@@ -36,9 +37,11 @@ const pillarConfigs = {
       },
     ],
   },
+
+  // Exchange card
   exchange: {
     title: 'Exchange',
-    icon: '��',
+    icon: '🤝',
     accent: '#0f766e',
     description: 'Find mentors or trade study help.',
     actionLabel: 'Help',
@@ -63,6 +66,8 @@ const pillarConfigs = {
       },
     ],
   },
+
+  // Community card
   community: {
     title: 'Community',
     icon: '💬',
@@ -95,6 +100,7 @@ const pillarConfigs = {
 const config = computed(() => pillarConfigs[props.pillarKey] ?? pillarConfigs.insight)
 
 const showForm = ref(false)
+
 const formState = reactive({
   title: '',
   description: '',
@@ -119,6 +125,7 @@ const submitForm = () => {
 
 <template>
   <section class="pillar" :style="{ '--accent': config.accent }">
+    <!-- Banner -->
     <header class="pillar-header">
       <span class="pillar-icon">{{ config.icon }}</span>
       <div>
@@ -127,6 +134,7 @@ const submitForm = () => {
       </div>
     </header>
 
+    <!-- Feed cards -->
     <div class="feed">
       <article v-for="item in config.feed" :key="item.title" class="feed-card">
         <div class="feed-content">
@@ -140,13 +148,15 @@ const submitForm = () => {
       </article>
     </div>
 
+    <!-- Card buttons -->
     <footer class="page-actions">
       <button type="button" class="create-btn" @click="openForm">Create Post</button>
     </footer>
 
+    <!-- Create post -->
     <div v-if="showForm" class="modal-overlay" @click.self="closeForm">
       <form class="modal" @submit.prevent="submitForm">
-        <h2>Create a {{ config.title }} post</h2>
+        <h2>Create {{ config.title }} post</h2>
         <label>
           Title
           <input v-model="formState.title" type="text" placeholder="Give it a headline" />

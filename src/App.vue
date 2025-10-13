@@ -5,11 +5,13 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <div class="app-shell">
     <header class="top-bar">
+      <!-- Logo -->
       <RouterLink to="/" class="brand">
         <span class="brand-icon">StuX</span>
         <span class="brand-subtitle">The Human Insight Network</span>
       </RouterLink>
 
+      <!-- Nav items -->
       <nav class="main-nav">
         <RouterLink to="/insight">Insight</RouterLink>
         <RouterLink to="/exchange">Exchange</RouterLink>
@@ -18,7 +20,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
 
       <div class="right-actions">
-        <div class="credits-badge">Credits: 100 🪙</div>
+        <div class="stunix-badge">Stunix: 100 🪙</div>
         <button class="auth-btn" type="button">Sign Up / Log In</button>
       </div>
     </header>
@@ -110,7 +112,7 @@ import { RouterLink, RouterView } from 'vue-router'
   gap: 1rem;
 }
 
-.credits-badge {
+.stunix-badge {
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(129, 140, 248, 0.25));

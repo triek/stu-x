@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <section class="home">
+    <!-- Banner -->
     <div class="hero">
       <p class="eyebrow">Built on Insight · Exchange · Community</p>
       <h1>Experience-powered learning, unlocked by the StuX network.</h1>
@@ -14,6 +15,7 @@ import { RouterLink } from 'vue-router'
       </div>
     </div>
 
+    <!-- 3 pillars -->
     <div class="pillars-grid">
       <RouterLink to="/insight" class="pillar-card insight">
         <span class="icon">💡</span>
@@ -35,18 +37,19 @@ import { RouterLink } from 'vue-router'
       </RouterLink>
     </div>
 
+    <!-- How it works -->
     <div class="how-it-works">
       <div class="step">
         <h3>1. Offer your insight</h3>
         <p>Answer a survey, review a draft, or host a mini-mentoring session.</p>
       </div>
       <div class="step">
-        <h3>2. Earn Stunix credits</h3>
-        <p>Each contribution rewards verified credits you can trust across the network.</p>
+        <h3>2. Earn Stunix stunix</h3>
+        <p>Each contribution rewards verified stunix you can trust across the network.</p>
       </div>
       <div class="step">
         <h3>3. Redeem trusted help</h3>
-        <p>Spend credits on feedback, study buddies, or community reflections when you need them.</p>
+        <p>Spend stunix on feedback, study buddies, or community reflections when you need them.</p>
       </div>
     </div>
   </section>
