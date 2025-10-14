@@ -12,7 +12,7 @@ const recentActions = [
   },
   {
     id: 3,
-    delta: '–50 Stunix',
+    delta: '-50 Stunix',
     description: 'Posted feedback request - Systems design prototype',
   },
 ]
