@@ -124,58 +124,108 @@ const submitForm = () => {
 </script>
 
 <template>
-  <section class="pillar" :style="{ '--accent': config.accent }">
-    <!-- Banner -->
-    <header class="pillar-header">
-      <span class="pillar-icon">{{ config.icon }}</span>
-      <div>
-        <h1>{{ config.title }}</h1>
-        <p>{{ config.description }}</p>
+  <section class="flex flex-col gap-8">
+    <header
+      class="flex flex-col gap-6 rounded-3xl border-2 bg-white p-10 shadow-panel ring-1 ring-indigo-100/50 md:flex-row md:items-center"
+      :style="{ borderColor: `${config.accent}33` }">
+      <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
+      <div class="space-y-2">
+        <h1 class="text-3xl font-bold" :style="{ color: config.accent }">{{ config.title }}</h1>
+        <p class="max-w-2xl text-base text-slate-600">{{ config.description }}</p>
       </div>
     </header>
 
     <!-- Feed cards -->
-    <div class="feed">
-      <article v-for="item in config.feed" :key="item.title" class="feed-card">
-        <div class="feed-content">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.description }}</p>
+    <div class="grid gap-6">
+      <article
+        v-for="item in config.feed"
+        :key="item.title"
+        class="grid gap-5 rounded-3xl bg-white p-7 shadow-panel ring-1 ring-indigo-100/60">
+
+        <!-- Title -->
+        <div class="space-y-2">
+          <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
+          <p class="text-slate-600">{{ item.description }}</p>
         </div>
-        <div class="feed-meta">
-          <span class="reward">+{{ item.reward }} Stunix</span>
-          <button type="button">{{ item.cta }}</button>
+
+        <!-- Reward -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span
+            class="rounded-full px-3 py-1 text-sm font-semibold"
+            :style="{ backgroundColor: `${config.accent}1a`, color: config.accent }">
+            +{{ item.reward }} Stunix
+          </span>
+
+          <!-- Button -->
+          <button
+            type="button"
+            class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+            :style="{ backgroundColor: config.accent, boxShadow: `0 18px 32px ${config.accent}45` }">
+            {{ item.cta }}
+          </button>
         </div>
       </article>
     </div>
 
-    <!-- Card buttons -->
-    <footer class="page-actions">
-      <button type="button" class="create-btn" @click="openForm">Create Post</button>
+    <!-- Create post button -->
+    <footer class="flex justify-end">
+      <button
+        type="button"
+        class="inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+        @click="openForm"
+        :style="{ backgroundImage: `linear-gradient(135deg, ${config.accent}, ${config.accent}cc)`, boxShadow: `0 20px 36px ${config.accent}40` }"
+      >
+        Create Post
+      </button>
     </footer>
 
-    <!-- Create post -->
-    <div v-if="showForm" class="modal-overlay" @click.self="closeForm">
-      <form class="modal" @submit.prevent="submitForm">
-        <h2>Create {{ config.title }} post</h2>
-        <label>
-          Title
-          <input v-model="formState.title" type="text" placeholder="Give it a headline" />
-        </label>
-        <label>
-          Short description
-          <textarea
-            v-model="formState.description"
-            rows="3"
-            placeholder="Describe what you need or how you can help"
-          ></textarea>
-        </label>
-        <label class="reward-input">
-          Reward (Stunix)
-          <input v-model="formState.reward" type="number" min="5" step="5" />
-        </label>
-        <div class="modal-actions">
-          <button type="button" class="ghost" @click="closeForm">Cancel</button>
-          <button type="submit">Publish</button>
+    <!-- Create post form -->
+    <div v-if="showForm" class="fixed inset-0 z-20 grid place-items-center bg-slate-900/50 px-4" @click.self="closeForm">
+      <form class="w-full max-w-xl rounded-3xl bg-white p-8 shadow-2xl ring-1 ring-indigo-100/80" @submit.prevent="submitForm">
+        <h2 class="text-2xl font-semibold" :style="{ color: config.accent }">Create {{ config.title }} post</h2>
+        <div class="mt-6 grid gap-5">
+          <label class="grid gap-2 text-sm font-semibold text-slate-800">
+            Title
+            <input
+              v-model="formState.title"
+              type="text"
+              placeholder="Give it a headline"
+              class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+            />
+          </label>
+          <label class="grid gap-2 text-sm font-semibold text-slate-800">
+            Short description
+            <textarea
+              v-model="formState.description"
+              rows="3"
+              placeholder="Describe what you need or how you can help"
+              class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"></textarea>
+          </label>
+          <label class="grid gap-2 text-sm font-semibold text-slate-800">
+            Reward (Stunix)
+            <input
+              v-model="formState.reward"
+              type="number"
+              min="5"
+              step="5"
+              class="w-32 rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+            />
+          </label>
+        </div>
+        <div class="mt-6 flex justify-end gap-3">
+          <button
+            type="button"
+            class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5"
+            @click="closeForm"
+            :style="{ backgroundColor: `${config.accent}15`, color: config.accent }">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+            :style="{ backgroundColor: config.accent, boxShadow: `0 18px 32px ${config.accent}45` }">
+            Publish
+          </button>
         </div>
       </form>
     </div>
@@ -183,220 +233,4 @@ const submitForm = () => {
 </template>
 
 <style scoped>
-.pillar {
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.pillar-header {
-  background: white;
-  border-radius: 26px;
-  padding: 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
-  border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
-}
-
-.pillar-icon {
-  font-size: 2.8rem;
-}
-
-.pillar-header h1 {
-  margin: 0;
-  font-size: clamp(2.1rem, 4.2vw, 2.8rem);
-  color: var(--accent);
-}
-
-.pillar-header p {
-  margin: 0.4rem 0 0;
-  color: #4b5563;
-  font-size: 1.05rem;
-}
-
-.feed {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.feed-card {
-  background: white;
-  border-radius: 22px;
-  padding: 1.8rem;
-  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.1);
-  display: grid;
-  gap: 1.25rem;
-}
-
-.feed-content h3 {
-  margin: 0;
-  font-size: 1.4rem;
-  color: #111827;
-}
-
-.feed-content p {
-  margin: 0.35rem 0 0;
-  color: #4b5563;
-  line-height: 1.5;
-}
-
-.feed-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.reward {
-  font-weight: 700;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, white);
-  padding: 0.45rem 0.75rem;
-  border-radius: 999px;
-}
-
-.feed-meta button {
-  border: none;
-  background: var(--accent);
-  color: white;
-  font-weight: 600;
-  padding: 0.65rem 1.4rem;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 16px 30px color-mix(in srgb, var(--accent) 25%, transparent);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.feed-meta button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 38px color-mix(in srgb, var(--accent) 35%, transparent);
-}
-
-.page-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.create-btn {
-  border: none;
-  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, white));
-  color: white;
-  font-weight: 700;
-  padding: 0.9rem 1.8rem;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 20px 38px color-mix(in srgb, var(--accent) 28%, transparent);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.create-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 26px 50px color-mix(in srgb, var(--accent) 38%, transparent);
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  display: grid;
-  place-items: center;
-  padding: 1.5rem;
-  z-index: 20;
-}
-
-.modal {
-  background: white;
-  border-radius: 24px;
-  padding: 2.25rem;
-  max-width: 480px;
-  width: 100%;
-  display: grid;
-  gap: 1.1rem;
-}
-
-.modal h2 {
-  margin: 0;
-  font-size: 1.6rem;
-  color: var(--accent);
-}
-
-label {
-  display: grid;
-  gap: 0.45rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-input,
-textarea {
-  border-radius: 16px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  font-family: inherit;
-  resize: vertical;
-}
-
-textarea {
-  min-height: 120px;
-}
-
-.reward-input input {
-  width: 140px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
-}
-
-.modal-actions button {
-  border: none;
-  border-radius: 999px;
-  font-weight: 600;
-  padding: 0.65rem 1.5rem;
-  cursor: pointer;
-}
-
-.modal-actions .ghost {
-  background: rgba(99, 102, 241, 0.08);
-  color: #4338ca;
-}
-
-.modal-actions .ghost:hover {
-  background: rgba(99, 102, 241, 0.12);
-}
-
-.modal-actions button[type='submit'] {
-  background: var(--accent);
-  color: white;
-  box-shadow: 0 16px 30px color-mix(in srgb, var(--accent) 28%, transparent);
-}
-
-.modal-actions button[type='submit']:hover {
-  box-shadow: 0 20px 36px color-mix(in srgb, var(--accent) 36%, transparent);
-  transform: translateY(-1px);
-}
-
-@media (max-width: 720px) {
-  .pillar-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .feed-card {
-    padding: 1.5rem;
-  }
-
-  .modal {
-    padding: 2rem;
-  }
-}
 </style>
