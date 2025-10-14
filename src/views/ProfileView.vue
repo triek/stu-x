@@ -3,187 +3,67 @@ const recentActions = [
   {
     id: 1,
     delta: '+20 Stunix',
-    description: 'Completed survey — Inclusive onboarding research',
+    description: 'Completed survey - Inclusive onboarding research',
   },
   {
     id: 2,
     delta: '+35 Stunix',
-    description: 'Hosted mentor session — Portfolio storytelling clinic',
+    description: 'Hosted mentor session - Portfolio storytelling clinic',
   },
   {
     id: 3,
     delta: '–50 Stunix',
-    description: 'Posted feedback request — Systems design prototype',
+    description: 'Posted feedback request - Systems design prototype',
   },
 ]
 </script>
 
 <template>
-  <section class="profile">
-    <!-- Identity card -->
-    <div class="identity-card">
-      <div class="avatar">KR</div>
-      <div class="identity-text">
-        <h1>Keanu Reeves</h1>
-        <p>Explorer of peer wisdom, like having sandwich on a bench during break, can help with movie acting and bass playing advices.</p>
+  <section class="grid gap-10">
+    <div
+      class="grid gap-8 rounded-3xl bg-white p-10 shadow-panel ring-1 ring-indigo-100/60 md:grid-cols-[auto,1fr,auto] md:items-center">
+
+      <!-- Profile picture -->
+      <div class="grid h-24 w-24 place-items-center rounded-3xl bg-gradient-to-br from-brand to-indigo-400 text-3xl font-bold uppercase tracking-[0.08em] text-white">
+        KR
       </div>
-      <div class="stunix-total">
-        <span class="label">Total stunix</span>
-        <span class="value">100 🪙</span>
+
+      <!-- Profile card -->
+      <div class="space-y-3">
+        <h1 class="text-3xl font-bold text-slate-900">Keanu Reeves</h1>
+        <p class="text-base leading-relaxed text-slate-600">
+          Explorer of peer wisdom, like having sandwich on a bench during break, can help with movie acting and bass playing advices.
+        </p>
+      </div>
+
+      <!-- Total Stunix -->
+      <div class="grid justify-items-end gap-1 text-right text-slate-600 md:justify-items-end">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">Total stunix</span>
+        <span class="text-2xl font-bold text-brand">100 🪙</span>
       </div>
     </div>
 
     <!-- Activity card -->
-    <div class="activity-card">
-      <h2>Recent actions</h2>
-      <ul>
-        <li v-for="item in recentActions" :key="item.id">
-          <span class="delta">{{ item.delta }}</span>
-          <p>{{ item.description }}</p>
+    <div class="grid gap-6 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
+      <h2 class="text-2xl font-semibold text-slate-900">Recent actions</h2>
+      <ul class="grid gap-4">
+        <li
+          v-for="item in recentActions"
+          :key="item.id"
+          class="grid gap-2 rounded-2xl bg-indigo-50/80 px-5 py-4">
+          <span class="text-sm font-semibold text-brand">{{ item.delta }}</span>
+          <p class="text-sm text-slate-600">{{ item.description }}</p>
         </li>
       </ul>
     </div>
 
-    <button type="button" class="earn-btn">Earn More Stunix</button>
+    <button
+      type="button"
+      class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 justify-self-center md:justify-self-end">
+      Earn More Stunix
+    </button>
   </section>
 </template>
 
 <style scoped>
-.profile {
-  max-width: 860px;
-  margin: 0 auto;
-  display: grid;
-  gap: 2.5rem;
-}
-
-.identity-card {
-  background: white;
-  border-radius: 30px;
-  padding: 2.5rem;
-  box-shadow: 0 26px 50px rgba(67, 56, 202, 0.16);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 2rem;
-  align-items: center;
-}
-
-.avatar {
-  width: 84px;
-  height: 84px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(67, 56, 202, 0.8), rgba(99, 102, 241, 0.65));
-  display: grid;
-  place-items: center;
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 0.08em;
-}
-
-.identity-text h1 {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 2.6rem);
-  color: #111827;
-}
-
-.identity-text p {
-  margin: 0.75rem 0 0;
-  color: #4b5563;
-  font-size: 1.05rem;
-  line-height: 1.5;
-}
-
-.stunix-total {
-  display: grid;
-  gap: 0.4rem;
-  text-align: right;
-}
-
-.stunix-total .label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #64748b;
-}
-
-.stunix-total .value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #4338ca;
-}
-
-.activity-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 26px;
-  padding: 2.25rem;
-  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.12);
-  display: grid;
-  gap: 1.5rem;
-}
-
-.activity-card h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #111827;
-}
-
-.activity-card ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 1rem;
-}
-
-.activity-card li {
-  background: rgba(67, 56, 202, 0.06);
-  border-radius: 20px;
-  padding: 1.2rem 1.5rem;
-  display: grid;
-  gap: 0.35rem;
-}
-
-.delta {
-  font-weight: 700;
-  color: #4338ca;
-}
-
-.activity-card p {
-  margin: 0;
-  color: #4b5563;
-}
-
-.earn-btn {
-  justify-self: end;
-  border: none;
-  background: #4338ca;
-  color: white;
-  font-weight: 600;
-  padding: 0.85rem 1.8rem;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 18px 38px rgba(67, 56, 202, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.earn-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 24px 46px rgba(67, 56, 202, 0.3);
-}
-
-@media (max-width: 760px) {
-  .identity-card {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .stunix-total {
-    text-align: center;
-  }
-
-  .earn-btn {
-    justify-self: center;
-  }
-}
 </style>
