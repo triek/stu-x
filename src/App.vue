@@ -61,7 +61,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
   <!-- Main display -->
   <main class="flex-1">
-    <div class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-6xl px-3 py-4">
       <RouterView />
     </div>
   </main>
