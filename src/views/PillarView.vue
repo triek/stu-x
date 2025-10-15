@@ -135,16 +135,36 @@ const config = computed(() => pillarConfigs[props.pillarKey] ?? pillarConfigs.in
 
 const showForm = ref(false)
 
-const formState = reactive({
+const insightTypeOptions = [
+  { value: 'academic', label: '🧪 Academic' },
+  { value: 'product', label: '💬 Product Feedback' },
+  { value: 'project', label: '🎓 Student Project' },
+]
+
+const statusOptions = [
+  { value: 'active', label: '🟢 Active' },
+  { value: 'closing', label: '🟠 Closing Soon' },
+  { value: 'closed', label: '⚪ Closed' },
+]
+
+const defaultFormState = {
   title: '',
   description: '',
   reward: '20',
-})
+  author: '',
+  type: insightTypeOptions[0].value,
+  status: statusOptions[0].value,
+  duration: '5',
+  closingDate: '',
+  tags: '',
+  participants: '0',
+  questions: '0',
+}
+
+const formState = reactive({ ...defaultFormState })
 
 const openForm = () => {
-  formState.title = ''
-  formState.description = ''
-  formState.reward = '20'
+  Object.assign(formState, defaultFormState)
   showForm.value = true
 }
 
@@ -155,6 +175,8 @@ const closeForm = () => {
 const submitForm = () => {
   closeForm()
 }
+
+const isInsightPillar = computed(() => props.pillarKey === 'insight')
 </script>
 
 <template>
@@ -386,7 +408,8 @@ const submitForm = () => {
           <h2 class="text-2xl font-semibold" :style="{ color: config.accent }">
             Create {{ config.title }} post
           </h2>
-          <div class="mt-6 grid gap-5">
+          <div class="mt-6 grid gap-6">
+            <!-- Title -->
             <label class="grid gap-2 text-sm font-semibold text-slate-800">
               Title
               <input
@@ -396,8 +419,21 @@ const submitForm = () => {
                 class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
               />
             </label>
+
+            <!-- Author -->
+            <label v-if="isInsightPillar" class="grid gap-2 text-sm font-semibold text-slate-800">
+              Author
+              <input
+                v-model="formState.author"
+                type="text"
+                placeholder="Add collaborator or institution"
+                class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+              />
+            </label>
+
+            <!-- Summary -->
             <label class="grid gap-2 text-sm font-semibold text-slate-800">
-              Short description
+              Summary
               <textarea
                 v-model="formState.description"
                 rows="3"
@@ -405,7 +441,76 @@ const submitForm = () => {
                 class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
               ></textarea>
             </label>
-            <label class="grid gap-2 text-sm font-semibold text-slate-800">
+
+            <div v-if="isInsightPillar" class="grid gap-4 md:grid-cols-2">
+              <!-- Type tag -->
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Type tag
+                <select
+                  v-model="formState.type"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                >
+                  <option
+                    v-for="option in insightTypeOptions"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+              </label>
+
+              <!-- Status -->
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Status
+                <select
+                  v-model="formState.status"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                >
+                  <option v-for="option in statusOptions" :key="option.value" :value="option.value">
+                    {{ option.label }}
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <div v-if="isInsightPillar" class="grid gap-4 md:grid-cols-3">
+              <!-- Duration -->
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Duration (minutes)
+                <input
+                  v-model="formState.duration"
+                  type="number"
+                  min="1"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                />
+              </label>
+
+              <!-- Reward -->
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Reward (Stunix)
+                <input
+                  v-model="formState.reward"
+                  type="number"
+                  min="5"
+                  step="5"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                />
+              </label>
+
+              <!-- Closing date -->
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Closes on
+                <input
+                  v-model="formState.closingDate"
+                  type="date"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                />
+              </label>
+            </div>
+
+            <!-- Reward -->
+            <label v-else class="grid gap-2 text-sm font-semibold text-slate-800">
               Reward (Stunix)
               <input
                 v-model="formState.reward"
@@ -415,8 +520,45 @@ const submitForm = () => {
                 class="w-32 rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
               />
             </label>
+
+            <!-- Tags -->
+            <label v-if="isInsightPillar" class="grid gap-2 text-sm font-semibold text-slate-800">
+              Tags
+              <input
+                v-model="formState.tags"
+                type="text"
+                placeholder="#AI, #StudyHabits, #Education"
+                class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+              />
+            </label>
+
+            <!-- Participants -->
+            <div v-if="isInsightPillar" class="grid gap-4 md:grid-cols-2">
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Estimated participants
+                <input
+                  v-model="formState.participants"
+                  type="number"
+                  min="0"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                />
+              </label>
+
+              <!-- Questions -->
+              <label class="grid gap-2 text-sm font-semibold text-slate-800">
+                Questions / prompts
+                <input
+                  v-model="formState.questions"
+                  type="number"
+                  min="0"
+                  class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+                />
+              </label>
+            </div>
           </div>
+
           <div class="mt-6 flex justify-end gap-3">
+            <!-- Cancel button -->
             <button
               type="button"
               class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5"
@@ -425,6 +567,8 @@ const submitForm = () => {
             >
               Cancel
             </button>
+
+            <!-- Publish button -->
             <button
               type="submit"
               class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
