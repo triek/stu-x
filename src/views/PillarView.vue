@@ -306,76 +306,105 @@ const isInsightPillar = computed(() => props.pillarKey === 'insight')
           <article
             v-for="item in config.feed"
             :key="item.title"
-            class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1 ring-indigo-100/60"
-          >
+            class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1 ring-indigo-100/60">
             <!-- Title -->
-            <header class="flex flex-wrap items-center justify-between gap-3">
-              <span
-                class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold"
-                :style="{ backgroundColor: `${item.typeColor}14`, color: item.typeColor }"
-              >
-                <span>{{ item.type.icon }}</span>
-                <span>{{ item.type.label }}</span>
-              </span>
-
-              <span
-                v-if="getStatusMeta(item.status)"
-                class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-                :class="getStatusMeta(item.status).classes"
-              >
-                {{ getStatusMeta(item.status).label }}
-              </span>
-            </header>
-
-            <div class="space-y-2">
-              <p class="text-sm font-medium text-slate-500">
-                Author: <span class="text-slate-700">{{ item.author }}</span>
-              </p>
-              <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
-              <p class="text-slate-600">{{ item.subtitle }}</p>
-            </div>
-
-            <!-- Reward -->
-            <p class="text-sm font-semibold text-slate-600">{{ item.details.join(' · ') }}</p>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="tag in item.tags"
-                :key="tag"
-                class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
-              >
-                #{{ tag }}
-              </span>
-            </div>
-
-            <!-- Button -->
-            <div class="grid gap-3 rounded-2xl bg-slate-50 px-5 py-4 sm:grid-cols-2">
-              <div v-for="stat in item.stats" :key="stat.label" class="flex items-center gap-3">
-                <span class="text-lg">{{ stat.icon }}</span>
-                <span class="text-sm font-semibold text-slate-600">{{ stat.label }}</span>
-              </div>
-            </div>
-
-            <footer class="flex flex-wrap items-center justify-between gap-3">
-              <span></span>
-              <div class="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+            <template v-if="isInsightPillar">
+              <!-- Title -->
+              <header class="flex flex-wrap items-center justify-between gap-3">
+                <span
+                  class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold"
+                  :style="{ backgroundColor: `${item.typeColor}14`, color: item.typeColor }"
                 >
-                  💬 Ask Question
-                </button>
+                  <span>{{ item.type.icon }}</span>
+                  <span>{{ item.type.label }}</span>
+                </span>
+
+                <span
+                  v-if="getStatusMeta(item.status)"
+                  class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+                  :class="getStatusMeta(item.status).classes"
+                >
+                  {{ getStatusMeta(item.status).label }}
+                </span>
+              </header>
+
+              <div class="space-y-2">
+                <p class="text-sm font-medium text-slate-500">
+                  Author: <span class="text-slate-700">{{ item.author }}</span>
+                </p>
+                <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
+                <p class="text-slate-600">{{ item.subtitle }}</p>
+              </div>
+
+              <!-- Reward -->
+              <p class="text-sm font-semibold text-slate-600">{{ item.details.join(' · ') }}</p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="tag in item.tags"
+                  :key="tag"
+                  class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
+                >
+                  #{{ tag }}
+                </span>
+              </div>
+
+              <!-- Button -->
+              <div class="grid gap-3 rounded-2xl bg-slate-50 px-5 py-4 sm:grid-cols-2">
+                <div v-for="stat in item.stats" :key="stat.label" class="flex items-center gap-3">
+                  <span class="text-lg">{{ stat.icon }}</span>
+                  <span class="text-sm font-semibold text-slate-600">{{ stat.label }}</span>
+                </div>
+              </div>
+
+              <footer class="flex flex-wrap items-center justify-between gap-3">
+                <span></span>
+                <div class="flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+                  >
+                    💬 Ask Question
+                  </button>
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+                    :style="{
+                      backgroundColor: config.accent,
+                      boxShadow: `0 18px 32px ${config.accent}45`,
+                    }"
+                  >
+                    🚀 Participate
+                  </button>
+                </div>
+              </footer>
+            </template>
+
+            <template v-else>
+              <header class="flex items-start gap-4">
+                <span class="text-3xl">{{ config.icon }}</span>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
+                  <p class="text-slate-600">{{ item.description }}</p>
+                </div>
+              </header>
+
+              <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 px-5 py-4">
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
+                  <span>💎</span>
+                  <span>{{ item.reward }} Stunix</span>
+                </span>
+
                 <button
                   type="button"
                   class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
                   :style="{
                     backgroundColor: config.accent,
                     boxShadow: `0 18px 32px ${config.accent}45`,
-                  }"
-                >
-                  🚀 Participate
+                  }">
+                  {{ item.cta ?? config.actionLabel }}
                 </button>
               </div>
-            </footer>
+            </template>
           </article>
         </div>
 
@@ -587,3 +616,4 @@ const isInsightPillar = computed(() => props.pillarKey === 'insight')
 </template>
 
 <style scoped></style>
+<!-- ... -->
