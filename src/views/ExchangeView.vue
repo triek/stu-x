@@ -1,41 +1,341 @@
 <script setup>
-import PillarLayout from '@/components/PillarLayout.vue'
+import { computed, ref } from 'vue'
 
-const config = {
-  title: 'Exchange',
-  icon: '🤝',
-  accent: '#0f766e',
-  description: 'Find mentors or trade study help.',
-  actionLabel: 'Help',
-  feed: [
-    {
-      title: 'Study swap: Quant methods ⇄ UX writing',
-      description: 'Trade one-hour tutoring sessions to prep for finals together.',
-      reward: 40,
-      cta: 'Pair up',
-    },
-    {
-      title: 'Career coffee chat with alumni mentor',
-      description: 'Share your portfolio for feedback and get guidance on internships.',
-      reward: 55,
-      cta: 'Book session',
-    },
-    {
-      title: 'Offer accountability sprint',
-      description: 'Host a weekly accountability circle for capstone progress updates.',
-      reward: 30,
-      cta: 'Host sprint',
-    },
-  ],
-  categories: ['Mentorship', 'Skill trade', 'Portfolio review'],
-  sortFilters: ['Latest', 'Closing Soon', 'Reward Points'],
+const categories = [
+  {
+    id: 'mentors',
+    label: 'Mentors',
+    emoji: '🎓',
+    blurb: 'Book trusted mentors for focused 1-on-1 guidance.',
+  },
+  {
+    id: 'tas',
+    label: 'TAs',
+    emoji: '🧑‍🏫',
+    blurb: 'Need teaching assistants to walk you through tricky topics? Find them here.',
+  },
+  {
+    id: 'mini-courses',
+    label: 'Mini Courses',
+    emoji: '🧠',
+    blurb: 'Structured micro-learning to deep-dive into a topic in just a few sessions.',
+  },
+  {
+    id: 'workshops',
+    label: 'Workshops',
+    emoji: '🛠️',
+    blurb: 'Hands-on sessions to practice skills with peers and facilitators.',
+  },
+  {
+    id: 'resources',
+    label: 'Resources',
+    emoji: '📚',
+    blurb: 'Unlock notes, templates, and study packs contributed by the community.',
+  },
+  {
+    id: 'literature',
+    label: 'Literature',
+    emoji: '📖',
+    blurb: 'Discover curated readings, research summaries, and exam prep guides.',
+  },
+  {
+    id: 'skill-exchange',
+    label: 'Skill Exchange',
+    emoji: '💬',
+    blurb: 'Swap your strengths with peers for mutual learning.',
+  },
+]
+
+const activeCategory = ref(categories[0].id)
+
+const posts = [
+  {
+    id: 'mira-tran-mentor',
+    category: 'mentors',
+    image: { emoji: '🐍', gradient: 'from-emerald-100 to-emerald-200' },
+    type: { icon: '🎓', label: 'Mentor' },
+    name: 'Mira Tran (Deakin University)',
+    title: '1-on-1 Python Debugging Session for Beginners',
+    summary: '30-minute session to solve code issues and learn core debugging steps.',
+    details: ['💎 +10 Stunix', '⏰ Weekends only', '⭐ 5.0 (12 reviews)'],
+    tags: ['Python', 'Mentorship', 'CodingHelp'],
+    actions: [
+      { icon: '👤', label: 'View Profile' },
+      { icon: '🤝', label: 'Request Session', highlight: true },
+    ],
+    status: 'active',
+  },
+  {
+    id: 'alyssa-lee-ta',
+    category: 'tas',
+    image: { emoji: '🧮', gradient: 'from-sky-100 to-indigo-200' },
+    type: { icon: '🧑‍🏫', label: 'Teaching Assistant' },
+    name: 'Alyssa Lee (UniMelb)',
+    title: 'Linear Algebra Concept Clinic',
+    summary: 'Small-group tutorials covering eigenvalues, diagonalisation, and proofs.',
+    details: ['💎 +15 Stunix', '👥 Max 5 students', '⭐ 4.8 (22 reviews)'],
+    tags: ['Maths', 'LinearAlgebra', 'PeerSupport'],
+    actions: [
+      { icon: '📅', label: 'See Schedule' },
+      { icon: '✍️', label: 'Reserve Spot', highlight: true },
+    ],
+    status: 'active',
+  },
+  {
+    id: 'kevin-zhou-mini-course',
+    category: 'mini-courses',
+    image: { emoji: '💻', gradient: 'from-orange-100 to-pink-200' },
+    type: { icon: '��', label: 'Mini Course' },
+    name: 'Kevin Zhou (RMIT University)',
+    title: 'Design Your First Web Portfolio (2-Session Workshop)',
+    summary: 'Learn HTML and Tailwind basics through hands-on practice.',
+    details: ['💎 +25 Stunix', '2 × 1-hour sessions', '⭐ 4.9 (18 learners)'],
+    tags: ['WebDesign', 'Tailwind', 'UIUX'],
+    actions: [
+      { icon: '📖', label: 'View Details' },
+      { icon: '🛒', label: 'Enroll', highlight: true },
+    ],
+    status: 'active',
+  },
+  {
+    id: 'workshop-prototype-lab',
+    category: 'workshops',
+    image: { emoji: '🧪', gradient: 'from-violet-100 to-purple-200' },
+    type: { icon: '🛠️', label: 'Workshop' },
+    name: 'Prototype Sprint Lab',
+    title: 'Rapid Prototyping with Figma + FigJam',
+    summary: 'Two-hour collaborative session to ideate, sketch, and prototype together.',
+    details: ['💎 +20 Stunix', '🏷️ Includes template kit', '📅 Next: 12 Feb'],
+    tags: ['DesignSprint', 'Collaboration', 'Figma'],
+    actions: [
+      { icon: '👀', label: 'Preview Agenda' },
+      { icon: '📝', label: 'Join Waitlist', highlight: true },
+    ],
+    status: 'active',
+  },
+  {
+    id: 'linh-nguyen-resource',
+    category: 'resources',
+    image: { emoji: '📄', gradient: 'from-lime-100 to-emerald-200' },
+    type: { icon: '📚', label: 'Resource' },
+    name: 'Linh Nguyen (Monash University)',
+    title: 'SIT112 Data Science Exam Revision Notes (PDF)',
+    summary: '32-page concise notes covering regression, clustering, and ethics.',
+    details: ['💎 +5 Stunix', '📁 Download on request', '📅 Updated Oct 2025'],
+    tags: ['DataScience', 'Notes', 'StudyAid'],
+    actions: [
+      { icon: '📖', label: 'Preview' },
+      { icon: '💾', label: 'Request Access', highlight: true },
+    ],
+    status: 'available',
+  },
+  {
+    id: 'peer-lit-swap',
+    category: 'literature',
+    image: { emoji: '📰', gradient: 'from-amber-100 to-yellow-200' },
+    type: { icon: '📖', label: 'Literature' },
+    name: 'StuX Reading Circle',
+    title: 'Weekly Deep Reads: Human-Centered AI',
+    summary: 'Share annotated readings and reflective prompts with research peers.',
+    details: ['💎 +12 Stunix', '📚 4 articles / month', '🗓️ Meets Thursdays'],
+    tags: ['HCAI', 'Research', 'ReadingGroup'],
+    actions: [
+      { icon: '📚', label: 'View Reading List' },
+      { icon: '🌀', label: 'Join Circle', highlight: true },
+    ],
+    status: 'active',
+  },
+  {
+    id: 'ryan-nguyen-skill-exchange',
+    category: 'skill-exchange',
+    image: { emoji: '🤝', gradient: 'from-cyan-100 to-sky-200' },
+    type: { icon: '💬', label: 'Skill Exchange' },
+    name: 'Ryan Nguyen (Swinburne University)',
+    title: 'Let’s Swap: I Teach Frontend, You Teach Python',
+    summary: 'Looking for a peer exchange — 1 hour per week, mutual learning.',
+    details: ['🔁 Exchange-based', '💎 Optional bonus +5 Stunix'],
+    tags: ['SkillSwap', 'Frontend', 'Python'],
+    actions: [
+      { icon: '📩', label: 'Message Offer' },
+      { icon: '🤝', label: 'Accept Exchange', highlight: true },
+    ],
+    status: 'active',
+  },
+]
+
+const statusStyles = {
+  active: { label: '🟢 Active', classes: 'bg-emerald-50 text-emerald-600 border border-emerald-200/70' },
+  available: { label: '🟢 Available', classes: 'bg-emerald-50 text-emerald-600 border border-emerald-200/70' },
+  open: { label: '🟢 Open', classes: 'bg-emerald-50 text-emerald-600 border border-emerald-200/70' },
+  closing: { label: '🟠 Closing Soon', classes: 'bg-amber-50 text-amber-600 border border-amber-200/70' },
 }
 
-const formDefaults = {
-  reward: '30',
+const filteredPosts = computed(() => posts.filter((post) => post.category === activeCategory.value))
+
+const activeCategoryMeta = computed(() => categories.find((category) => category.id === activeCategory.value))
+
+const selectCategory = (categoryId) => {
+  activeCategory.value = categoryId
 }
 </script>
 
 <template>
-  <PillarLayout :config="config" :form-defaults="formDefaults" />
+  <section class="flex flex-col gap-8">
+    <header class="grid gap-6 rounded-3xl bg-white p-8 shadow-primary ring-1 ring-brand-exchange/10">
+      <div class="flex items-center gap-3">
+        <span class="text-5xl">🤝</span>
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-exchange/80">StuX Exchange Hub</p>
+          <h1 class="text-3xl font-bold text-slate-900 md:text-[40px]">Find or offer help, courses, and study exchanges</h1>
+        </div>
+      </div>
+      <p class="max-w-3xl text-base text-slate-600">
+        Build your learning circle through trusted exchanges. Browse mentors, mini courses, or swap skills with peers to grow
+        together. Every offer is backed by Stunix so you can focus on the experience.
+      </p>
+      <div class="flex flex-wrap gap-3 text-sm text-slate-600">
+        <span class="inline-flex items-center gap-2 rounded-full bg-brand-exchange/10 px-4 py-2 font-semibold text-brand-exchange"
+          >+ Earn Stunix while teaching</span
+        >
+        <span class="inline-flex items-center gap-2 rounded-full bg-brand/5 px-4 py-2 font-semibold text-brand">Trusted profiles</span>
+        <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold text-slate-600"
+          >Curated for academic value</span
+        >
+      </div>
+    </header>
+
+    <div class="grid gap-6 rounded-3xl bg-white/80 p-6 shadow-panel ring-1 ring-brand-exchange/15">
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <h2 class="text-xl font-semibold text-slate-800">Explore exchange categories</h2>
+          <span class="text-sm text-slate-500">{{ filteredPosts.length }} offers this week</span>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button
+            v-for="category in categories"
+            :key="category.id"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition"
+            :class="[
+              activeCategory === category.id
+                ? 'bg-brand-exchange text-white shadow-lg shadow-brand-exchange/30'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+            ]"
+            @click="selectCategory(category.id)"
+          >
+            <span>{{ category.emoji }}</span>
+            <span>{{ category.label }}</span>
+          </button>
+        </div>
+
+        <p v-if="activeCategoryMeta" class="max-w-3xl text-sm text-slate-600">{{ activeCategoryMeta.blurb }}</p>
+      </div>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        <article
+          v-for="post in filteredPosts"
+          :key="post.id"
+          class="grid gap-5 rounded-3xl border border-indigo-50 bg-white p-6 shadow-panel transition hover:-translate-y-1 hover:shadow-xl"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="grid h-20 w-20 shrink-0 place-items-center rounded-2xl text-3xl"
+              :class="`bg-gradient-to-br ${post.image.gradient}`"
+            >
+              <span>{{ post.image.emoji }}</span>
+            </div>
+            <div class="space-y-2">
+              <span class="inline-flex items-center gap-2 rounded-full bg-brand-exchange/10 px-3 py-1 text-xs font-semibold text-brand-exchange">
+                <span>{{ post.type.icon }}</span>
+                <span>{{ post.type.label }}</span>
+              </span>
+              <p class="text-sm font-semibold text-slate-500">{{ post.name }}</p>
+            </div>
+            <span
+              class="ml-auto inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+              :class="statusStyles[post.status]?.classes ?? statusStyles.active.classes"
+            >
+              {{ statusStyles[post.status]?.label ?? statusStyles.active.label }}
+            </span>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="text-lg font-semibold text-slate-900">{{ post.title }}</h3>
+            <p class="text-sm text-slate-600">{{ post.summary }}</p>
+          </div>
+
+          <ul class="flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
+            <li v-for="detail in post.details" :key="detail" class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1">
+              {{ detail }}
+            </li>
+          </ul>
+
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="tag in post.tags"
+              :key="tag"
+              class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
+            >
+              #{{ tag }}
+            </span>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button
+              v-for="action in post.actions"
+              :key="action.label"
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition"
+              :class="[
+                action.highlight
+                  ? 'bg-brand-exchange text-white shadow-lg shadow-brand-exchange/30 hover:-translate-y-0.5'
+                  : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-700',
+              ]"
+            >
+              <span>{{ action.icon }}</span>
+              <span>{{ action.label }}</span>
+            </button>
+          </div>
+        </article>
+
+        <div
+          v-if="!filteredPosts.length"
+          class="flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-brand-exchange/30 bg-white/60 p-10 text-center text-slate-500"
+        >
+          <span class="text-4xl">🛎️</span>
+          <p class="text-base font-semibold">No offers in this category yet</p>
+          <p class="text-sm text-slate-500">Be the first to create a listing and earn Stunix from the community.</p>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full bg-brand-exchange px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-brand-exchange/30"
+          >
+            ➕ Create Offer
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
+
+<style scoped>
+.shadow-primary {
+  box-shadow: 0 30px 70px -30px rgba(99, 102, 241, 0.2);
+}
+
+.shadow-panel {
+  box-shadow: 0 12px 32px -20px rgba(79, 70, 229, 0.35);
+}
+
+.text-brand {
+  color: #4338ca;
+}
+
+.text-brand-exchange {
+  color: #0f766e;
+}
+
+.bg-brand-exchange {
+  background-color: #0f766e;
+}
+</style> 
