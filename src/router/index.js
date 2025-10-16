@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
-import PillarView from '../views/PillarView.vue'
+import InsightView from '../views/InsightView.vue'
+import ExchangeView from '../views/ExchangeView.vue'
+import CommunityView from '../views/CommunityView.vue'
 import ProfileView from '../views/ProfileView.vue'
 
 const router = createRouter({
@@ -15,20 +17,17 @@ const router = createRouter({
     {
       path: '/insight',
       name: 'insight',
-      component: PillarView,
-      props: { pillarKey: 'insight' },
+      component: InsightView,
     },
     {
       path: '/exchange',
       name: 'exchange',
-      component: PillarView,
-      props: { pillarKey: 'exchange' },
+      component: ExchangeView,
     },
     {
       path: '/community',
       name: 'community',
-      component: PillarView,
-      props: { pillarKey: 'community' },
+      component: CommunityView,
     },
     {
       path: '/profile',
