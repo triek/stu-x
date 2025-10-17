@@ -68,19 +68,19 @@ const selectCategory = (categoryId) => {
 </script>
 
 <template>
-  <section class="flex flex-col gap-8">
+  <section class="flex flex-col gap-3">
     <header class="grid gap-6 rounded-3xl bg-white p-8 shadow-primary ring-1 ring-brand-exchange/10">
       <div class="flex items-center gap-3">
         <span class="text-5xl">🤝</span>
-        <div>
-          <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-exchange/80">StuX Exchange Hub</p>
-          <h1 class="text-3xl font-bold text-slate-900 md:text-[40px]">Find or offer help, courses, and study exchanges</h1>
+        <div class="flex flex-col gap-5">
+          <p class="text-sm font-semibold uppercase tracking-[0.22em] text-brand-exchange/80"></p>
+          <h1 class="text-3xl font-bold text-slate-900 md:text-[40px]">Exchange Hub</h1>
+          <p class="max-w-3xl text-base text-slate-600">
+            Find or offer help, courses, and study exchanges
+          </p>
         </div>
       </div>
-      <p class="max-w-3xl text-base text-slate-600">
-        Build your learning circle through trusted exchanges. Browse mentors, mini courses, or swap skills with peers to grow
-        together. Every offer is backed by Stunix so you can focus on the experience.
-      </p>
+
       <div class="flex flex-wrap gap-3 text-sm text-slate-600">
         <span class="inline-flex items-center gap-2 rounded-full bg-brand-exchange/10 px-4 py-2 font-semibold text-brand-exchange"
           >+ Earn Stunix while teaching</span
@@ -226,4 +226,4 @@ const selectCategory = (categoryId) => {
 .bg-brand-exchange {
   background-color: #0f766e;
 }
-</style> 
+</style>

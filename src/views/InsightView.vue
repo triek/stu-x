@@ -21,10 +21,10 @@ const config = {
   title: 'Insight',
   icon: '💡',
   accent: '#4338ca',
-  overline: 'StuX Insight Hub',
-  headline: 'Share or join research studies and feedback loops',
+  overline: '',
+  headline: 'Insight Hub',
   description:
-    'Discover fast, high-impact opportunities to contribute your voice to research, product tests, and reflective projects.',
+    'Share or join research studies and request feedback',
   highlights: ['Earn Stunix rewards', 'Curated by trusted teams', 'Quick participation windows'],
   categories: ['Academic Studies', 'Product Feedback', 'Student Projects', 'Reflection Journals'],
   tags: ['#UX', '#Psychology', '#AI', '#Marketing'],
@@ -261,4 +261,4 @@ const formDefaults = {
       </div>
     </template>
   </PillarLayout>
-</template> 
+</template>

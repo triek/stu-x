@@ -56,7 +56,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <section class="flex flex-col gap-8">
+  <section class="flex flex-col gap-3">
     <header
       class="grid gap-6 rounded-3xl bg-white p-8 shadow-banner ring-1"
       :style="{ '--tw-ring-color': `${accent}33` }"
@@ -82,9 +82,9 @@ const submitForm = () => {
       </div>
     </header>
 
-    <div class="grid gap-6 md:grid-cols-[minmax(0,260px),1fr]">
+    <div class="grid gap-3 md:grid-cols-[minmax(0,260px),1fr]">
       <aside
-        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1"
+        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-6"
         :style="{ '--tw-ring-color': `${accent}22` }"
       >
         <div class="grid gap-3">
@@ -92,7 +92,7 @@ const submitForm = () => {
             Search
           </label>
           <div class="relative">
-            <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-slate-400">🔍</span>
+            <span class="pointer-events-none absolute left-4 top-9 -translate-y-1/2 text-lg text-slate-400">🔍</span>
             <input
               id="pillar-search"
               type="search"
