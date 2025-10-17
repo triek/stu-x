@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { exchangePosts } from '@/data/exchangePosts'
 
 const categories = [
   {
@@ -48,121 +49,6 @@ const categories = [
 
 const activeCategory = ref(categories[0].id)
 
-const posts = [
-  {
-    id: 'mira-tran-mentor',
-    category: 'mentors',
-    image: { emoji: '🐍', gradient: 'from-emerald-100 to-emerald-200' },
-    type: { icon: '🎓', label: 'Mentor' },
-    name: 'Mira Tran (Deakin University)',
-    title: '1-on-1 Python Debugging Session for Beginners',
-    summary: '30-minute session to solve code issues and learn core debugging steps.',
-    details: ['💎 +10 Stunix', '⏰ Weekends only', '⭐ 5.0 (12 reviews)'],
-    tags: ['Python', 'Mentorship', 'CodingHelp'],
-    actions: [
-      { icon: '👤', label: 'View Profile' },
-      { icon: '🤝', label: 'Request Session', highlight: true },
-    ],
-    status: 'active',
-  },
-  {
-    id: 'alyssa-lee-ta',
-    category: 'tas',
-    image: { emoji: '🧮', gradient: 'from-sky-100 to-indigo-200' },
-    type: { icon: '🧑‍🏫', label: 'Teaching Assistant' },
-    name: 'Alyssa Lee (UniMelb)',
-    title: 'Linear Algebra Concept Clinic',
-    summary: 'Small-group tutorials covering eigenvalues, diagonalisation, and proofs.',
-    details: ['💎 +15 Stunix', '👥 Max 5 students', '⭐ 4.8 (22 reviews)'],
-    tags: ['Maths', 'LinearAlgebra', 'PeerSupport'],
-    actions: [
-      { icon: '📅', label: 'See Schedule' },
-      { icon: '✍️', label: 'Reserve Spot', highlight: true },
-    ],
-    status: 'active',
-  },
-  {
-    id: 'kevin-zhou-mini-course',
-    category: 'mini-courses',
-    image: { emoji: '💻', gradient: 'from-orange-100 to-pink-200' },
-    type: { icon: '��', label: 'Mini Course' },
-    name: 'Kevin Zhou (RMIT University)',
-    title: 'Design Your First Web Portfolio (2-Session Workshop)',
-    summary: 'Learn HTML and Tailwind basics through hands-on practice.',
-    details: ['💎 +25 Stunix', '2 × 1-hour sessions', '⭐ 4.9 (18 learners)'],
-    tags: ['WebDesign', 'Tailwind', 'UIUX'],
-    actions: [
-      { icon: '📖', label: 'View Details' },
-      { icon: '🛒', label: 'Enroll', highlight: true },
-    ],
-    status: 'active',
-  },
-  {
-    id: 'workshop-prototype-lab',
-    category: 'workshops',
-    image: { emoji: '🧪', gradient: 'from-violet-100 to-purple-200' },
-    type: { icon: '🛠️', label: 'Workshop' },
-    name: 'Prototype Sprint Lab',
-    title: 'Rapid Prototyping with Figma + FigJam',
-    summary: 'Two-hour collaborative session to ideate, sketch, and prototype together.',
-    details: ['💎 +20 Stunix', '🏷️ Includes template kit', '📅 Next: 12 Feb'],
-    tags: ['DesignSprint', 'Collaboration', 'Figma'],
-    actions: [
-      { icon: '👀', label: 'Preview Agenda' },
-      { icon: '📝', label: 'Join Waitlist', highlight: true },
-    ],
-    status: 'active',
-  },
-  {
-    id: 'linh-nguyen-resource',
-    category: 'resources',
-    image: { emoji: '📄', gradient: 'from-lime-100 to-emerald-200' },
-    type: { icon: '📚', label: 'Resource' },
-    name: 'Linh Nguyen (Monash University)',
-    title: 'SIT112 Data Science Exam Revision Notes (PDF)',
-    summary: '32-page concise notes covering regression, clustering, and ethics.',
-    details: ['💎 +5 Stunix', '📁 Download on request', '📅 Updated Oct 2025'],
-    tags: ['DataScience', 'Notes', 'StudyAid'],
-    actions: [
-      { icon: '📖', label: 'Preview' },
-      { icon: '💾', label: 'Request Access', highlight: true },
-    ],
-    status: 'available',
-  },
-  {
-    id: 'peer-lit-swap',
-    category: 'literature',
-    image: { emoji: '📰', gradient: 'from-amber-100 to-yellow-200' },
-    type: { icon: '📖', label: 'Literature' },
-    name: 'StuX Reading Circle',
-    title: 'Weekly Deep Reads: Human-Centered AI',
-    summary: 'Share annotated readings and reflective prompts with research peers.',
-    details: ['💎 +12 Stunix', '📚 4 articles / month', '🗓️ Meets Thursdays'],
-    tags: ['HCAI', 'Research', 'ReadingGroup'],
-    actions: [
-      { icon: '📚', label: 'View Reading List' },
-      { icon: '🌀', label: 'Join Circle', highlight: true },
-    ],
-    status: 'active',
-  },
-  {
-    id: 'ryan-nguyen-skill-exchange',
-    category: 'skill-exchange',
-    image: { emoji: '🤝', gradient: 'from-cyan-100 to-sky-200' },
-    type: { icon: '💬', label: 'Skill Exchange' },
-    name: 'Ryan Nguyen (Swinburne University)',
-    title: 'Let’s Swap: I Teach Frontend, You Teach Python',
-    summary: 'Looking for a peer exchange — 1 hour per week, mutual learning.',
-    details: ['🔁 Exchange-based', '💎 Optional bonus +5 Stunix'],
-    tags: ['SkillSwap', 'Frontend', 'Python'],
-    actions: [
-      { icon: '📩', label: 'Message Offer' },
-      { icon: '🤝', label: 'Accept Exchange', highlight: true },
-    ],
-    status: 'active',
-  },
-]
-
 const statusStyles = {
   active: { label: '🟢 Active', classes: 'bg-emerald-50 text-emerald-600 border border-emerald-200/70' },
   available: { label: '🟢 Available', classes: 'bg-emerald-50 text-emerald-600 border border-emerald-200/70' },
@@ -170,7 +56,9 @@ const statusStyles = {
   closing: { label: '🟠 Closing Soon', classes: 'bg-amber-50 text-amber-600 border border-amber-200/70' },
 }
 
-const filteredPosts = computed(() => posts.filter((post) => post.category === activeCategory.value))
+const filteredPosts = computed(() =>
+  exchangePosts.filter((post) => post.category === activeCategory.value),
+)
 
 const activeCategoryMeta = computed(() => categories.find((category) => category.id === activeCategory.value))
 
