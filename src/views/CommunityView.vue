@@ -5,7 +5,11 @@ const config = {
   title: 'Community',
   icon: '💬',
   accent: '#db2777',
-  description: 'Discuss, review, and reflect.',
+  overline: 'StuX Community Hub',
+  headline: 'Discuss, review, and reflect with peers',
+  description:
+    'Share stories, trade critiques, and help shape campus culture together in curated, supportive spaces.',
+  highlights: ['Peer-led discussions', 'Curated critique circles', 'Community-driven polls'],
   actionLabel: 'Comment',
   feed: [
     {
