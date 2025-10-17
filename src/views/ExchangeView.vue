@@ -91,16 +91,17 @@ const config = computed(() => ({
 <template>
   <PillarLayout :config="config">
     <template #feed="{ items, accent }">
+      <!-- Main feed -->
       <div
         class="grid gap-6 rounded-3xl bg-white/80 p-6 shadow-panel ring-1"
-        :style="{ '--tw-ring-color': `${accent}22` }"
-      >
+        :style="{ '--tw-ring-color': `${accent}22` }">
         <div class="flex flex-col gap-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="text-xl font-semibold text-slate-800">Explore exchange categories</h2>
             <span class="text-sm text-slate-500">{{ items.length }} offers this week</span>
           </div>
 
+          <!-- Categories -->
           <div class="flex flex-wrap gap-3">
             <button
               v-for="category in categories"
@@ -117,8 +118,7 @@ const config = computed(() => ({
                   ? { backgroundColor: accent, boxShadow: `0 18px 32px ${accent}30` }
                   : {}
               "
-              @click="selectCategory(category.id)"
-            >
+              @click="selectCategory(category.id)">
               <span>{{ category.emoji }}</span>
               <span>{{ category.label }}</span>
             </button>
@@ -129,18 +129,21 @@ const config = computed(() => ({
           </p>
         </div>
 
+        <!-- Posts -->
         <div class="grid gap-5 md:grid-cols-2">
           <article
             v-for="post in items"
             :key="post.id"
             class="grid gap-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-panel transition hover:-translate-y-1 hover:shadow-xl">
             <div class="flex items-center gap-4">
+              <!-- Image -->
               <div
                 class="grid h-20 w-20 shrink-0 place-items-center rounded-2xl text-3xl"
                 :class="`bg-gradient-to-br ${post.image.gradient}`">
                 <span>{{ post.image.emoji }}</span>
               </div>
 
+              <!-- Type of post -->
               <div class="space-y-2">
                 <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
                   <span>{{ post.type.icon }}</span>
@@ -149,6 +152,7 @@ const config = computed(() => ({
                 <p class="text-sm font-semibold text-slate-500">{{ post.name }}</p>
               </div>
 
+              <!-- Active status -->
               <span
                 class="ml-auto inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
                 :class="statusStyles[post.status]?.classes ?? statusStyles.active.classes">
@@ -156,6 +160,7 @@ const config = computed(() => ({
               </span>
             </div>
 
+            <!-- Post contents -->
             <div class="space-y-2">
               <h3 class="text-lg font-semibold text-slate-900">{{ post.title }}</h3>
               <p class="text-sm text-slate-600">{{ post.summary }}</p>
@@ -176,6 +181,7 @@ const config = computed(() => ({
               </span>
             </div>
 
+            <!-- Buttons -->
             <div class="flex flex-wrap gap-3">
               <button
                 v-for="action in post.actions"
@@ -194,7 +200,7 @@ const config = computed(() => ({
             </div>
           </article>
 
-
+          <!-- No item in category -->
           <div
             v-if="!items.length"
             class="flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-slate-300 bg-white/60 p-10 text-center text-slate-500">
@@ -203,6 +209,7 @@ const config = computed(() => ({
             <p class="text-base font-semibold">No offers in this category yet</p>
             <p class="text-sm text-slate-500">Be the first to create a listing and earn Stunix from the community.</p>
 
+            <!-- Create post button -->
             <button
               type="button"
               class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"

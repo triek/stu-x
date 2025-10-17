@@ -57,10 +57,10 @@ const submitForm = () => {
 
 <template>
   <section class="flex flex-col gap-3">
+    <!-- Banner -->
     <header
       class="grid gap-6 rounded-3xl bg-white p-8 shadow-banner ring-1"
-      :style="{ '--tw-ring-color': `${accent}33` }"
-    >
+      :style="{ '--tw-ring-color': `${accent}33` }">
       <div class="flex items-center gap-4">
         <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
         <div class="space-y-2">
@@ -68,25 +68,27 @@ const submitForm = () => {
           <h1 class="text-3xl font-bold text-slate-900 md:text-[40px]">{{ headline }}</h1>
         </div>
       </div>
+
       <p v-if="config.description" class="max-w-3xl text-base text-slate-600">
         {{ config.description }}
       </p>
+
       <div v-if="config.highlights?.length" class="flex flex-wrap gap-3 text-sm text-slate-600">
         <span
           v-for="highlight in config.highlights"
           :key="highlight"
-          class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold"
-        >
+          class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold">
           {{ highlight }}
         </span>
       </div>
     </header>
 
+    <!-- Side bar -->
     <div class="grid gap-3 md:grid-cols-[minmax(0,260px),1fr]">
       <aside
         class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-6"
-        :style="{ '--tw-ring-color': `${accent}22` }"
-      >
+        :style="{ '--tw-ring-color': `${accent}22` }">
+        <!-- Search bar -->
         <div class="grid gap-3">
           <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
             Search
@@ -102,6 +104,7 @@ const submitForm = () => {
           </div>
         </div>
 
+        <!-- Categories -->
         <div v-if="config.categories?.length" class="grid gap-3">
           <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</h3>
           <nav class="grid gap-2 text-sm font-medium text-slate-600">
@@ -116,6 +119,7 @@ const submitForm = () => {
           </nav>
         </div>
 
+        <!-- Tags -->
         <div v-if="config.tags?.length" class="grid gap-3">
           <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Tags</h3>
           <div class="flex flex-wrap gap-2">
@@ -129,6 +133,7 @@ const submitForm = () => {
           </div>
         </div>
 
+        <!-- Sort by -->
         <div class="grid gap-3">
           <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Sort by</h3>
           <div class="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
@@ -136,8 +141,7 @@ const submitForm = () => {
               v-for="sort in config.sortFilters ?? ['Latest', 'Most Popular', 'Reward Points']"
               :key="sort"
               type="button"
-              class="rounded-full border border-indigo-100/80 px-4 py-2 transition hover:border-indigo-200 hover:text-brand"
-            >
+              class="rounded-full border border-indigo-100/80 px-4 py-2 transition hover:border-indigo-200 hover:text-brand">
               {{ sort }}
             </button>
           </div>
@@ -151,8 +155,8 @@ const submitForm = () => {
               v-for="item in config.feed"
               :key="item.title"
               class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1"
-              :style="{ '--tw-ring-color': `${accent}22` }"
-            >
+              :style="{ '--tw-ring-color': `${accent}22` }">
+              <!-- Post content -->
               <header class="flex items-start gap-4">
                 <span class="text-3xl">{{ config.icon }}</span>
                 <div class="space-y-2">
@@ -161,6 +165,7 @@ const submitForm = () => {
                 </div>
               </header>
 
+              <!-- Buttons -->
               <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 px-5 py-4">
                 <span class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
                   <span>💎</span>
@@ -182,6 +187,7 @@ const submitForm = () => {
           </slot>
         </div>
 
+        <!-- Create post button -->
         <footer class="flex justify-end">
           <button
             type="button"
@@ -198,6 +204,7 @@ const submitForm = () => {
       </div>
     </div>
 
+    <!-- Create post form -->
     <div
       v-if="showForm"
       class="fixed inset-0 z-20 grid place-items-center bg-slate-900/50 px-4"
