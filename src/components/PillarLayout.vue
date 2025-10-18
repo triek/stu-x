@@ -86,7 +86,7 @@ const submitForm = () => {
     <!-- Side bar -->
     <div class="grid gap-3 md:grid-cols-[minmax(0,260px),1fr]">
       <aside
-        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-6"
+        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-24"
         :style="{ '--tw-ring-color': `${accent}22` }">
         <!-- Search bar -->
         <div class="grid gap-3">

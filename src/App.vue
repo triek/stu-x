@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
 <div class="flex min-h-screen flex-col">
-  <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/90 backdrop-blur-xl">
+  <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
     <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
       <!-- Logo -->
       <RouterLink to="/" class="flex flex-col text-slate-900 no-underline">
