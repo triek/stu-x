@@ -4,7 +4,7 @@ import { insightPosts } from '@/data/insightPosts'
 
 const statusStyles = {
   active: {
-    label: '�� Active',
+    label: '🟢 Active',
     classes: 'border border-emerald-200/70 bg-emerald-50 text-emerald-600',
   },
   closing: {
@@ -68,6 +68,7 @@ const formDefaults = {
         class="grid gap-5 rounded-3xl bg-white p-6 shadow-panel ring-1"
         :style="{ '--tw-ring-color': `${accent}80` }"
       >
+        <!-- Post header -->
         <header class="flex flex-wrap items-center justify-between gap-3">
           <span
             class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold"
@@ -86,6 +87,7 @@ const formDefaults = {
           </span>
         </header>
 
+        <!-- Post author and title -->
         <div class="space-y-2">
           <p v-if="item.author" class="text-sm font-medium text-slate-500">
             Author: <span class="text-slate-700">{{ item.author }}</span>
@@ -94,10 +96,12 @@ const formDefaults = {
           <p class="text-slate-600">{{ item.subtitle }}</p>
         </div>
 
+        <!-- Post time -->
         <p v-if="item.details?.length" class="text-sm font-semibold text-slate-600">
           {{ item.details.join(' · ') }}
         </p>
 
+        <!-- Post tags -->
         <div v-if="item.tags?.length" class="flex flex-wrap gap-2">
           <span
             v-for="tag in item.tags"
@@ -108,6 +112,7 @@ const formDefaults = {
           </span>
         </div>
 
+        <!-- Post stats -->
         <div v-if="item.stats?.length" class="grid gap-3 rounded-2xl bg-slate-50 px-5 py-4 sm:grid-cols-2">
           <div v-for="stat in item.stats" :key="stat.label" class="flex items-center gap-3">
             <span class="text-lg">{{ stat.icon }}</span>
@@ -115,6 +120,7 @@ const formDefaults = {
           </div>
         </div>
 
+        <!-- Post buttons -->
         <footer class="flex flex-wrap items-center justify-between gap-3">
           <span></span>
           <div class="flex flex-wrap gap-3">
@@ -139,6 +145,7 @@ const formDefaults = {
       </article>
     </template>
 
+    <!-- Create post form -->
     <template #form-fields="{ formState }">
       <label class="grid gap-2 text-sm font-semibold text-slate-800">
         Title
