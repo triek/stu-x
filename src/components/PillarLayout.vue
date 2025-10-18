@@ -14,6 +14,55 @@ const props = defineProps({
 
 const accentColor = computed(() => props.config.accent ?? '#4338ca')
 
+const withAlpha = (color, alphaHex) => {
+  if (!color) return color
+
+  if (color.startsWith('#')) {
+    if (color.length === 4) {
+      const [r, g, b] = color.slice(1)
+      return `#${r}${r}${g}${g}${b}${b}${alphaHex}`
+    }
+
+    if (color.length === 7) {
+      return `${color}${alphaHex}`
+    }
+
+    if (color.length === 9) {
+      return `${color.slice(0, 7)}${alphaHex}`
+    }
+  }
+
+  if (color.startsWith('rgb(')) {
+    const values = color
+      .replace(/rgba?\(/, '')
+      .replace(/\)/, '')
+      .split(',')
+      .map((value) => Number(value.trim()))
+
+    if (values.length >= 3) {
+      const [r, g, b] = values
+      const alpha = parseInt(alphaHex, 16) / 255
+      return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`
+    }
+  }
+
+  return color
+}
+
+const accentWithAlpha = (alphaHex) => withAlpha(accentColor.value, alphaHex)
+
+const accentStyles = computed(() => ({
+  '--pillar-accent': accentColor.value,
+  '--pillar-ring-strong': accentWithAlpha('80'),
+  '--pillar-ring-soft': accentWithAlpha('22'),
+  '--pillar-ring-overlay': accentWithAlpha('33'),
+  '--pillar-shadow-banner': `0 30px 70px -30px ${accentWithAlpha('30')}`,
+  '--pillar-shadow-panel': `0 12px 32px -20px ${accentWithAlpha('35')}`,
+  '--pillar-shadow-cta': `0 18px 32px ${accentWithAlpha('45')}`,
+  '--pillar-shadow-cta-strong': `0 20px 36px ${accentWithAlpha('40')}`,
+  '--pillar-surface-muted': accentWithAlpha('15'),
+}))
+
 const bannerLabel = computed(
   () => props.config.overline ?? `StuX ${props.config.title} Hub`,
 )
@@ -57,11 +106,11 @@ const submitForm = () => {
 </script>
 
 <template>
-  <section class="flex flex-col gap-3">
+  <section class="flex flex-col gap-3" :style="accentStyles">
     <!-- Banner -->
     <header
       class="grid gap-6 rounded-3xl bg-white p-8 shadow-banner ring-1"
-      :style="{ '--tw-ring-color': `${accentColor}80` }">
+      :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
       <div class="flex items-center gap-4">
         <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
         <div class="space-y-2">
@@ -88,7 +137,7 @@ const submitForm = () => {
     <div class="grid gap-3 md:grid-cols-[minmax(0,260px),1fr]">
       <aside
         class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-24"
-        :style="{ '--tw-ring-color': `${accentColor}80` }">
+        :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
         <!-- Search bar -->
         <div class="grid gap-3">
           <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
@@ -156,7 +205,7 @@ const submitForm = () => {
               v-for="item in config.feed"
               :key="item.title"
               class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1"
-              :style="{ '--tw-ring-color': `${accentColor}22` }">
+              :style="{ '--tw-ring-color': 'var(--pillar-ring-soft)' }">
               <!-- Post content -->
               <header class="flex items-start gap-4">
                 <span class="text-3xl">{{ config.icon }}</span>
@@ -178,7 +227,7 @@ const submitForm = () => {
                   class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
                   :style="{
                     backgroundColor: accentColor,
-                    boxShadow: `0 18px 32px ${accentColor}45`,
+                    boxShadow: 'var(--pillar-shadow-cta)',
                   }"
                 >
                   {{ item.cta ?? config.actionLabel ?? 'Engage' }}
@@ -195,8 +244,8 @@ const submitForm = () => {
             class="inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
             @click="openForm"
             :style="{
-              backgroundImage: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)` ,
-              boxShadow: `0 20px 36px ${accentColor}40`,
+              backgroundImage: `linear-gradient(135deg, ${accentColor}, ${accentWithAlpha('cc')})`,
+              boxShadow: 'var(--pillar-shadow-cta-strong)',
             }"
           >
             {{ config.createLabel ?? `Create ${config.title} post` }}
@@ -213,10 +262,10 @@ const submitForm = () => {
     >
       <form
         class="w-full max-w-xl rounded-2xl bg-white p-8 shadow-2xl ring-1"
-        :style="{ '--tw-ring-color': `${accentColor}33` }"
+        :style="{ '--tw-ring-color': 'var(--pillar-ring-overlay)' }"
         @submit.prevent="submitForm"
       >
-        <h2 class="text-2xl font-semibold" :style="{ color: accentColor }">
+        <h2 class="text-2xl font-semibold" :style="{ color: 'var(--pillar-accent)' }">
           Create {{ config.title }} post
         </h2>
         <div class="mt-6 grid gap-6">
@@ -259,7 +308,7 @@ const submitForm = () => {
             type="button"
             class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5"
             @click="closeForm"
-            :style="{ backgroundColor: `${accentColor}15`, color: accentColor }"
+            :style="{ backgroundColor: accentWithAlpha('15'), color: accentColor }"
           >
             Cancel
           </button>
@@ -269,7 +318,7 @@ const submitForm = () => {
             class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
             :style="{
               backgroundColor: accentColor,
-              boxShadow: `0 18px 32px ${accentColor}45`,
+              boxShadow: 'var(--pillar-shadow-cta)',
             }"
           >
             Publish
@@ -282,14 +331,20 @@ const submitForm = () => {
 
 <style scoped>
 .shadow-banner {
-  box-shadow: 0 30px 70px -30px rgba(67, 56, 202, 0.18);
+  box-shadow: var(
+    --pillar-shadow-banner,
+    0 30px 70px -30px rgba(67, 56, 202, 0.18)
+  );
 }
 
 .shadow-panel {
-  box-shadow: 0 12px 32px -20px rgba(79, 70, 229, 0.35);
+  box-shadow: var(
+    --pillar-shadow-panel,
+    0 12px 32px -20px rgba(79, 70, 229, 0.35)
+  );
 }
 
 .text-brand {
-  color: #4338ca;
+  color: var(--pillar-accent, #4338ca);
 }
 </style>

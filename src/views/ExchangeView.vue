@@ -125,10 +125,11 @@ const config = computed(() => ({
 
         <!-- Posts -->
         <div class="grid gap-5 md:grid-cols-2">
-          <article
-            v-for="post in items"
-            :key="post.id"
-            class="grid gap-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-panel transition hover:-translate-y-1 hover:shadow-xl">
+            <article
+              v-for="post in items"
+              :key="post.id"
+              class="grid gap-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-panel ring-1 transition hover:-translate-y-1 hover:shadow-xl"
+              :style="{ '--tw-ring-color': `${accent}33` }">
             <div class="flex items-center gap-4">
               <!-- Image -->
               <div
@@ -219,10 +220,13 @@ const config = computed(() => ({
 
 <style scoped>
 .shadow-panel {
-  box-shadow: 0 12px 32px -20px rgba(79, 70, 229, 0.35);
+  box-shadow: var(
+    --pillar-shadow-panel,
+    0 12px 32px -20px rgba(79, 70, 229, 0.35)
+  );
 }
 
 .text-brand {
-  color: #4338ca;
+  color: var(--pillar-accent, #4338ca);
 }
 </style>
