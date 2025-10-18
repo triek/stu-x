@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
 <div class="flex min-h-screen flex-col">
   <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
-    <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <div class="mx-auto flex w-full flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
       <!-- Logo -->
       <RouterLink to="/" class="flex flex-col text-slate-900 no-underline">
         <span class="text-2xl font-bold uppercase tracking-[0.08em] text-brand">StuX</span>
@@ -61,7 +61,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
   <!-- Main display -->
   <main class="flex-1">
-    <div class="mx-auto w-full max-w-6xl px-3 py-4">
+    <div class="mx-auto w-full max-w-[120rem] px-3 py-4">
       <RouterView />
     </div>
   </main>

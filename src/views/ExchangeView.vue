@@ -67,7 +67,6 @@ const baseConfig = {
   title: 'Exchange',
   icon: '🤝',
   accent: '#0f766e',
-  overline: '',
   headline: 'Exchange Hub',
   description: 'Find or offer help, courses, and study exchanges.',
   highlights: ['+ Earn Stunix while teaching', 'Trusted profiles', 'Curated for academic value'],
@@ -124,7 +123,7 @@ const config = computed(() => ({
         </div>
 
         <!-- Posts -->
-        <div class="grid gap-5 md:grid-cols-2">
+        <div class="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
             <article
               v-for="post in items"
               :key="post.id"

@@ -63,9 +63,6 @@ const accentStyles = computed(() => ({
   '--pillar-surface-muted': accentWithAlpha('15'),
 }))
 
-const bannerLabel = computed(
-  () => props.config.overline ?? `StuX ${props.config.title} Hub`,
-)
 const headline = computed(() => props.config.headline ?? props.config.title)
 
 const defaultFormState = computed(() => ({
@@ -109,34 +106,34 @@ const submitForm = () => {
   <section class="flex flex-col gap-3" :style="accentStyles">
     <!-- Banner -->
     <header
-      class="grid gap-6 rounded-3xl bg-white p-8 shadow-banner ring-1"
+      class="grid gap-6 grid-cols-2 rounded-3xl bg-white p-8 shadow-banner ring-1"
       :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
-      <div class="flex items-center gap-4">
-        <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
-        <div class="space-y-2">
-          <p class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">{{ bannerLabel }}</p>
+
+      <div class="grid gap-3">
+        <div class="flex items-center gap-4">
+          <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
           <h1 class="text-3xl font-bold text-slate-900 md:text-[40px]">{{ headline }}</h1>
         </div>
+
+        <p v-if="config.description" class="max-w-3xl text-base text-slate-600">
+          {{ config.description }}
+        </p>
       </div>
 
-      <p v-if="config.description" class="max-w-3xl text-base text-slate-600">
-        {{ config.description }}
-      </p>
-
-      <div v-if="config.highlights?.length" class="flex flex-wrap gap-3 text-sm text-slate-600">
+      <div v-if="config.highlights?.length" class="flex flex-wrap gap-3 justify-end text-sm text-slate-600">
         <span
           v-for="highlight in config.highlights"
           :key="highlight"
-          class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold">
+          class="inline-flex w-auto shrink-0 items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold whitespace-nowrap">
           {{ highlight }}
         </span>
       </div>
     </header>
 
     <!-- Side bar -->
-    <div class="grid gap-3 md:grid-cols-[minmax(0,260px),1fr]">
+    <div class="grid gap-3 lg:grid-cols-[minmax(0,260px),1fr]">
       <aside
-        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-24"
+        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start lg:sticky lg:top-24"
         :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
         <!-- Search bar -->
         <div class="grid gap-3">
@@ -158,14 +155,16 @@ const submitForm = () => {
         <div v-if="config.categories?.length" class="grid gap-3">
           <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</h3>
           <nav class="grid gap-2 text-sm font-medium text-slate-600">
-            <button
-              v-for="category in config.categories"
-              :key="category"
-              type="button"
-              class="rounded-2xl border border-indigo-100/70 px-4 py-2 text-left transition hover:border-indigo-200 hover:text-brand"
-            >
-              {{ category }}
-            </button>
+            <div class="grid gap-3 lg:grid-cols-1 sm:grid-cols-3">
+              <button
+                v-for="category in config.categories"
+                :key="category"
+                type="button"
+                class="rounded-2xl border border-indigo-100/70 px-4 py-2 text-left transition hover:border-indigo-200 hover:text-brand"
+              >
+                {{ category }}
+              </button>
+            </div>
           </nav>
         </div>
 

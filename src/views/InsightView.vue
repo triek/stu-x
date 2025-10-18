@@ -21,11 +21,10 @@ const config = {
   title: 'Insight',
   icon: '💡',
   accent: '#4338ca',
-  overline: '',
   headline: 'Insight Hub',
   description:
     'Share or join research studies and request feedback',
-  highlights: ['Earn Stunix rewards', 'Curated by trusted teams', 'Quick participation windows'],
+  highlights: ['Spend Stunix', 'Earn Stunix'],
   categories: ['Academic Studies', 'Product Feedback', 'Student Projects', 'Reflection Journals'],
   tags: ['#UX', '#Psychology', '#AI', '#Marketing'],
   sortFilters: ['Latest', 'Reward Points', 'Closing Soon'],

@@ -5,7 +5,6 @@ const config = {
   title: 'Community',
   icon: '💬',
   accent: '#db2777',
-  overline: '',
   headline: 'Community Hub',
   description:
     'Share stories, discuss, review, and reflect with peers',
