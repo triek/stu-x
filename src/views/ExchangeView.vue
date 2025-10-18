@@ -23,12 +23,6 @@ const categories = [
     blurb: 'Structured micro-learning to deep-dive into a topic in just a few sessions.',
   },
   {
-    id: 'workshops',
-    label: 'Workshops',
-    emoji: '🛠️',
-    blurb: 'Hands-on sessions to practice skills with peers and facilitators.',
-  },
-  {
     id: 'resources',
     label: 'Resources',
     emoji: '📚',
@@ -41,10 +35,10 @@ const categories = [
     blurb: 'Discover curated readings, research summaries, and exam prep guides.',
   },
   {
-    id: 'skill-exchange',
-    label: 'Skill Exchange',
-    emoji: '💬',
-    blurb: 'Swap your strengths with peers for mutual learning.',
+    id: 'workshops',
+    label: 'Workshops',
+    emoji: '🛠️',
+    blurb: 'Hands-on sessions to practice skills with peers and facilitators.',
   },
 ]
 
