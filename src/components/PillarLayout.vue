@@ -12,7 +12,8 @@ const props = defineProps({
   },
 })
 
-const accent = computed(() => props.config.accent ?? '#4338ca')
+const accentColor = computed(() => props.config.accent ?? '#4338ca')
+
 const bannerLabel = computed(
   () => props.config.overline ?? `StuX ${props.config.title} Hub`,
 )
@@ -60,7 +61,7 @@ const submitForm = () => {
     <!-- Banner -->
     <header
       class="grid gap-6 rounded-3xl bg-white p-8 shadow-banner ring-1"
-      :style="{ '--tw-ring-color': `${accent}33` }">
+      :style="{ '--tw-ring-color': `${accentColor}80` }">
       <div class="flex items-center gap-4">
         <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
         <div class="space-y-2">
@@ -87,7 +88,7 @@ const submitForm = () => {
     <div class="grid gap-3 md:grid-cols-[minmax(0,260px),1fr]">
       <aside
         class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start md:sticky md:top-24"
-        :style="{ '--tw-ring-color': `${accent}22` }">
+        :style="{ '--tw-ring-color': `${accentColor}80` }">
         <!-- Search bar -->
         <div class="grid gap-3">
           <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
@@ -150,12 +151,12 @@ const submitForm = () => {
 
       <div class="grid gap-6">
         <div class="grid gap-3">
-          <slot name="feed" :items="config.feed" :accent="accent">
+          <slot name="feed" :items="config.feed" :accent="accentColor">
             <article
               v-for="item in config.feed"
               :key="item.title"
               class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1"
-              :style="{ '--tw-ring-color': `${accent}22` }">
+              :style="{ '--tw-ring-color': `${accentColor}22` }">
               <!-- Post content -->
               <header class="flex items-start gap-4">
                 <span class="text-3xl">{{ config.icon }}</span>
@@ -176,8 +177,8 @@ const submitForm = () => {
                   type="button"
                   class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
                   :style="{
-                    backgroundColor: accent,
-                    boxShadow: `0 18px 32px ${accent}45`,
+                    backgroundColor: accentColor,
+                    boxShadow: `0 18px 32px ${accentColor}45`,
                   }"
                 >
                   {{ item.cta ?? config.actionLabel ?? 'Engage' }}
@@ -194,8 +195,8 @@ const submitForm = () => {
             class="inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
             @click="openForm"
             :style="{
-              backgroundImage: `linear-gradient(135deg, ${accent}, ${accent}cc)` ,
-              boxShadow: `0 20px 36px ${accent}40`,
+              backgroundImage: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)` ,
+              boxShadow: `0 20px 36px ${accentColor}40`,
             }"
           >
             {{ config.createLabel ?? `Create ${config.title} post` }}
@@ -212,10 +213,10 @@ const submitForm = () => {
     >
       <form
         class="w-full max-w-xl rounded-2xl bg-white p-8 shadow-2xl ring-1"
-        :style="{ '--tw-ring-color': `${accent}33` }"
+        :style="{ '--tw-ring-color': `${accentColor}33` }"
         @submit.prevent="submitForm"
       >
-        <h2 class="text-2xl font-semibold" :style="{ color: accent }">
+        <h2 class="text-2xl font-semibold" :style="{ color: accentColor }">
           Create {{ config.title }} post
         </h2>
         <div class="mt-6 grid gap-6">
@@ -258,7 +259,7 @@ const submitForm = () => {
             type="button"
             class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5"
             @click="closeForm"
-            :style="{ backgroundColor: `${accent}15`, color: accent }"
+            :style="{ backgroundColor: `${accentColor}15`, color: accentColor }"
           >
             Cancel
           </button>
@@ -267,8 +268,8 @@ const submitForm = () => {
             type="submit"
             class="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
             :style="{
-              backgroundColor: accent,
-              boxShadow: `0 18px 32px ${accent}45`,
+              backgroundColor: accentColor,
+              boxShadow: `0 18px 32px ${accentColor}45`,
             }"
           >
             Publish

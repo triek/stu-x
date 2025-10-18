@@ -88,7 +88,7 @@ const config = computed(() => ({
       <!-- Main feed -->
       <div
         class="grid gap-6 rounded-3xl bg-white/80 p-6 shadow-panel ring-1"
-        :style="{ '--tw-ring-color': `${accent}22` }">
+        :style="{ '--tw-ring-color': `${accent}80` }">
         <div class="flex flex-col gap-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="text-xl font-semibold text-slate-800">Explore exchange categories</h2>

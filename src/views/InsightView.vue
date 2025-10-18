@@ -66,7 +66,7 @@ const formDefaults = {
         v-for="item in items"
         :key="item.id"
         class="grid gap-5 rounded-3xl bg-white p-6 shadow-panel ring-1"
-        :style="{ '--tw-ring-color': `${accent}22` }"
+        :style="{ '--tw-ring-color': `${accent}80` }"
       >
         <header class="flex flex-wrap items-center justify-between gap-3">
           <span
