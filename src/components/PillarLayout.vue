@@ -53,9 +53,9 @@ const accentWithAlpha = (alphaHex) => withAlpha(accentColor.value, alphaHex)
 
 const accentStyles = computed(() => ({
   '--pillar-accent': accentColor.value,
-  '--pillar-ring-strong': accentWithAlpha('80'),
-  '--pillar-ring-soft': accentWithAlpha('22'),
-  '--pillar-ring-overlay': accentWithAlpha('33'),
+  '--pillar-ring-strong': accentWithAlpha('75'),
+  '--pillar-ring-soft': accentWithAlpha('25'),
+  '--pillar-ring-overlay': accentWithAlpha('50'),
   '--pillar-shadow-banner': `0 30px 70px -30px ${accentWithAlpha('30')}`,
   '--pillar-shadow-panel': `0 12px 32px -20px ${accentWithAlpha('35')}`,
   '--pillar-shadow-cta': `0 18px 32px ${accentWithAlpha('45')}`,
@@ -205,7 +205,7 @@ const submitForm = () => {
               v-for="item in config.feed"
               :key="item.title"
               class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1"
-              :style="{ '--tw-ring-color': 'var(--pillar-ring-soft)' }">
+              :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
               <!-- Post content -->
               <header class="flex items-start gap-4">
                 <span class="text-3xl">{{ config.icon }}</span>
@@ -331,17 +331,31 @@ const submitForm = () => {
 
 <style scoped>
 .shadow-banner {
-  box-shadow: var(
+  --tw-shadow: var(
     --pillar-shadow-banner,
     0 30px 70px -30px rgba(67, 56, 202, 0.18)
   );
+  --tw-shadow-colored: var(
+    --pillar-shadow-banner,
+    0 30px 70px -30px rgba(67, 56, 202, 0.18)
+  );
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow);
 }
 
 .shadow-panel {
-  box-shadow: var(
+  --tw-shadow: var(
     --pillar-shadow-panel,
     0 12px 32px -20px rgba(79, 70, 229, 0.35)
   );
+  --tw-shadow-colored: var(
+    --pillar-shadow-panel,
+    0 12px 32px -20px rgba(79, 70, 229, 0.35)
+  );
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow);
 }
 
 .text-brand {

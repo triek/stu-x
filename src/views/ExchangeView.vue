@@ -88,7 +88,7 @@ const config = computed(() => ({
       <!-- Main feed -->
       <div
         class="grid gap-6 rounded-3xl bg-white/80 p-6 shadow-panel ring-1"
-        :style="{ '--tw-ring-color': `${accent}80` }">
+        :style="{ '--tw-ring-color': `var(--pillar-ring-soft)` }">
         <div class="flex flex-col gap-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="text-xl font-semibold text-slate-800">Explore exchange categories</h2>
@@ -129,7 +129,7 @@ const config = computed(() => ({
               v-for="post in items"
               :key="post.id"
               class="grid gap-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-panel ring-1 transition hover:-translate-y-1 hover:shadow-xl"
-              :style="{ '--tw-ring-color': `${accent}33` }">
+              :style="{ '--tw-ring-color': `var(--pillar-ring-strong)` }">
             <div class="flex items-center gap-4">
               <!-- Image -->
               <div
@@ -220,7 +220,7 @@ const config = computed(() => ({
 
 <style scoped>
 .shadow-panel {
-  box-shadow: var(
+  --tw-shadow: var(
     --pillar-shadow-panel,
     0 12px 32px -20px rgba(79, 70, 229, 0.35)
   );
