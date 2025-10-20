@@ -8,26 +8,62 @@ const config = {
   headline: 'Community Hub',
   description:
     'Share stories, discuss, review, and reflect with peers',
-  highlights: ['Peer-led discussions', 'Curated critique circles', 'Community-driven polls'],
+  highlights: ['Discussion forum'],
   actionLabel: 'Comment',
   feed: [
     {
-      title: 'Reflection thread: first-year wins',
-      description: 'Celebrate small victories and share lessons for incoming students.',
-      reward: 15,
-      cta: 'Share story',
+      title: 'Topic: What to buy for first-year students?',
+      description: 'Recommend essentials and share tips for incoming students.',
+      discussion: 22,
+      cta: 'Discuss',
     },
     {
-      title: 'Critique circle: storytelling decks',
-      description: 'Drop in to review slides and exchange presentation tips.',
-      reward: 25,
-      cta: 'Join circle',
+      title: 'Topic: Friends at university is not as expected',
+      description: 'My experience when making friends in uni felt so different from high school.',
+      discussion: 10,
+      cta: 'Discuss',
     },
     {
-      title: 'Community poll: preferred co-working times',
-      description: 'Help coordinate weekly focus blocks that fit most schedules.',
-      reward: 10,
-      cta: 'Vote now',
+      title: 'Poll: MacBook vs Windows laptop for programming',
+      description: 'Share which one you use for your coding courses.',
+      discussion: 12,
+      cta: 'Vote',
+    },
+    {
+      title: 'Topic: Lenovo IdeaPad Slim 5 or HP Pavilion for CS students?',
+      description: 'Both are around the same price with 16GB RAM. Im not sure which is more reliable for running heavy tools like Docker or IntelliJ.',
+      discussion: 10,
+      cta: 'Discuss',
+    },
+    {
+      title: 'Topic: Best free online tools for students',
+      description: 'List websites or apps that help with writing, coding, referencing, or time tracking.',
+      discussion: 11,
+      cta: 'Discuss',
+    },
+    {
+      title: 'Topic: Student discounts',
+      description: 'Share the best student deals on food, transport, software, and entertainment that others might not know about.',
+      discussion: 4,
+      cta: 'Discuss',
+    },
+    {
+      title: 'Topic: Managing money on a student budget',
+      description: 'How do you plan weekly expenses, track spending, and save while studying?',
+      discussion: 6,
+      cta: 'Discuss',
+    },
+    {
+      title: 'Topic: Group assignments and how to deal with unresponsive teammates',
+      description: 'What is your experiences and strategies for keeping projects on track when not everyone contributes equally?',
+      discussion: 18,
+      cta: 'Discuss',
+    },
+    {
+      title: 'Topic: Choosing the right laptop or tablet for study',
+      description: 'Should I buy a MacBook Air M1 or an iPad Air for studying?',
+      discussion: 3,
+      cta: 'Discuss',
     },
   ],
   categories: ['Discussions', 'Critiques', 'Polls'],
@@ -35,7 +71,7 @@ const config = {
 }
 
 const formDefaults = {
-  reward: '15',
+  discussion: '0',
 }
 </script>
 

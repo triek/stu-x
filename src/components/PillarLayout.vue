@@ -120,11 +120,11 @@ const submitForm = () => {
         </p>
       </div>
 
-      <div v-if="config.highlights?.length" class="flex flex-wrap gap-3 justify-end text-sm text-slate-600">
+      <div v-if="config.highlights?.length" class="flex flex-col items-end gap-3 self-start justify-self-end text-sm text-slate-600">
         <span
           v-for="highlight in config.highlights"
           :key="highlight"
-          class="inline-flex w-auto shrink-0 items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold whitespace-nowrap">
+          class="inline-flex w-auto max-w-max self-auto items-center gap-2 rounded-full bg-slate-100 px-4 py-2 font-semibold whitespace-nowrap">
           {{ highlight }}
         </span>
       </div>
@@ -217,8 +217,8 @@ const submitForm = () => {
               <!-- Buttons -->
               <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 px-5 py-4">
                 <span class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
-                  <span>💎</span>
-                  <span>{{ item.reward }} Stunix</span>
+                  <span></span>
+                  <span>{{ item.discussion }} Discussions</span>
                 </span>
 
                 <button
@@ -247,7 +247,7 @@ const submitForm = () => {
               boxShadow: 'var(--pillar-shadow-cta-strong)',
             }"
           >
-            {{ config.createLabel ?? `Create ${config.title} post` }}
+            {{ config.createLabel ?? `Create ${config.title} Post` }}
           </button>
         </footer>
       </div>

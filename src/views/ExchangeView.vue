@@ -69,7 +69,7 @@ const baseConfig = {
   accent: '#0f766e',
   headline: 'Exchange Hub',
   description: 'Find or offer help, courses, and study exchanges.',
-  highlights: ['+ Earn Stunix while teaching', 'Trusted profiles', 'Curated for academic value'],
+  highlights: ['Non-Stunix trading'],
   categories: [],
   tags: ['#Mentorship', '#Courses', '#Resources', '#SkillExchange'],
   createLabel: 'Create Exchange Offer',
@@ -127,7 +127,7 @@ const config = computed(() => ({
             <article
               v-for="post in items"
               :key="post.id"
-              class="grid gap-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-panel ring-1 transition hover:-translate-y-1 hover:shadow-xl"
+              class="grid gap-5 rounded-3xl bg-white p-6 shadow-panel ring-1 transition hover:-translate-y-1 hover:shadow-xl"
               :style="{ '--tw-ring-color': `var(--pillar-ring-strong)` }">
             <div class="flex items-center gap-4">
               <!-- Image -->
@@ -176,7 +176,7 @@ const config = computed(() => ({
             </div>
 
             <!-- Buttons -->
-            <div class="flex flex-wrap gap-3">
+            <div class="flex flex-wrap justify-end gap-3">
               <button
                 v-for="action in post.actions"
                 :key="action.label"

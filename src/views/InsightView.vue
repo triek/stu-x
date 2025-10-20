@@ -24,12 +24,12 @@ const config = {
   headline: 'Insight Hub',
   description:
     'Share or join research studies and request feedback',
-  highlights: ['Spend Stunix', 'Earn Stunix'],
+  highlights: ['Spend Stunix for requests', 'Earn Stunix for answers'],
   categories: ['Academic Studies', 'Product Feedback', 'Student Projects', 'Reflection Journals'],
   tags: ['#UX', '#Psychology', '#AI', '#Marketing'],
   sortFilters: ['Latest', 'Reward Points', 'Closing Soon'],
   actionLabel: 'Participate',
-  createLabel: 'Create Insight Post',
+  createLabel: 'Request Insight',
   feed: insightPosts,
 }
 
