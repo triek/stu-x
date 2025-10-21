@@ -15,6 +15,13 @@ import { RouterLink, RouterView } from 'vue-router'
       <!-- Nav items -->
       <nav class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600 sm:gap-6">
         <RouterLink
+          to="/home"
+          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+          active-class="border-indigo-400/60 text-indigo-600"
+        >
+          Home
+        </RouterLink>
+        <RouterLink
           to="/insight"
           class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
           active-class="border-indigo-400/60 text-indigo-600"
@@ -45,16 +52,19 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
 
       <!-- Login -->
-      <div class="flex items-center gap-3 text-sm">
-        <div class="rounded-full bg-indigo-100/80 px-3.5 py-1 font-semibold text-indigo-700 shadow-sm ring-1 ring-indigo-200/60">
-          Stunix: 100 🪙
-        </div>
-        <button
-          class="inline-flex items-center rounded-full bg-indigo-600 px-5 py-2.5 font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
-          type="button"
+      <div class="flex items-center gap-3 text-sm font-semibold">
+        <RouterLink
+          to="/login"
+          class="inline-flex items-center rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
         >
-          Sign Up / Log In
-        </button>
+          Log in
+        </RouterLink>
+        <RouterLink
+          to="/signup"
+          class="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
+        >
+          Sign up
+        </RouterLink>
       </div>
     </div>
   </header>
