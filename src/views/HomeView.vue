@@ -84,10 +84,4 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <style scoped>
-  .shadow-panel {
-    --tw-shadow: var(
-      --pillar-shadow-panel,
-      0 12px 32px -20px rgba(79, 70, 229, 0.35)
-    );
-  }
 </style>
