@@ -4,10 +4,10 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['var(--font-sans)', 'Inter', ...defaultTheme.fontFamily.sans],
+    },
     extend: {
-      fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
-      },
       colors: {
         brand: '#4338ca',
         'brand-insight': '#4338ca',
