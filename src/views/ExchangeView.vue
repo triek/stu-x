@@ -225,8 +225,4 @@ const config = computed(() => ({
     0 12px 32px -20px rgba(79, 70, 229, 0.35)
   );
 }
-
-.text-brand {
-  color: var(--pillar-accent, #4338ca);
-}
 </style>

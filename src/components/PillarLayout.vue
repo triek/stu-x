@@ -322,8 +322,4 @@ const submitForm = () => {
     var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow);
 }
-
-.text-brand {
-  color: var(--pillar-accent, #4338ca);
-}
 </style>
