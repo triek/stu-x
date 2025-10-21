@@ -1,10 +1,11 @@
 <script setup>
 import PillarLayout from '@/components/PillarLayout.vue'
+import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 
 const config = {
   title: 'Community',
   icon: '💬',
-  accent: '#db2777',
+  accent: PILLAR_ACCENTS.community,
   headline: 'Community Hub',
   description:
     'Share stories, discuss, review, and reflect with peers',
