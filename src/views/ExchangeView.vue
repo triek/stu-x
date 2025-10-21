@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import PillarLayout from '@/components/PillarLayout.vue'
+import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { exchangePosts } from '@/data/exchangePosts'
 
 const categories = [
@@ -66,9 +67,9 @@ const selectCategory = (categoryId) => {
 const baseConfig = {
   title: 'Exchange',
   icon: '🤝',
-  accent: '#0f766e',
+  accent: PILLAR_ACCENTS.exchange,
   headline: 'Exchange Hub',
-  description: 'Find or offer help, courses, and study exchanges.',
+  description: 'Find or offer help, courses, and study exchanges',
   highlights: ['Non-Stunix trading'],
   categories: [],
   tags: ['#Mentorship', '#Courses', '#Resources', '#SkillExchange'],

@@ -84,4 +84,7 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <style scoped>
+.text-brand {
+  color: var(--pillar-accent, #4338ca);
+}
 </style>

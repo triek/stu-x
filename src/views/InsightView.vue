@@ -1,5 +1,6 @@
 <script setup>
 import PillarLayout from '@/components/PillarLayout.vue'
+import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
 
 const statusStyles = {
@@ -20,7 +21,7 @@ const statusStyles = {
 const config = {
   title: 'Insight',
   icon: '💡',
-  accent: '#4338ca',
+  accent: PILLAR_ACCENTS.insight,
   headline: 'Insight Hub',
   description:
     'Share or join research studies and request feedback',

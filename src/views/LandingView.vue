@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
+import { withAlpha } from '@/utils/color'
 
 const regions = [
   {
@@ -24,6 +26,28 @@ const schools = [
   'Open Learning Collective',
   'Community College Network',
 ]
+
+const pillars = [
+  {
+    title: 'Insight',
+    description: 'Share or join research studies and request feedback',
+    accent: PILLAR_ACCENTS.insight,
+  },
+  {
+    title: 'Exchange',
+    description: 'Find or offer help, courses, and study exchanges',
+    accent: PILLAR_ACCENTS.exchange,
+  },
+  {
+    title: 'Community',
+    description: 'Share stories, discuss, review, and reflect with peers',
+    accent: PILLAR_ACCENTS.community,
+  },
+].map((pillar) => ({
+  ...pillar,
+  surface: withAlpha(pillar.accent, '18'),
+  border: withAlpha(pillar.accent, '40'),
+}))
 </script>
 
 <template>
@@ -107,17 +131,17 @@ const schools = [
       </div>
 
       <dl class="grid gap-5">
-        <div class="rounded-2xl bg-indigo-50/70 p-5">
-          <dt class="text-sm font-semibold uppercase tracking-[0.22em] text-brand">Insight</dt>
-          <dd class="mt-2 text-sm text-slate-600">Real feedback from peers and mentors matched to your goals.</dd>
-        </div>
-        <div class="rounded-2xl bg-emerald-50/70 p-5">
-          <dt class="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-600">Exchange</dt>
-          <dd class="mt-2 text-sm text-slate-600">Earn and redeem Stunix for collaborative study sessions.</dd>
-        </div>
-        <div class="rounded-2xl bg-amber-50/70 p-5">
-          <dt class="text-sm font-semibold uppercase tracking-[0.22em] text-amber-600">Community</dt>
-          <dd class="mt-2 text-sm text-slate-600">Reflect, discuss, and build with trusted circles.</dd>
+        <div
+          v-for="pillar in pillars"
+          :key="pillar.title"
+          class="rounded-2xl border p-5"
+          :style="{ backgroundColor: pillar.surface, borderColor: pillar.border }">
+        <dt
+          class="text-sm font-semibold uppercase tracking-[0.22em]"
+          :style="{ color: pillar.accent }">
+          {{ pillar.title }}
+        </dt>
+        <dd class="mt-2 text-sm text-slate-600">{{ pillar.description }}</dd>
         </div>
       </dl>
 
@@ -136,4 +160,7 @@ const schools = [
 </template>
 
 <style scoped>
+.text-brand {
+  color: var(--pillar-accent, #4338ca);
+}
 </style>

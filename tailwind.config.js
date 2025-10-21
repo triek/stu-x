@@ -5,7 +5,8 @@ export default {
     extend: {
       colors: {
         brand: '#4338ca',
-        'brand-exchange': '#0f766e',
+        'brand-insight': '#117a78',
+        'brand-exchange': '#ca8a04',
         'brand-community': '#db2777',
       },
       fontFamily: {
@@ -26,4 +27,4 @@ export default {
     },
   },
   plugins: [],
-} 
+}
