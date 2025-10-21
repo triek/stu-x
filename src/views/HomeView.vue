@@ -49,7 +49,7 @@ import { RouterLink } from 'vue-router'
       <span class="text-4xl">🤝</span>
       <h2 class="text-2xl font-semibold text-slate-900">Exchange</h2>
       <p class="text-base text-slate-600">Find mentors or trade study help.</p>
-      <span class="text-sm font-semibold text-brand-exchange">Swap skills · +35 Stunix avg</span>
+      <span class="text-sm font-semibold text-brand">Swap skills · +35 Stunix avg</span>
     </RouterLink>
 
     <!-- Community -->
@@ -59,7 +59,7 @@ import { RouterLink } from 'vue-router'
       <span class="text-4xl">💬</span>
       <h2 class="text-2xl font-semibold text-slate-900">Community</h2>
       <p class="text-base text-slate-600">Discuss, review, and reflect.</p>
-      <span class="text-sm font-semibold text-brand-community">Thoughtful threads · +15 Stunix avg</span>
+      <span class="text-sm font-semibold text-brand">Thoughtful threads · +15 Stunix avg</span>
     </RouterLink>
   </div>
 
@@ -84,4 +84,10 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <style scoped>
+  .shadow-panel {
+    --tw-shadow: var(
+      --pillar-shadow-panel,
+      0 12px 32px -20px rgba(79, 70, 229, 0.35)
+    );
+  }
 </style>

@@ -1,8 +1,8 @@
 const BRAND_PRIMARY = '#4338ca'
 
 export const PILLAR_ACCENTS = {
-  insight: '#117a78',
-  exchange: '#ca8a04',
+  insight: '#4338ca',
+  exchange: '#0f766e',
   community: '#db2777',
 }
 

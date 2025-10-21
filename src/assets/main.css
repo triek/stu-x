@@ -4,6 +4,10 @@
   :root {
     --brand-color: #4338ca;
   }
+
+  body {
+    font-family: var(--font-sans);
+  }
 }
 
 @layer theme {
