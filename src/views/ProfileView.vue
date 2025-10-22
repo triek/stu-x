@@ -1,4 +1,9 @@
 <script setup>
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
+
+import { useAuthStore } from '../stores/auth'
+
 const recentActions = [
   {
     id: 1,
@@ -16,6 +21,29 @@ const recentActions = [
     description: 'Posted feedback request - Systems design prototype',
   },
 ]
+
+const authStore = useAuthStore()
+const { user, stunixBalance } = storeToRefs(authStore)
+
+const displayName = computed(() => user.value?.name ?? 'Keanu Reeves')
+const profileBio = computed(
+  () =>
+    user.value?.bio ??
+    'Explorer of peer wisdom, like having sandwich on a bench during break, can help with movie acting and bass playing advices.'
+)
+const initials = computed(() =>
+  displayName.value
+    .split(' ')
+    .map((chunk) => chunk[0])
+    .filter(Boolean)
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
+)
+const totalStunix = computed(() => (stunixBalance.value ? stunixBalance.value : 100))
+const formattedStunix = computed(() =>
+  `${new Intl.NumberFormat('en-US').format(totalStunix.value)} 🪙`
+)
 </script>
 
 <template>
@@ -25,21 +53,21 @@ const recentActions = [
 
       <!-- Profile picture -->
       <div class="grid h-24 w-24 place-items-center rounded-3xl bg-gradient-to-br from-brand to-indigo-400 text-3xl font-bold uppercase tracking-[0.08em] text-white">
-        KR
+        {{ initials }}
       </div>
 
       <!-- Profile card -->
       <div class="space-y-3">
-        <h1 class="text-3xl font-bold text-slate-900">Keanu Reeves</h1>
+        <h1 class="text-3xl font-bold text-slate-900">{{ displayName }}</h1>
         <p class="text-base leading-relaxed text-slate-600">
-          Explorer of peer wisdom, like having sandwich on a bench during break, can help with movie acting and bass playing advices.
+          {{ profileBio }}
         </p>
       </div>
 
       <!-- Total Stunix -->
       <div class="grid justify-items-end gap-1 text-right text-slate-600 md:justify-items-end">
         <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">Total stunix</span>
-        <span class="text-2xl font-bold text-brand">100 🪙</span>
+        <span class="text-2xl font-bold text-brand">{{ formattedStunix }}</span>
       </div>
     </div>
 

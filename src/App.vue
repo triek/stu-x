@@ -1,5 +1,20 @@
 <script setup>
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { RouterLink, RouterView } from 'vue-router'
+
+import { useAuthStore } from './stores/auth'
+
+const authStore = useAuthStore()
+const { isAuthenticated, stunixBalance, displayName } = storeToRefs(authStore)
+
+const formattedBalance = computed(() =>
+  new Intl.NumberFormat('en-US').format(stunixBalance.value)
+)
+
+const logout = () => {
+  authStore.logout()
+}
 </script>
 
 <template>
@@ -51,20 +66,42 @@ import { RouterLink, RouterView } from 'vue-router'
         </RouterLink>
       </nav>
 
-      <!-- Login -->
+      <!-- Auth state -->
       <div class="flex items-center gap-3 text-sm font-semibold">
-        <RouterLink
-          to="/login"
-          class="inline-flex items-center rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
-        >
-          Log in
-        </RouterLink>
-        <RouterLink
-          to="/signup"
-          class="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
-        >
-          Sign up
-        </RouterLink>
+        <template v-if="isAuthenticated">
+          <RouterLink
+            to="/profile"
+            class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
+          >
+            <span class="hidden sm:inline">Hi, {{ displayName }}</span>
+            <span class="sm:hidden">Profile</span>
+          </RouterLink>
+          <span class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-brand ring-1 ring-indigo-100">
+            <span>💎</span>
+            <span>{{ formattedBalance }} Stunix</span>
+          </span>
+          <button
+            type="button"
+            class="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-700"
+            @click="logout"
+          >
+            Log out
+          </button>
+        </template>
+        <template v-else>
+          <RouterLink
+            to="/login"
+            class="inline-flex items-center rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
+          >
+            Log in
+          </RouterLink>
+          <RouterLink
+            to="/signup"
+            class="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
+          >
+            Sign up
+          </RouterLink>
+        </template>
       </div>
     </div>
   </header>
