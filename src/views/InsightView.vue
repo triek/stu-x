@@ -1,7 +1,10 @@
 <script setup>
+import { computed, ref, watch } from 'vue'
+import AskQuestionPanel from '@/components/AskQuestionPanel.vue'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
+import { insightQuestions } from '@/data/insightQuestions'
 import { useRouter } from 'vue-router'
 
 const statusStyles = {
@@ -61,9 +64,28 @@ const formDefaults = {
 
 const router = useRouter()
 
+const showQuestionPanel = ref(false)
+const activeQuestionPost = ref(null)
+
+const activeQuestionComments = computed(() => {
+  if (!activeQuestionPost.value?.id) return insightQuestions.default ?? []
+  return insightQuestions[activeQuestionPost.value.id] ?? insightQuestions.default ?? []
+})
+
+watch(showQuestionPanel, (isOpen) => {
+  if (!isOpen) {
+    activeQuestionPost.value = null
+  }
+})
+
 const openDetails = (item) => {
   if (!item?.id) return
   router.push({ name: 'insight-detail', params: { id: item.id } })
+}
+
+const openQuestionDialog = (item) => {
+  activeQuestionPost.value = item
+  showQuestionPanel.value = true
 }
 </script>
 
@@ -135,6 +157,7 @@ const openDetails = (item) => {
             <button
               type="button"
               class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+              @click="openQuestionDialog(item)"
             >
               💬 Ask Question
             </button>
@@ -277,4 +300,10 @@ const openDetails = (item) => {
       </div>
     </template>
   </PillarLayout>
+
+  <AskQuestionPanel
+    v-model="showQuestionPanel"
+    :post="activeQuestionPost"
+    :initial-comments="activeQuestionComments"
+  />
 </template>

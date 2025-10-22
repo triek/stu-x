@@ -1,9 +1,11 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import AskQuestionPanel from '@/components/AskQuestionPanel.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
+import { insightQuestions } from '@/data/insightQuestions'
 
 const statusStyles = {
   active: {
@@ -40,6 +42,16 @@ const backToInsight = () => {
 
 const participate = () => {
   // Placeholder for participate action
+}
+
+const showQuestionPanel = ref(false)
+
+const questionComments = computed(
+  () => insightQuestions[post.value?.id] ?? insightQuestions.default ?? [],
+)
+
+const openQuestionDialog = () => {
+  showQuestionPanel.value = true
 }
 </script>
 
@@ -125,6 +137,7 @@ const participate = () => {
           <button
             type="button"
             class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+            @click="openQuestionDialog"
           >
             💬 Ask Question
           </button>
@@ -158,6 +171,12 @@ const participate = () => {
       </button>
     </article>
   </section>
+
+  <AskQuestionPanel
+    v-model="showQuestionPanel"
+    :post="post"
+    :initial-comments="questionComments"
+  />
 </template>
 
 <style scoped>
