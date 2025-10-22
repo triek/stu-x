@@ -388,23 +388,28 @@ watch(
           class="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-6"
         >
           <header class="flex flex-wrap items-start justify-between gap-4">
-            <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Start a new question</h3>
-
-            <button
-              type="button"
-              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
-              @click="closeDiscussion"
-              aria-label="Close discussion"
-            >
-              ✕
-            </button>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 px-1">Start a new question</h3>
           </header>
 
           <section class="grid gap-6">
-            <article class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-5">
-              <form ref="questionFormRef" class="grid gap-4" @submit.prevent="handleSubmitQuestion">
-                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                  Your question
+            <article
+              :class="[
+                'grid gap-3',
+                isQuestionFormExpanded ? 'rounded-2xl border border-slate-200 bg-white p-5' : ''
+              ]"
+            >
+              <form
+                ref="questionFormRef"
+                :class="['grid', isQuestionFormExpanded ? 'gap-4' : '']"
+                @submit.prevent="handleSubmitQuestion"
+              >
+                <label :class="['grid', isQuestionFormExpanded ? 'gap-2' : '']">
+                  <span
+                    v-if="isQuestionFormExpanded"
+                    class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                    Your question
+                  </span>
+
                   <textarea
                     v-model="newQuestion.question"
                     :rows="isQuestionFormExpanded ? 4 : 1"
@@ -419,8 +424,11 @@ watch(
                   v-if="isQuestionFormExpanded"
                   class="grid gap-2 sm:grid-cols-2"
                 >
-                  <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                    Your name
+                  <label class="grid gap-2">
+                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                      Your name
+                    </span>
+
                     <input
                       v-model="newQuestion.name"
                       type="text"
@@ -428,8 +436,12 @@ watch(
                       class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
                     />
                   </label>
-                  <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                    Role or affiliation
+
+                  <label class="grid gap-2">
+                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                      Role or affiliation
+                    </span>
+
                     <input
                       v-model="newQuestion.role"
                       type="text"
@@ -452,7 +464,7 @@ watch(
 
             <article class="grid gap-4">
               <div class="flex items-center justify-between">
-                <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
+                <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 px-1">
                   Threaded questions
                 </h3>
                 <span class="text-xs font-medium text-slate-400">{{ discussionThreads.length }} total</span>
@@ -482,7 +494,7 @@ watch(
                   </div>
                   <p class="whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ thread.question }}</p>
 
-                  <ul v-if="thread.answers?.length" class="grid gap-3 rounded-2xl bg-slate-50 p-3">
+                  <ul v-if="thread.answers?.length" class="grid gap-3 rounded-2xl bg-slate-100 p-1">
                     <li
                       v-for="answer in thread.answers"
                       :key="answer.id"
@@ -499,11 +511,21 @@ watch(
                   <form
                     v-if="replyDrafts[thread.id]"
                     :ref="(el) => setReplyFormRef(thread.id, el)"
-                    class="grid gap-3 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/40 p-3"
+                    :class="[
+                      'grid',
+                      expandedReplies[thread.id]
+                        ? 'gap-3 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/40 p-3'
+                        : ''
+                    ]"
                     @submit.prevent="handleSubmitReply(thread.id)"
                   >
-                    <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                      Your reply
+                    <label :class="['grid', expandedReplies[thread.id] ? 'gap-2' : '']">
+                      <span
+                        v-if="expandedReplies[thread.id]"
+                        class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600"
+                      >
+                        Your reply
+                      </span>
                       <textarea
                         v-model="replyDrafts[thread.id].message"
                         :rows="expandedReplies[thread.id] ? 3 : 1"
@@ -518,8 +540,11 @@ watch(
                       v-if="expandedReplies[thread.id]"
                       class="grid gap-2 sm:grid-cols-2"
                     >
-                      <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                        Your name
+                      <label class="grid gap-2">
+                        <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                          Your name
+                        </span>
+
                         <input
                           v-model="replyDrafts[thread.id].name"
                           type="text"
@@ -527,8 +552,12 @@ watch(
                           class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
                         />
                       </label>
-                      <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                        Role or affiliation
+
+                      <label class="grid gap-2">
+                        <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                          Role or affiliation
+                        </span>
+
                         <input
                           v-model="replyDrafts[thread.id].role"
                           type="text"
