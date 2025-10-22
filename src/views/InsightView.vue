@@ -1,8 +1,12 @@
 <script setup>
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import InsightDiscussionPanel from '@/components/InsightDiscussionPanel.vue'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
-import { useRouter } from 'vue-router'
+import { useInsightDiscussionsStore } from '@/stores/insightDiscussions'
 
 const statusStyles = {
   active: {
@@ -60,10 +64,44 @@ const formDefaults = {
 }
 
 const router = useRouter()
+const discussionsStore = useInsightDiscussionsStore()
+
+const isDiscussionOpen = ref(false)
+const activePostId = ref(null)
+
+const activePost = computed(() => {
+  if (!activePostId.value) return null
+  return insightPosts.find((item) => item.id === activePostId.value) ?? null
+})
+
+const activeThreads = computed(() => {
+  if (!activePost.value?.id) return []
+  return discussionsStore.getThreads(activePost.value.id)
+})
 
 const openDetails = (item) => {
   if (!item?.id) return
   router.push({ name: 'insight-detail', params: { id: item.id } })
+}
+
+const openDiscussion = (item) => {
+  if (!item?.id) return
+  activePostId.value = item.id
+  isDiscussionOpen.value = true
+}
+
+const closeDiscussion = () => {
+  isDiscussionOpen.value = false
+}
+
+const handleAddQuestion = (payload) => {
+  if (!activePost.value?.id) return
+  discussionsStore.addQuestion(activePost.value.id, payload)
+}
+
+const handleAddReply = ({ threadId, payload }) => {
+  if (!activePost.value?.id || !threadId) return
+  discussionsStore.addReply(activePost.value.id, threadId, payload)
 }
 </script>
 
@@ -135,6 +173,7 @@ const openDetails = (item) => {
             <button
               type="button"
               class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+              @click="openDiscussion(item)"
             >
               💬 Ask Question
             </button>
@@ -277,4 +316,13 @@ const openDetails = (item) => {
       </div>
     </template>
   </PillarLayout>
+
+  <InsightDiscussionPanel
+    :open="isDiscussionOpen"
+    :post="activePost"
+    :threads="activeThreads"
+    @close="closeDiscussion"
+    @add-question="handleAddQuestion"
+    @add-reply="handleAddReply"
+  />
 </template>

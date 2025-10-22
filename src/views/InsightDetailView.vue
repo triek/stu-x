@@ -1,9 +1,11 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import InsightDiscussionPanel from '@/components/InsightDiscussionPanel.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
+import { useInsightDiscussionsStore } from '@/stores/insightDiscussions'
 
 const statusStyles = {
   active: {
@@ -23,11 +25,20 @@ const statusStyles = {
 const route = useRoute()
 const router = useRouter()
 
+const discussionsStore = useInsightDiscussionsStore()
+
+const isDiscussionOpen = ref(false)
+
 const accent = PILLAR_ACCENTS.insight
 
 const post = computed(() =>
   insightPosts.find((item) => item.id === route.params.id)
 )
+
+const discussionThreads = computed(() => {
+  if (!post.value?.id) return []
+  return discussionsStore.getThreads(post.value.id)
+})
 
 const status = computed(() => {
   if (!post.value?.status) return null
@@ -40,6 +51,25 @@ const backToInsight = () => {
 
 const participate = () => {
   // Placeholder for participate action
+}
+
+const openDiscussion = () => {
+  if (!post.value?.id) return
+  isDiscussionOpen.value = true
+}
+
+const closeDiscussion = () => {
+  isDiscussionOpen.value = false
+}
+
+const handleAddQuestion = (payload) => {
+  if (!post.value?.id) return
+  discussionsStore.addQuestion(post.value.id, payload)
+}
+
+const handleAddReply = ({ threadId, payload }) => {
+  if (!post.value?.id || !threadId) return
+  discussionsStore.addReply(post.value.id, threadId, payload)
 }
 </script>
 
@@ -125,6 +155,7 @@ const participate = () => {
           <button
             type="button"
             class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+            @click="openDiscussion"
           >
             💬 Ask Question
           </button>
@@ -157,6 +188,15 @@ const participate = () => {
         ← Back to Insight
       </button>
     </article>
+
+    <InsightDiscussionPanel
+      :open="isDiscussionOpen"
+      :post="post"
+      :threads="discussionThreads"
+      @close="closeDiscussion"
+      @add-question="handleAddQuestion"
+      @add-reply="handleAddReply"
+    />
   </section>
 </template>
 
