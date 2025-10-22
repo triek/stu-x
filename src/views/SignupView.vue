@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <section class="mx-auto grid max-w-6xl gap-12 rounded-3xl bg-white/90 p-8 shadow-primary ring-1 ring-indigo-100/60 lg:grid-cols-[1.1fr,0.9fr] lg:p-14">
+  <section class="mx-auto grid max-w-6xl gap-12 rounded-3xl bg-white/90 p-8 shadow-primary ring-1 ring-indigo-100/60 lg:grid-cols-[1.1fr_0.9fr] lg:p-14">
     <div class="space-y-6">
       <div class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">Join StuX</p>

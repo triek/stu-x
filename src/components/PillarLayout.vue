@@ -97,7 +97,7 @@ const submitForm = () => {
     </header>
 
     <!-- Side bar -->
-    <div class="grid gap-3 lg:grid-cols-[minmax(0,260px),1fr]">
+    <div class="grid gap-3 lg:grid-cols-[minmax(0,_260px)_1fr]">
       <aside
         class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start lg:sticky lg:top-24"
         :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">

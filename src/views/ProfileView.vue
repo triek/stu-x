@@ -21,7 +21,7 @@ const recentActions = [
 <template>
   <section class="grid gap-10">
     <div
-      class="grid gap-8 rounded-3xl bg-white p-10 shadow-panel ring-1 ring-indigo-100/60 md:grid-cols-[auto,1fr,auto] md:items-center">
+      class="grid gap-8 rounded-3xl bg-white p-10 shadow-panel ring-1 ring-indigo-100/60 md:grid-cols-[auto_1fr_auto] md:items-center">
 
       <!-- Profile picture -->
       <div class="grid h-24 w-24 place-items-center rounded-3xl bg-gradient-to-br from-brand to-indigo-400 text-3xl font-bold uppercase tracking-[0.08em] text-white">
