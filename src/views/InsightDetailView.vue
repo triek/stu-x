@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
@@ -29,6 +29,8 @@ const discussionsStore = useInsightDiscussionsStore()
 const isDiscussionOpen = ref(false)
 const isSubmittingQuestion = ref(false)
 const activeReply = ref('')
+const isQuestionFormExpanded = ref(false)
+const questionFormRef = ref(null)
 
 const newQuestion = reactive({
   name: '',
@@ -37,11 +39,14 @@ const newQuestion = reactive({
 })
 
 const replyDrafts = reactive({})
+const expandedReplies = reactive({})
+const replyFormRefs = reactive({})
 
 const resetForms = () => {
   newQuestion.name = ''
   newQuestion.role = ''
   newQuestion.question = ''
+  isQuestionFormExpanded.value = false
 
   Object.keys(replyDrafts).forEach((key) => {
     replyDrafts[key] = {
@@ -49,6 +54,14 @@ const resetForms = () => {
       role: '',
       message: '',
     }
+  })
+
+  Object.keys(expandedReplies).forEach((key) => {
+    expandedReplies[key] = false
+  })
+
+  Object.keys(replyFormRefs).forEach((key) => {
+    delete replyFormRefs[key]
   })
 }
 
@@ -94,11 +107,75 @@ const ensureReplyDrafts = (threads) => {
         message: '',
       }
     }
+
+    if (!(thread.id in expandedReplies)) {
+      expandedReplies[thread.id] = false
+    }
   })
 
   Object.keys(replyDrafts).forEach((key) => {
     if (!threads.some((thread) => thread.id === key)) {
       delete replyDrafts[key]
+    }
+  })
+
+  Object.keys(expandedReplies).forEach((key) => {
+    if (!threads.some((thread) => thread.id === key)) {
+      delete expandedReplies[key]
+    }
+  })
+
+  Object.keys(replyFormRefs).forEach((key) => {
+    if (!threads.some((thread) => thread.id === key)) {
+      delete replyFormRefs[key]
+    }
+  })
+}
+
+const expandQuestionForm = () => {
+  isQuestionFormExpanded.value = true
+}
+
+const expandReplyForm = (threadId) => {
+  expandedReplies[threadId] = true
+}
+
+const setReplyFormRef = (threadId, el) => {
+  if (el) {
+    replyFormRefs[threadId] = el
+  } else {
+    delete replyFormRefs[threadId]
+  }
+}
+
+const collapseQuestionForm = () => {
+  isQuestionFormExpanded.value = false
+}
+
+const collapseReplyForm = (threadId) => {
+  expandedReplies[threadId] = false
+}
+
+const handleDocumentClick = (event) => {
+  if (!isDiscussionOpen.value) return
+
+  const target = event.target
+
+  if (
+    isQuestionFormExpanded.value &&
+    questionFormRef.value &&
+    !questionFormRef.value.contains(target)
+  ) {
+    collapseQuestionForm()
+  }
+
+  Object.keys(expandedReplies).forEach((key) => {
+    if (
+      expandedReplies[key] &&
+      replyFormRefs[key] &&
+      !replyFormRefs[key].contains(target)
+    ) {
+      collapseReplyForm(key)
     }
   })
 }
@@ -130,6 +207,14 @@ const closeDiscussion = () => {
     })
   }
 }
+
+onMounted(() => {
+  document.addEventListener('click', handleDocumentClick)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleDocumentClick)
+})
 
 const handleSubmitQuestion = () => {
   if (!post.value?.id || !newQuestion.question.trim()) return
@@ -163,6 +248,8 @@ const handleSubmitReply = (threadId) => {
     role: '',
     message: '',
   }
+
+  expandedReplies[threadId] = false
 
   activeReply.value = ''
 }
@@ -298,18 +385,11 @@ watch(
       <transition name="fade">
         <section
           v-if="isDiscussionOpen"
-          class="grid gap-6 rounded-2xl border border-slate-200 bg-slate-50 p-6"
+          class="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-6"
         >
           <header class="flex flex-wrap items-start justify-between gap-4">
-            <div class="space-y-2">
-              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">Discussion</p>
-              <h2 class="text-2xl font-semibold text-slate-900">
-                {{ post.title }}
-              </h2>
-              <p v-if="post.subtitle" class="text-sm text-slate-500">
-                {{ post.subtitle }}
-              </p>
-            </div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Start a new question</h3>
+
             <button
               type="button"
               class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
@@ -321,12 +401,24 @@ watch(
           </header>
 
           <section class="grid gap-6">
-            <article class="grid gap-4 rounded-2xl border border-slate-200 bg-white p-5">
-              <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                Start a new question
-              </h3>
-              <form class="grid gap-4" @submit.prevent="handleSubmitQuestion">
-                <div class="grid gap-2 sm:grid-cols-2">
+            <article class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-5">
+              <form ref="questionFormRef" class="grid gap-4" @submit.prevent="handleSubmitQuestion">
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
+                  Your question
+                  <textarea
+                    v-model="newQuestion.question"
+                    :rows="isQuestionFormExpanded ? 4 : 1"
+                    placeholder="What would you like to know?"
+                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                    @focus="expandQuestionForm"
+                    @click="expandQuestionForm"
+                    @input="expandQuestionForm"
+                  ></textarea>
+                </label>
+                <div
+                  v-if="isQuestionFormExpanded"
+                  class="grid gap-2 sm:grid-cols-2"
+                >
                   <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
                     Your name
                     <input
@@ -346,16 +438,7 @@ watch(
                     />
                   </label>
                 </div>
-                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                  Question
-                  <textarea
-                    v-model="newQuestion.question"
-                    rows="3"
-                    placeholder="What would you like to know?"
-                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  ></textarea>
-                </label>
-                <div class="flex justify-end">
+                <div v-if="isQuestionFormExpanded" class="flex justify-end">
                   <button
                     type="submit"
                     class="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
@@ -382,11 +465,11 @@ watch(
                 No questions yet. Be the first to start the conversation.
               </p>
 
-              <ul v-else class="grid gap-4">
+              <ul v-else class="grid gap-3">
                 <li
                   v-for="thread in discussionThreads"
                   :key="thread.id"
-                  class="grid gap-4 rounded-2xl border border-slate-200 bg-white p-4"
+                  class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4"
                 >
                   <div class="flex items-start justify-between gap-3">
                     <div>
@@ -415,10 +498,26 @@ watch(
 
                   <form
                     v-if="replyDrafts[thread.id]"
+                    :ref="(el) => setReplyFormRef(thread.id, el)"
                     class="grid gap-3 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/40 p-3"
                     @submit.prevent="handleSubmitReply(thread.id)"
                   >
-                    <div class="grid gap-2 sm:grid-cols-2">
+                    <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
+                      Your reply
+                      <textarea
+                        v-model="replyDrafts[thread.id].message"
+                        :rows="expandedReplies[thread.id] ? 3 : 1"
+                        placeholder="Share your answer or follow-up"
+                        class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                        @focus="expandReplyForm(thread.id)"
+                        @click="expandReplyForm(thread.id)"
+                        @input="expandReplyForm(thread.id)"
+                      ></textarea>
+                    </label>
+                    <div
+                      v-if="expandedReplies[thread.id]"
+                      class="grid gap-2 sm:grid-cols-2"
+                    >
                       <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
                         Your name
                         <input
@@ -438,16 +537,7 @@ watch(
                         />
                       </label>
                     </div>
-                    <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                      Your reply
-                      <textarea
-                        v-model="replyDrafts[thread.id].message"
-                        rows="3"
-                        placeholder="Share your answer or follow-up"
-                        class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                      ></textarea>
-                    </label>
-                    <div class="flex justify-end">
+                    <div v-if="expandedReplies[thread.id]" class="flex justify-end">
                       <button
                         type="submit"
                         class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
