@@ -1,12 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-
-import InsightDiscussionPanel from '@/components/InsightDiscussionPanel.vue'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
-import { useInsightDiscussionsStore } from '@/stores/insightDiscussions'
 
 const statusStyles = {
   active: {
@@ -64,21 +60,6 @@ const formDefaults = {
 }
 
 const router = useRouter()
-const discussionsStore = useInsightDiscussionsStore()
-
-const isDiscussionOpen = ref(false)
-const activePostId = ref(null)
-
-const activePost = computed(() => {
-  if (!activePostId.value) return null
-  return insightPosts.find((item) => item.id === activePostId.value) ?? null
-})
-
-const activeThreads = computed(() => {
-  if (!activePost.value?.id) return []
-  return discussionsStore.getThreads(activePost.value.id)
-})
-
 const openDetails = (item) => {
   if (!item?.id) return
   router.push({ name: 'insight-detail', params: { id: item.id } })
@@ -86,22 +67,11 @@ const openDetails = (item) => {
 
 const openDiscussion = (item) => {
   if (!item?.id) return
-  activePostId.value = item.id
-  isDiscussionOpen.value = true
-}
-
-const closeDiscussion = () => {
-  isDiscussionOpen.value = false
-}
-
-const handleAddQuestion = (payload) => {
-  if (!activePost.value?.id) return
-  discussionsStore.addQuestion(activePost.value.id, payload)
-}
-
-const handleAddReply = ({ threadId, payload }) => {
-  if (!activePost.value?.id || !threadId) return
-  discussionsStore.addReply(activePost.value.id, threadId, payload)
+  router.push({
+    name: 'insight-detail',
+    params: { id: item.id },
+    query: { showDiscussion: '1' },
+  })
 }
 </script>
 
@@ -317,12 +287,4 @@ const handleAddReply = ({ threadId, payload }) => {
     </template>
   </PillarLayout>
 
-  <InsightDiscussionPanel
-    :open="isDiscussionOpen"
-    :post="activePost"
-    :threads="activeThreads"
-    @close="closeDiscussion"
-    @add-question="handleAddQuestion"
-    @add-reply="handleAddReply"
-  />
 </template>
