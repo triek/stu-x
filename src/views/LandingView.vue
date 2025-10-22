@@ -22,6 +22,7 @@ const regions = [
 ]
 
 const schools = [
+  'Deakin University',
   'StuX International Academy',
   'Open Learning Collective',
   'Community College Network',

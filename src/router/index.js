@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import HomeView from '../views/HomeView.vue'
 import InsightView from '../views/InsightView.vue'
+import InsightDetailView from '../views/InsightDetailView.vue'
 import ExchangeView from '../views/ExchangeView.vue'
 import CommunityView from '../views/CommunityView.vue'
 import ProfileView from '../views/ProfileView.vue'
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/insight',
       name: 'insight',
       component: InsightView,
+    },
+    {
+      path: '/insight/:id',
+      name: 'insight-detail',
+      component: InsightDetailView,
     },
     {
       path: '/exchange',

@@ -76,9 +76,9 @@ const logout = () => {
             <span class="hidden sm:inline">Hi, {{ displayName }}</span>
             <span class="sm:hidden">Profile</span>
           </RouterLink>
-          <span class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-brand ring-1 ring-indigo-100">
-            <span>💎</span>
-            <span>{{ formattedBalance }} Stunix</span>
+          <span class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-4 py-2 text-brand ring-1 ring-indigo-100">
+            <span>Stunix: {{ formattedBalance }}</span>
+            <span>🪙</span>
           </span>
           <button
             type="button"

@@ -2,6 +2,7 @@
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { insightPosts } from '@/data/insightPosts'
+import { useRouter } from 'vue-router'
 
 const statusStyles = {
   active: {
@@ -56,6 +57,13 @@ const formDefaults = {
   tags: '',
   participants: '0',
   questions: '0',
+}
+
+const router = useRouter()
+
+const openDetails = (item) => {
+  if (!item?.id) return
+  router.push({ name: 'insight-detail', params: { id: item.id } })
 }
 </script>
 
@@ -137,6 +145,7 @@ const formDefaults = {
                 backgroundColor: accent,
                 boxShadow: `0 18px 32px ${accent}45`,
               }"
+              @click="openDetails(item)"
             >
               🚀 Participate
             </button>
