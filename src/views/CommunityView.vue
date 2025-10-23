@@ -1,8 +1,14 @@
 <script setup>
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
+import { useCommunityPostsStore } from '@/stores/communityPosts'
 
-const config = {
+const communityPostsStore = useCommunityPostsStore()
+const { posts } = storeToRefs(communityPostsStore)
+
+const baseConfig = {
   title: 'Community',
   icon: '💬',
   accent: PILLAR_ACCENTS.community,
@@ -11,71 +17,69 @@ const config = {
     'Share stories, discuss, review, and reflect with peers',
   highlights: ['Discussion forum'],
   actionLabel: 'Comment',
-  feed: [
-    {
-      title: 'Topic: What to buy for first-year students?',
-      description: 'Recommend essentials and share tips for incoming students.',
-      discussion: 22,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Topic: Friends at university is not as expected',
-      description: 'My experience when making friends in uni felt so different from high school.',
-      discussion: 10,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Poll: MacBook vs Windows laptop for programming',
-      description: 'Share which one you use for your coding courses.',
-      discussion: 12,
-      cta: 'Vote',
-    },
-    {
-      title: 'Topic: Lenovo IdeaPad Slim 5 or HP Pavilion for CS students?',
-      description: 'Both are around the same price with 16GB RAM. Im not sure which is more reliable for running heavy tools like Docker or IntelliJ.',
-      discussion: 10,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Topic: Best free online tools for students',
-      description: 'List websites or apps that help with writing, coding, referencing, or time tracking.',
-      discussion: 11,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Topic: Student discounts',
-      description: 'Share the best student deals on food, transport, software, and entertainment that others might not know about.',
-      discussion: 4,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Topic: Managing money on a student budget',
-      description: 'How do you plan weekly expenses, track spending, and save while studying?',
-      discussion: 6,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Topic: Group assignments and how to deal with unresponsive teammates',
-      description: 'What is your experiences and strategies for keeping projects on track when not everyone contributes equally?',
-      discussion: 18,
-      cta: 'Discuss',
-    },
-    {
-      title: 'Topic: Choosing the right laptop or tablet for study',
-      description: 'Should I buy a MacBook Air M1 or an iPad Air for studying?',
-      discussion: 3,
-      cta: 'Discuss',
-    },
-  ],
   categories: ['Discussions', 'Critiques', 'Polls'],
   tags: ['#Community', '#Storytelling', '#PeerSupport'],
 }
 
+const config = computed(() => ({
+  ...baseConfig,
+  feed: posts.value,
+}))
+
 const formDefaults = {
   discussion: '0',
+  cta: 'Discuss',
+}
+
+const handleSubmit = (form) => {
+  communityPostsStore.addPost(form)
 }
 </script>
 
 <template>
-  <PillarLayout :config="config" :form-defaults="formDefaults" />
+  <PillarLayout :config="config" :form-defaults="formDefaults" @submit="handleSubmit">
+    <template #form-fields="{ formState }">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        Title
+        <input
+          v-model="formState.title"
+          type="text"
+          placeholder="Start a conversation topic"
+          class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+        />
+      </label>
+
+      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        Summary
+        <textarea
+          v-model="formState.description"
+          rows="3"
+          placeholder="Share the context or your story"
+          class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+        ></textarea>
+      </label>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          Starting discussions
+          <input
+            v-model="formState.discussion"
+            type="number"
+            min="0"
+            class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          />
+        </label>
+
+        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          Call to action
+          <input
+            v-model="formState.cta"
+            type="text"
+            placeholder="Discuss"
+            class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          />
+        </label>
+      </div>
+    </template>
+  </PillarLayout>
 </template>

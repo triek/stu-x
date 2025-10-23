@@ -1,8 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
-import { exchangePosts } from '@/data/exchangePosts'
+import { useExchangePostsStore } from '@/stores/exchangePosts'
 
 const categories = [
   {
@@ -52,8 +53,11 @@ const statusStyles = {
   closing: { label: '🟠 Closing Soon', classes: 'bg-amber-50 text-amber-600 border border-amber-200/70' },
 }
 
+const exchangePostsStore = useExchangePostsStore()
+const { posts } = storeToRefs(exchangePostsStore)
+
 const filteredPosts = computed(() =>
-  exchangePosts.filter((post) => post.category === activeCategory.value),
+  posts.value.filter((post) => post.category === activeCategory.value),
 )
 
 const activeCategoryMeta = computed(() =>
@@ -80,10 +84,22 @@ const config = computed(() => ({
   ...baseConfig,
   feed: filteredPosts.value,
 }))
+
+const formDefaults = computed(() => ({
+  category: activeCategory.value,
+  name: '',
+  reward: '10',
+  tags: '',
+}))
+
+const handleSubmit = (form) => {
+  const post = exchangePostsStore.addPost(form)
+  activeCategory.value = post.category
+}
 </script>
 
 <template>
-  <PillarLayout :config="config">
+  <PillarLayout :config="config" :form-defaults="formDefaults" @submit="handleSubmit">
     <template #feed="{ items, accent }">
       <!-- Main feed -->
       <div
@@ -213,6 +229,75 @@ const config = computed(() => ({
             </button>
           </div>
         </div>
+      </div>
+    </template>
+
+    <template #form-fields="{ formState }">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        Title
+        <input
+          v-model="formState.title"
+          type="text"
+          placeholder="Give it a headline"
+          class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+        />
+      </label>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          Host name
+          <input
+            v-model="formState.name"
+            type="text"
+            placeholder="Who is offering this?"
+            class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          />
+        </label>
+
+        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          Category
+          <select
+            v-model="formState.category"
+            class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          >
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{ category.label }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        Summary
+        <textarea
+          v-model="formState.description"
+          rows="3"
+          placeholder="Describe the offer"
+          class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+        ></textarea>
+      </label>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          Reward (Stunix)
+          <input
+            v-model="formState.reward"
+            type="number"
+            min="0"
+            step="5"
+            class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          />
+        </label>
+
+        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          Tags
+          <input
+            v-model="formState.tags"
+            type="text"
+            placeholder="#Mentorship, #Courses"
+            class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          />
+        </label>
       </div>
     </template>
   </PillarLayout>
