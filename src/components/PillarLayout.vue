@@ -22,8 +22,8 @@ const accentStyles = computed(() => ({
   '--pillar-ring-strong': accentWithAlpha('75'),
   '--pillar-ring-soft': accentWithAlpha('25'),
   '--pillar-ring-overlay': accentWithAlpha('50'),
-  '--pillar-shadow-banner': `0 30px 70px -30px ${accentWithAlpha('30')}`,
-  '--pillar-shadow-panel': `0 12px 32px -20px ${accentWithAlpha('35')}`,
+  '--pillar-shadow-banner': `0 30px 70px -30px ${accentWithAlpha('40')}`,
+  '--pillar-shadow-panel': `0 12px 32px -20px ${accentWithAlpha('45')}`,
   '--pillar-shadow-cta': `0 10px 16px ${accentWithAlpha('45')}`,
   '--pillar-shadow-cta-strong': `0 12px 24px ${accentWithAlpha('40')}`,
   '--pillar-surface-muted': accentWithAlpha('15'),
@@ -108,19 +108,32 @@ const closeSidebar = () => {
     </header>
 
     <!-- Side bar -->
-    <div class="grid gap-3 lg:grid-cols-[minmax(0,_260px)_1fr]">
-      <div class="grid gap-3 self-start lg:sticky lg:top-24">
+    <div
+      :class="[
+        'grid gap-3',
+        sidebarExpanded
+          ? 'lg:grid-cols-[minmax(0,_260px)_1fr]'
+          : 'lg:grid-cols-[max-content_1fr]'
+      ]"
+    >
+      <div
+        :class="[
+          'grid gap-3 self-start lg:top-24',
+          sidebarExpanded ? 'lg:sticky' : 'lg:sticky'
+        ]"
+      >
         <button
           v-if="!sidebarExpanded"
           type="button"
-          class="flex items-center justify-center rounded-3xl bg-white p-5 text-2xl shadow-panel ring-1 transition hover:ring-indigo-200"
-          :style="{ '--tw-ring-color': 'var(--pillar-ring-soft)' }"
+          class="flex h-16 w-full items-center justify-center rounded-3xl bg-white p-5 text-2xl shadow-panel ring-1 transition hover:ring-indigo-200 lg:mt-2 lg:h-18 lg:w-16 lg:rounded-3xl"
+          :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }"
           aria-label="Open sidebar"
           @click="openSidebar"
         >
           <span class="sr-only">Open sidebar</span>
           🔍
         </button>
+
         <aside
           v-else
           class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1"
@@ -142,7 +155,7 @@ const closeSidebar = () => {
               </button>
             </div>
             <div class="relative">
-              <span class="pointer-events-none absolute left-4 top-5.5 -translate-y-1/2 text-lg text-slate-400">🔍</span>
+              <span class="pointer-events-none absolute left-4 top-5 -translate-y-1/2 text-lg text-slate-400">🔍</span>
               <input
                 id="pillar-search"
                 type="search"
@@ -202,16 +215,16 @@ const closeSidebar = () => {
       <div class="grid gap-3">
         <!-- Create post prompt -->
         <div
-          class="rounded-2xl p-1"
+          class="rounded-4xl p-2"
           :style="{ backgroundColor: accentWithAlpha('20') }"
         >
           <button
             type="button"
-            class="flex w-full items-stretch rounded-xl bg-white shadow-panel ring-1"
+            class="flex w-full items-stretch rounded-3xl bg-white shadow-panel ring-1"
             :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }"
             @click="openForm"
           >
-            <div class="flex flex-1 items-center gap-4 px-6 py-5">
+            <div class="flex flex-1 items-center gap-4 px-6 py-3">
               <span class="grid h-12 w-12 place-items-center rounded-full bg-indigo-50 text-2xl" :style="{ color: accentColor }">
                 ✍️
               </span>
@@ -228,6 +241,7 @@ const closeSidebar = () => {
           </button>
         </div>
 
+        <!-- Feed -->
         <div class="grid gap-3">
           <slot name="feed" :items="config.feed" :accent="accentColor">
             <article
