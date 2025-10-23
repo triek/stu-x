@@ -115,11 +115,16 @@ const logout = () => {
 
   <!-- Footer -->
   <footer class="border-t border-indigo-100/50 bg-white/90 backdrop-blur-md">
-    <div class="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-5 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+    <div class="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-5 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold uppercase tracking-[0.08em] text-brand">StuX</span>
         <span class="text-xs text-slate-500">Built on Insight · Exchange · Community</span>
       </div>
+      <nav class="flex items-center gap-5 text-xs sm:text-sm text-slate-500">
+        <a class="transition-colors hover:text-brand" href="#">About</a>
+        <a class="transition-colors hover:text-brand" href="#">Terms</a>
+        <a class="transition-colors hover:text-brand" href="#">Contact</a>
+      </nav>
       <p class="text-xs sm:text-sm">
         <strong>StuX</strong> &copy; 2025 - The Human Insight Network.
       </p>
