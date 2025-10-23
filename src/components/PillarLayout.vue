@@ -49,6 +49,7 @@ watch(
 )
 
 const showForm = ref(false)
+const sidebarExpanded = ref(false)
 
 const resetFormState = () => {
   Object.assign(formState, defaultFormState.value)
@@ -65,6 +66,14 @@ const closeForm = () => {
 
 const submitForm = () => {
   closeForm()
+}
+
+const openSidebar = () => {
+  sidebarExpanded.value = true
+}
+
+const closeSidebar = () => {
+  sidebarExpanded.value = false
 }
 </script>
 
@@ -101,14 +110,37 @@ const submitForm = () => {
     <!-- Side bar -->
     <div class="grid gap-3 lg:grid-cols-[minmax(0,_260px)_1fr]">
       <div class="grid gap-3 self-start lg:sticky lg:top-24">
+        <button
+          v-if="!sidebarExpanded"
+          type="button"
+          class="flex items-center justify-center rounded-3xl bg-white p-5 text-2xl shadow-panel ring-1 transition hover:ring-indigo-200"
+          :style="{ '--tw-ring-color': 'var(--pillar-ring-soft)' }"
+          aria-label="Open sidebar"
+          @click="openSidebar"
+        >
+          <span class="sr-only">Open sidebar</span>
+          🔍
+        </button>
         <aside
+          v-else
           class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1"
           :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
           <!-- Search bar -->
           <div class="grid gap-3">
-            <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
-              Search
-            </label>
+            <div class="flex items-center justify-between gap-4">
+              <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
+                Search
+              </label>
+              <button
+                type="button"
+                class="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                aria-label="Close sidebar"
+                @click="closeSidebar"
+              >
+                <span class="sr-only">Close sidebar</span>
+                &times;
+              </button>
+            </div>
             <div class="relative">
               <span class="pointer-events-none absolute left-4 top-5.5 -translate-y-1/2 text-lg text-slate-400">🔍</span>
               <input
