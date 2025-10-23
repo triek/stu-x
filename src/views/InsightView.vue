@@ -1,8 +1,10 @@
 <script setup>
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
-import { insightPosts } from '@/data/insightPosts'
+import { useInsightPostsStore } from '@/stores/insightPosts'
 
 const statusStyles = {
   active: {
@@ -19,7 +21,10 @@ const statusStyles = {
   },
 }
 
-const config = {
+const insightPostsStore = useInsightPostsStore()
+const { posts } = storeToRefs(insightPostsStore)
+
+const baseConfig = {
   title: 'Insight',
   icon: '💡',
   accent: PILLAR_ACCENTS.insight,
@@ -32,8 +37,12 @@ const config = {
   sortFilters: ['Latest', 'Reward Points', 'Closing Soon'],
   actionLabel: 'Participate',
   createLabel: 'Request Insight',
-  feed: insightPosts,
 }
+
+const config = computed(() => ({
+  ...baseConfig,
+  feed: posts.value,
+}))
 
 const insightTypeOptions = [
   { value: 'academic', label: '🧪 Academic' },
@@ -73,10 +82,13 @@ const openDiscussion = (item) => {
     query: { showDiscussion: '1' },
   })
 }
+const handleSubmit = (form) => {
+  insightPostsStore.addPost(form)
+}
 </script>
 
 <template>
-  <PillarLayout :config="config" :form-defaults="formDefaults">
+  <PillarLayout :config="config" :form-defaults="formDefaults" @submit="handleSubmit">
     <template #feed="{ items, accent }">
       <article
         v-for="item in items"

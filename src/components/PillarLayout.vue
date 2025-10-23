@@ -13,6 +13,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['submit'])
+
 const accentColor = computed(() => props.config.accent ?? '#4338ca')
 
 const accentWithAlpha = (alphaHex) => withAlpha(accentColor.value, alphaHex)
@@ -65,6 +67,8 @@ const closeForm = () => {
 }
 
 const submitForm = () => {
+  emit('submit', { ...formState })
+  resetFormState()
   closeForm()
 }
 

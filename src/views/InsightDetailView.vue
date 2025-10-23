@@ -1,10 +1,11 @@
 <script setup>
 import { computed, reactive, ref, watch, onBeforeUnmount, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
-import { insightPosts } from '@/data/insightPosts'
 import { useInsightDiscussionsStore } from '@/stores/insightDiscussions'
+import { useInsightPostsStore } from '@/stores/insightPosts'
 
 const statusStyles = {
   active: {
@@ -25,6 +26,8 @@ const route = useRoute()
 const router = useRouter()
 
 const discussionsStore = useInsightDiscussionsStore()
+const insightPostsStore = useInsightPostsStore()
+const { posts } = storeToRefs(insightPostsStore)
 
 const isDiscussionOpen = ref(false)
 const isSubmittingQuestion = ref(false)
@@ -76,9 +79,7 @@ const shouldAutoOpenDiscussion = computed(() => {
 
 const accent = PILLAR_ACCENTS.insight
 
-const post = computed(() =>
-  insightPosts.find((item) => item.id === route.params.id)
-)
+const post = computed(() => posts.value.find((item) => item.id === route.params.id))
 
 const discussionThreads = computed(() => {
   if (!post.value?.id) return []
