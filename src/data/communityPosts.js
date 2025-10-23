@@ -1,0 +1,68 @@
+export const communityPosts = [
+  {
+    id: 'topic-first-year-essentials',
+    title: 'Topic: What to buy for first-year students?',
+    description: 'Recommend essentials and share tips for incoming students.',
+    discussion: 22,
+    cta: 'Discuss',
+  },
+  {
+    id: 'topic-friends-at-university',
+    title: 'Topic: Friends at university is not as expected',
+    description: 'My experience when making friends in uni felt so different from high school.',
+    discussion: 10,
+    cta: 'Discuss',
+  },
+  {
+    id: 'poll-macbook-vs-windows',
+    title: 'Poll: MacBook vs Windows laptop for programming',
+    description: 'Share which one you use for your coding courses.',
+    discussion: 12,
+    cta: 'Vote',
+  },
+  {
+    id: 'topic-lenovo-vs-hp',
+    title: 'Topic: Lenovo IdeaPad Slim 5 or HP Pavilion for CS students?',
+    description:
+      'Both are around the same price with 16GB RAM. Im not sure which is more reliable for running heavy tools like Docker or IntelliJ.',
+    discussion: 10,
+    cta: 'Discuss',
+  },
+  {
+    id: 'topic-best-online-tools',
+    title: 'Topic: Best free online tools for students',
+    description: 'List websites or apps that help with writing, coding, referencing, or time tracking.',
+    discussion: 11,
+    cta: 'Discuss',
+  },
+  {
+    id: 'topic-student-discounts',
+    title: 'Topic: Student discounts',
+    description:
+      'Share the best student deals on food, transport, software, and entertainment that others might not know about.',
+    discussion: 4,
+    cta: 'Discuss',
+  },
+  {
+    id: 'topic-managing-money',
+    title: 'Topic: Managing money on a student budget',
+    description: 'How do you plan weekly expenses, track spending, and save while studying?',
+    discussion: 6,
+    cta: 'Discuss',
+  },
+  {
+    id: 'topic-group-assignments',
+    title: 'Topic: Group assignments and how to deal with unresponsive teammates',
+    description:
+      'What is your experiences and strategies for keeping projects on track when not everyone contributes equally?',
+    discussion: 18,
+    cta: 'Discuss',
+  },
+  {
+    id: 'topic-choosing-laptop',
+    title: 'Topic: Choosing the right laptop or tablet for study',
+    description: 'Should I buy a MacBook Air M1 or an iPad Air for studying?',
+    discussion: 3,
+    cta: 'Discuss',
+  },
+]
