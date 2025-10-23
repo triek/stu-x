@@ -169,25 +169,32 @@ const submitForm = () => {
 
       <div class="grid gap-3">
         <!-- Create post prompt -->
-        <button
-          type="button"
-          class="flex items-center rounded-2xl bg-white p-6 shadow-panel ring-1"
-          :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }"
-          @click="openForm"
+        <div
+          class="rounded-2xl p-1"
+          :style="{ backgroundColor: accentWithAlpha('20') }"
         >
-          <span class="grid h-12 w-12 place-items-center rounded-full bg-indigo-50 text-2xl" :style="{ color: accentColor }">
-            ✍️
-          </span>
-          <span class="flex-1 text-base font-medium text-slate-500">
-            {{ config.createPlaceholder ?? `Share something with the ${config.title} Hub...` }}
-          </span>
-          <span
-            class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white"
-            :style="{ backgroundColor: accentColor }"
+          <button
+            type="button"
+            class="flex w-full items-stretch rounded-xl bg-white shadow-panel ring-1"
+            :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }"
+            @click="openForm"
           >
-            {{ config.createAction ?? 'Create post' }}
-          </span>
-        </button>
+            <div class="flex flex-1 items-center gap-4 px-6 py-5">
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-indigo-50 text-2xl" :style="{ color: accentColor }">
+                ✍️
+              </span>
+              <span class="flex-1 text-base font-medium text-slate-500">
+                {{ config.createPlaceholder ?? `Share something with the ${config.title} Hub...` }}
+              </span>
+              <span
+                class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white"
+                :style="{ backgroundColor: accentColor }"
+              >
+                {{ config.createAction ?? 'Create post' }}
+              </span>
+            </div>
+          </button>
+        </div>
 
         <div class="grid gap-3">
           <slot name="feed" :items="config.feed" :accent="accentColor">
