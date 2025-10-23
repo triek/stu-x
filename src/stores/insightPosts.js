@@ -10,7 +10,7 @@ const createId = () => `insight-${Date.now()}-${Math.random().toString(36).slice
 const TYPE_META = {
   academic: { icon: '🧪', label: 'Academic', color: '#4338ca' },
   product: { icon: '💬', label: 'Product Feedback', color: '#0f766e' },
-  project: { icon: '��', label: 'Student Project', color: '#db2777' },
+  project: { icon: '🎓', label: 'Student Project', color: '#db2777' },
 }
 
 const getTypeMeta = (type) => TYPE_META[type] ?? TYPE_META.academic
@@ -69,7 +69,7 @@ const createPostFromForm = (form = {}) => {
   const details = []
 
   if (duration) {
-    details.push(`�� ${duration} min`)
+    details.push(`🕓 ${duration} min`)
   }
 
   if (reward) {
