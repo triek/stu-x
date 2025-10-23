@@ -24,8 +24,8 @@ const accentStyles = computed(() => ({
   '--pillar-ring-overlay': accentWithAlpha('50'),
   '--pillar-shadow-banner': `0 30px 70px -30px ${accentWithAlpha('30')}`,
   '--pillar-shadow-panel': `0 12px 32px -20px ${accentWithAlpha('35')}`,
-  '--pillar-shadow-cta': `0 18px 32px ${accentWithAlpha('45')}`,
-  '--pillar-shadow-cta-strong': `0 20px 36px ${accentWithAlpha('40')}`,
+  '--pillar-shadow-cta': `0 10px 16px ${accentWithAlpha('45')}`,
+  '--pillar-shadow-cta-strong': `0 12px 24px ${accentWithAlpha('40')}`,
   '--pillar-surface-muted': accentWithAlpha('15'),
 }))
 
@@ -72,9 +72,10 @@ const submitForm = () => {
   <section class="flex flex-col gap-3" :style="accentStyles">
     <!-- Banner -->
     <header
-      class="grid gap-6 grid-cols-2 rounded-3xl bg-white p-8 shadow-banner ring-1"
+      class="grid gap-6 sm:grid-cols-2 rounded-3xl bg-white p-8 shadow-banner ring-1"
       :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
 
+      <!-- Headline -->
       <div class="grid gap-3">
         <div class="flex items-center gap-4">
           <span class="text-5xl md:text-6xl">{{ config.icon }}</span>
@@ -86,6 +87,7 @@ const submitForm = () => {
         </p>
       </div>
 
+      <!-- Highlights -->
       <div v-if="config.highlights?.length" class="flex flex-col items-end gap-3 self-start justify-self-end text-sm text-slate-600">
         <span
           v-for="highlight in config.highlights"
@@ -98,72 +100,95 @@ const submitForm = () => {
 
     <!-- Side bar -->
     <div class="grid gap-3 lg:grid-cols-[minmax(0,_260px)_1fr]">
-      <aside
-        class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1 self-start lg:sticky lg:top-24"
-        :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
-        <!-- Search bar -->
-        <div class="grid gap-3">
-          <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
-            Search
-          </label>
-          <div class="relative">
-            <span class="pointer-events-none absolute left-4 top-9 -translate-y-1/2 text-lg text-slate-400">🔍</span>
-            <input
-              id="pillar-search"
-              type="search"
-              placeholder="Search topics or tags..."
-              class="w-full rounded-full border border-slate-200 px-4 py-2.5 pl-11 text-sm text-slate-700 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
-            />
+      <div class="grid gap-3 self-start lg:sticky lg:top-24">
+        <aside
+          class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1"
+          :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
+          <!-- Search bar -->
+          <div class="grid gap-3">
+            <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
+              Search
+            </label>
+            <div class="relative">
+              <span class="pointer-events-none absolute left-4 top-5.5 -translate-y-1/2 text-lg text-slate-400">🔍</span>
+              <input
+                id="pillar-search"
+                type="search"
+                placeholder="Search topics or tags..."
+                class="w-full rounded-full border border-slate-200 px-4 py-2.5 pl-11 text-sm text-slate-700 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- Categories -->
-        <div v-if="config.categories?.length" class="grid gap-3">
-          <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</h3>
-          <nav class="grid gap-2 text-sm font-medium text-slate-600">
-            <div class="grid gap-3 lg:grid-cols-1 sm:grid-cols-3">
-              <button
-                v-for="category in config.categories"
-                :key="category"
-                type="button"
-                class="rounded-2xl border border-indigo-100/70 px-4 py-2 text-left transition hover:border-indigo-200 hover:text-brand"
+          <!-- Categories -->
+          <div v-if="config.categories?.length" class="grid gap-3">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</h3>
+            <nav class="grid gap-2 text-sm font-medium text-slate-600">
+              <div class="grid gap-3 lg:grid-cols-1 sm:grid-cols-3">
+                <button
+                  v-for="category in config.categories"
+                  :key="category"
+                  type="button"
+                  class="rounded-2xl border border-indigo-100/70 px-4 py-2 text-left transition hover:border-indigo-200 hover:text-brand"
+                >
+                  {{ category }}
+                </button>
+              </div>
+            </nav>
+          </div>
+
+          <!-- Tags -->
+          <div v-if="config.tags?.length" class="grid gap-3">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Tags</h3>
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="tag in config.tags"
+                :key="tag"
+                class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
               >
-                {{ category }}
+                {{ tag }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Sort by -->
+          <div class="grid gap-3">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Sort by</h3>
+            <div class="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
+              <button
+                v-for="sort in config.sortFilters ?? ['Latest', 'Most Popular', 'Reward Points']"
+                :key="sort"
+                type="button"
+                class="rounded-full border border-indigo-100/80 px-4 py-2 transition hover:border-indigo-200 hover:text-brand">
+                {{ sort }}
               </button>
             </div>
-          </nav>
-        </div>
-
-        <!-- Tags -->
-        <div v-if="config.tags?.length" class="grid gap-3">
-          <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Tags</h3>
-          <div class="flex flex-wrap gap-2">
-            <span
-              v-for="tag in config.tags"
-              :key="tag"
-              class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
-            >
-              {{ tag }}
-            </span>
           </div>
-        </div>
+        </aside>
+      </div>
 
-        <!-- Sort by -->
-        <div class="grid gap-3">
-          <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Sort by</h3>
-          <div class="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
-            <button
-              v-for="sort in config.sortFilters ?? ['Latest', 'Most Popular', 'Reward Points']"
-              :key="sort"
-              type="button"
-              class="rounded-full border border-indigo-100/80 px-4 py-2 transition hover:border-indigo-200 hover:text-brand">
-              {{ sort }}
-            </button>
-          </div>
-        </div>
-      </aside>
+      <div class="grid gap-3">
+        <!-- Create post prompt -->
+        <button
+          type="button"
+          class="flex items-center rounded-2xl bg-white p-6 shadow-panel ring-1"
+          :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }"
+          @click="openForm"
+        >
+          <span class="grid h-12 w-12 place-items-center rounded-full bg-indigo-50 text-2xl" :style="{ color: accentColor }">
+            ✍️
+          </span>
+          <span class="flex-1 text-base font-medium text-slate-500">
+            {{ config.createPlaceholder ?? `Share something with the ${config.title} Hub...` }}
+          </span>
+          <span
+            class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white"
+            :style="{ backgroundColor: accentColor }"
+          >
+            {{ config.createAction ?? 'Create post' }}
+          </span>
+        </button>
 
-      <div class="grid gap-6">
         <div class="grid gap-3">
           <slot name="feed" :items="config.feed" :accent="accentColor">
             <article
@@ -201,21 +226,6 @@ const submitForm = () => {
             </article>
           </slot>
         </div>
-
-        <!-- Create post button -->
-        <footer class="flex justify-end">
-          <button
-            type="button"
-            class="inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-            @click="openForm"
-            :style="{
-              backgroundImage: `linear-gradient(135deg, ${accentColor}, ${accentWithAlpha('cc')})`,
-              boxShadow: 'var(--pillar-shadow-cta-strong)',
-            }"
-          >
-            {{ config.createLabel ?? `Create ${config.title} Post` }}
-          </button>
-        </footer>
       </div>
     </div>
 
