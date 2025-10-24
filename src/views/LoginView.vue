@@ -64,14 +64,14 @@ onMounted(() => {
       @submit.prevent="handleSubmit"
     >
       <div class="grid gap-2">
-        <label for="username" class="text-sm font-semibold text-slate-700">Username</label>
+        <label for="username" class="text-sm font-semibold text-slate-700">Username or email</label>
         <input
           id="username"
           type="text"
           name="username"
           autocomplete="username"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-          placeholder="admin"
+          placeholder="you@example.com"
           v-model="username"
         />
       </div>
