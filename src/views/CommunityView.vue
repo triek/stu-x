@@ -1,12 +1,106 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useCommunityPostsStore } from '@/stores/communityPosts'
+import { useCommunityDiscussionsStore } from '@/stores/communityDiscussions'
 
 const communityPostsStore = useCommunityPostsStore()
+const communityDiscussionsStore = useCommunityDiscussionsStore()
 const { posts } = storeToRefs(communityPostsStore)
+
+const openThreads = reactive({})
+const commentDrafts = reactive({})
+
+watchEffect(() => {
+  posts.value.forEach((post) => {
+    if (!post?.id) return
+
+    if (!(post.id in openThreads)) {
+      openThreads[post.id] = false
+    }
+
+    if (!(post.id in commentDrafts)) {
+      commentDrafts[post.id] = {
+        name: '',
+        role: '',
+        message: '',
+        expanded: false,
+      }
+    }
+  })
+})
+
+const parseCount = (value) => {
+  const number = Number.parseInt(value, 10)
+  return Number.isNaN(number) || number < 0 ? 0 : number
+}
+
+const getComments = (postId) => communityDiscussionsStore.getComments(postId) ?? []
+
+const getTopComment = (postId) => {
+  const comments = getComments(postId)
+  if (!comments.length) return null
+
+  return comments.reduce((best, comment) => {
+    if (!best) return comment
+
+    const bestScore = Number.parseInt(best.upvotes, 10)
+    const commentScore = Number.parseInt(comment.upvotes, 10)
+
+    const normalizedBest = Number.isNaN(bestScore) ? 0 : bestScore
+    const normalizedComment = Number.isNaN(commentScore) ? 0 : commentScore
+
+    return normalizedComment > normalizedBest ? comment : best
+  }, null)
+}
+
+const formatDiscussionCount = (post) => {
+  const commentCount = getComments(post.id).length
+  const baseCount = parseCount(post.discussion)
+  const count = Math.max(baseCount, commentCount)
+  const suffix = count === 1 ? 'Discussion' : 'Discussions'
+  return `${count} ${suffix}`
+}
+
+const expandDraft = (postId) => {
+  if (!commentDrafts[postId]) return
+  commentDrafts[postId].expanded = true
+}
+
+const resetDraft = (postId) => {
+  const draft = commentDrafts[postId]
+  if (!draft) return
+
+  draft.name = ''
+  draft.role = ''
+  draft.message = ''
+  draft.expanded = false
+}
+
+const toggleThread = (postId) => {
+  if (!(postId in openThreads)) return
+  openThreads[postId] = !openThreads[postId]
+
+  if (!openThreads[postId]) {
+    resetDraft(postId)
+  }
+}
+
+const submitComment = (postId) => {
+  const draft = commentDrafts[postId]
+  if (!draft?.message.trim()) return
+
+  communityDiscussionsStore.addComment(postId, {
+    author: draft.name,
+    role: draft.role,
+    message: draft.message,
+  })
+
+  communityPostsStore.incrementDiscussionCount(postId, 1)
+  resetDraft(postId)
+}
 
 const baseConfig = {
   title: 'Community',
@@ -42,6 +136,198 @@ const handleSubmit = (form) => {
 
 <template>
   <PillarLayout :config="config" :form-defaults="formDefaults" @submit="handleSubmit">
+    <template #feed="{ items, accent }">
+      <article
+        v-for="item in items"
+        :key="item.id"
+        class="grid gap-5 rounded-3xl bg-white p-6 shadow-panel ring-1"
+        :style="{ '--tw-ring-color': `${accent}80` }"
+      >
+        <header class="flex items-start gap-4">
+          <span class="text-3xl">💬</span>
+          <div class="space-y-2">
+            <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
+            <p class="text-slate-600">{{ item.description }}</p>
+          </div>
+        </header>
+
+        <div v-if="item.tags?.length" class="flex flex-wrap gap-2">
+          <span
+            v-for="tag in item.tags"
+            :key="tag"
+            class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
+          >
+            #{{ tag }}
+          </span>
+        </div>
+
+        <section
+          v-if="!openThreads[item.id] && getTopComment(item.id)"
+          class="grid gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/60 p-4"
+        >
+          <header class="text-xs font-semibold text-slate-500">
+            <span class="text-slate-700">{{ getTopComment(item.id).author }}</span>
+            <span v-if="getTopComment(item.id).role"> · {{ getTopComment(item.id).role }}</span>
+            <span> · {{ getTopComment(item.id).timeAgo }}</span>
+          </header>
+
+          <p class="text-sm leading-relaxed text-slate-700">
+            {{ getTopComment(item.id).message }}
+          </p>
+
+          <footer class="flex items-center gap-2">
+            <span
+              v-if="parseCount(getTopComment(item.id).upvotes) > 0"
+              class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-green-600"
+            >
+              ▲ {{ parseCount(getTopComment(item.id).upvotes) }}
+            </span>
+            <span
+              v-if="parseCount(getTopComment(item.id).upvotes) > 0"
+              class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-red-600"
+            >
+              ▼ {{ parseCount(getTopComment(item.id).downvotes) }}
+            </span>
+          </footer>
+        </section>
+
+        <footer class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 px-5 py-4">
+          <span class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
+            <span></span>
+            <span>{{ formatDiscussionCount(item) }}</span>
+          </span>
+
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+            :style="{ backgroundColor: accent, boxShadow: `0 18px 32px ${accent}35` }"
+            @click="toggleThread(item.id)"
+          >
+            <span v-if="openThreads[item.id]">Hide discussion</span>
+            <span v-else>💬 Discuss</span>
+          </button>
+        </footer>
+
+        <transition name="fade">
+          <section
+            v-if="openThreads[item.id]"
+            class="grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5"
+          >
+            <header class="flex items-center justify-between">
+              <h4 class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Community discussion
+              </h4>
+              <span class="text-xs font-semibold text-slate-500">{{ formatDiscussionCount(item) }}</span>
+            </header>
+
+            <ul v-if="getComments(item.id).length" class="grid gap-3">
+              <li
+                v-for="comment in getComments(item.id)"
+                :key="comment.id"
+                class="grid gap-2 rounded-2xl border border-slate-200 bg-white p-4"
+              >
+                <div class="flex items-start justify-between gap-3">
+                  <div class="grid gap-1">
+                    <p class="text-sm font-semibold text-slate-700">{{ comment.author }}</p>
+                    <p class="text-xs text-slate-500">
+                      <span v-if="comment.role">{{ comment.role }} · </span>{{ comment.timeAgo }}
+                    </p>
+                  </div>
+
+                  <span
+                    v-if="parseCount(comment.upvotes) > 0"
+                    class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600"
+                  >
+                    ▲ {{ parseCount(comment.upvotes) }}
+                  </span>
+                </div>
+
+                <p class="whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ comment.message }}</p>
+              </li>
+            </ul>
+
+            <p v-else class="text-sm italic text-slate-500">Be the first to add a comment.</p>
+
+            <form
+              v-if="commentDrafts[item.id]"
+              :class="[
+                'grid',
+                commentDrafts[item.id].expanded
+                  ? 'gap-3 rounded-2xl border border-dashed border-indigo-200 bg-white p-4'
+                  : ''
+              ]"
+              @submit.prevent="submitComment(item.id)"
+            >
+              <label :class="['grid', commentDrafts[item.id].expanded ? 'gap-2' : '']">
+                <span
+                  v-if="commentDrafts[item.id].expanded"
+                  class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1"
+                >
+                  Add to the discussion
+                </span>
+
+                <textarea
+                  v-model="commentDrafts[item.id].message"
+                  :rows="commentDrafts[item.id].expanded ? 3 : 1"
+                  placeholder="Share your experience or advice"
+                  class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                  @focus="expandDraft(item.id)"
+                  @click="expandDraft(item.id)"
+                  @input="expandDraft(item.id)"
+                ></textarea>
+              </label>
+
+              <div v-if="commentDrafts[item.id].expanded" class="grid gap-2 sm:grid-cols-2">
+                <label class="grid gap-2">
+                  <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                    Your name
+                  </span>
+
+                  <input
+                    v-model="commentDrafts[item.id].name"
+                    type="text"
+                    placeholder="Add your name"
+                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                  />
+                </label>
+
+                <label class="grid gap-2">
+                  <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                    Role or affiliation
+                  </span>
+
+                  <input
+                    v-model="commentDrafts[item.id].role"
+                    type="text"
+                    placeholder="e.g. Peer mentor"
+                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                  />
+                </label>
+              </div>
+
+              <div v-if="commentDrafts[item.id].expanded" class="flex justify-end gap-3">
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+                  @click="resetDraft(item.id)"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                  :disabled="!commentDrafts[item.id].message.trim()"
+                >
+                  Post comment
+                </button>
+              </div>
+            </form>
+          </section>
+        </transition>
+      </article>
+    </template>
+
     <template #form-fields="{ formState }">
       <label class="grid gap-2 text-sm font-semibold text-slate-800">
         Title
@@ -87,3 +373,15 @@ const handleSubmit = (form) => {
     </template>
   </PillarLayout>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
