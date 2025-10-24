@@ -3,7 +3,7 @@ export const insightPosts = [
     id: 'academic-ai-study-workflows',
     type: { icon: '🧪', label: 'Academic' },
     typeColor: '#4338ca',
-    author: 'Mira Tran (Deakin University)',
+    author: 'Aline Tran (Deakin University)',
     title: 'How Students Use AI in Study Workflows',
     subtitle: 'A 5-minute study exploring how AI tools affect student focus and productivity.',
     details: ['🕓 5 min', '☕ +10 Stunix', '📅 Open until 20 Oct 2025'],

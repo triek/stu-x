@@ -10,7 +10,7 @@ export const insightDiscussions = {
       answers: [
         {
           id: 'answer-1',
-          author: 'Mira Tran',
+          author: 'Aline Tran',
           role: 'Host · Deakin University',
           timeAgo: '1h ago',
           message:
@@ -28,7 +28,7 @@ export const insightDiscussions = {
       answers: [
         {
           id: 'answer-2',
-          author: 'Mira Tran',
+          author: 'Aline Tran',
           role: 'Host · Deakin University',
           timeAgo: '3h ago',
           message:

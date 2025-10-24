@@ -217,8 +217,8 @@ const handleSubmit = (form) => {
             class="flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-slate-300 bg-white/60 p-10 text-center text-slate-500">
             <span class="text-4xl">🛎️</span>
 
-            <p class="text-base font-semibold">No offers in this category yet</p>
-            <p class="text-sm text-slate-500">Be the first to create a listing and earn Stunix from the community.</p>
+            <p class="text-base font-semibold">No offers match the current filters</p>
+            <p class="text-sm text-slate-500">Try adjusting your search or be the first to create an offer.</p>
 
             <!-- Create post button -->
             <button

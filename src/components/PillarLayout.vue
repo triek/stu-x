@@ -375,7 +375,7 @@ const submitForm = () => {
     <!-- Side bar -->
     <div
       :class="[
-        'grid gap-3',
+        'grid gap-3 items-start',
         sidebarExpanded
           ? 'lg:grid-cols-[minmax(0,_260px)_1fr]'
           : 'lg:grid-cols-[max-content_1fr]'
@@ -425,12 +425,28 @@ const submitForm = () => {
         <!-- Feed -->
         <div class="grid gap-3">
           <slot name="feed" :items="filteredFeed" :accent="accentColor" :filters="activeFilters">
-            <p
-              v-if="!filteredFeed.length"
-              class="rounded-3xl border border-dashed border-slate-200 px-6 py-12 text-center text-sm font-semibold text-slate-500"
-            >
-              No posts match the current filters. Try adjusting your search or tags.
-            </p>
+            <!-- No item in category -->
+            <div
+              class="grid gap-6 rounded-3xl bg-white/80 p-6 shadow-panel ring-1"
+              :style="{ '--tw-ring-color': `var(--pillar-ring-soft)` }">
+              <div
+                v-if="!filteredFeed.length"
+                class="flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-slate-300 bg-white/60 p-10 text-center text-slate-500">
+                <span class="text-4xl">🛎️</span>
+
+                <p class="text-base font-semibold">No posts match the current filters</p>
+                <p class="text-sm text-slate-500">Try adjusting your search or be the first to create a post and earn Stunix from the community.</p>
+
+                <!-- Create post button -->
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+                  :style="{ backgroundColor: accentColor, boxShadow: `0 18px 32px ${accent}35` }">
+                  ➕ Create Offer
+                </button>
+              </div>
+            </div>
+
             <article
               v-for="item in filteredFeed"
               :key="item.title ?? item.id"
