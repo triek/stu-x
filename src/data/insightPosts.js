@@ -6,7 +6,7 @@ export const insightPosts = [
     author: 'Mira Tran (Deakin University)',
     title: 'How Students Use AI in Study Workflows',
     subtitle: 'A 5-minute study exploring how AI tools affect student focus and productivity.',
-    details: ['🕓 5 min', '💎 +10 Stunix', '📅 Open until 20 Oct 2025'],
+    details: ['🕓 5 min', '☕ +10 Stunix', '📅 Open until 20 Oct 2025'],
     tags: ['AI', 'StudyHabits', 'Education'],
     stats: [
       { icon: '📊', label: '86 participants' },
@@ -21,7 +21,7 @@ export const insightPosts = [
     author: 'Samira Patel (Campus Tech Lab)',
     title: 'Beta Test: FocusFlow Mobile Study Planner',
     subtitle: 'Share quick reactions on notification timing, UI clarity, and study streak rewards.',
-    details: ['🕓 8 min', '💎 +15 Stunix', '📅 Open until 12 Sep 2025'],
+    details: ['🕓 8 min', '☕ +15 Stunix', '📅 Open until 12 Sep 2025'],
     tags: ['ProductFeedback', 'MobileUX', 'Habits'],
     stats: [
       { icon: '📊', label: '54 participants' },
@@ -36,7 +36,7 @@ export const insightPosts = [
     author: 'Leo Gardner (RMIT)',
     title: 'Reflection: Mapping Peer Mentorship Journeys',
     subtitle: 'Looking for stories that unpack how mentorship programs change student confidence.',
-    details: ['🕓 12 min', '💎 +20 Stunix', '📅 Closed 01 Aug 2025'],
+    details: ['🕓 12 min', '☕ +20 Stunix', '📅 Closed 01 Aug 2025'],
     tags: ['Mentorship', 'QualResearch', 'StudentLife'],
     stats: [
       { icon: '📊', label: '102 participants' },
@@ -51,7 +51,7 @@ export const insightPosts = [
     author: 'Dr. Cora Yin (Monash)',
     title: 'Neurodiverse Note-Taking Strategies',
     subtitle: 'Share what tools support focus, retention, and collaboration in lectures.',
-    details: ['🕓 6 min', '💎 +12 Stunix', '📅 Open until 03 Nov 2025'],
+    details: ['🕓 6 min', '☕ +12 Stunix', '📅 Open until 03 Nov 2025'],
     tags: ['Neurodiversity', 'LearningDesign', 'Accessibility'],
     stats: [
       { icon: '📊', label: '41 participants' },
@@ -66,7 +66,7 @@ export const insightPosts = [
     author: 'Campus Services Innovation Lab',
     title: 'Prototype: AR Campus Navigation',
     subtitle: 'Walk through a guided AR tour and rate clarity of signage, prompts, and map overlays.',
-    details: ['🕓 10 min', '💎 +18 Stunix', '📅 Open until 28 Sep 2025'],
+    details: ['🕓 10 min', '☕ +18 Stunix', '📅 Open until 28 Sep 2025'],
     tags: ['AR', 'CampusLife', 'Wayfinding'],
     stats: [
       { icon: '📊', label: '32 participants' },
@@ -81,7 +81,7 @@ export const insightPosts = [
     author: 'Anika Bose (UNSW Green Studio)',
     title: 'Sustainable Studio Habits Audit',
     subtitle: 'Help map energy use and material swaps in creative studios to inform next year’s toolkit.',
-    details: ['🕓 9 min', '💎 +16 Stunix', '📅 Closing 14 Oct 2025'],
+    details: ['🕓 9 min', '☕ +16 Stunix', '📅 Closing 14 Oct 2025'],
     tags: ['Sustainability', 'DesignThinking', 'Studios'],
     stats: [
       { icon: '📊', label: '27 participants' },

@@ -96,7 +96,7 @@ const createPostFromForm = (form = {}) => {
   const details = []
 
   if (reward > 0) {
-    details.push(`🍵 +${reward} Stunix`)
+    details.push(`☕ +${reward} Stunix`)
   }
 
   details.push('🆕 Community submission')

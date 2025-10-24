@@ -8,7 +8,7 @@ export const exchangePosts = [
     name: 'Mira Tran (Deakin University)',
     title: '1-on-1 Python Debugging Session for Beginners',
     summary: '30-minute session to solve code issues and learn core debugging steps.',
-    details: ['💎 +10 Stunix', '⏰ Weekends only', '⭐ 5.0 (12 reviews)'],
+    details: ['☕ +10 Stunix', '⏰ Weekends only', '⭐ 5.0 (12 reviews)'],
     tags: ['Python', 'Mentorship', 'CodingHelp'],
     actions: [
       { icon: '👤', label: 'View Profile' },
@@ -24,7 +24,7 @@ export const exchangePosts = [
     name: 'Ethan Cho (ANU)',
     title: 'Applied Machine Learning Portfolio Review',
     summary: 'Get feedback on ML side-projects, model choices, and future directions.',
-    details: ['💎 +18 Stunix', '📅 Weeknights', '⭐ 4.9 (31 reviews)'],
+    details: ['☕ +18 Stunix', '📅 Weeknights', '⭐ 4.9 (31 reviews)'],
     tags: ['MachineLearning', 'Career', 'Portfolio'],
     actions: [
       { icon: '👤', label: 'View Profile' },
@@ -40,7 +40,7 @@ export const exchangePosts = [
     name: 'Rachel Tan (UTS)',
     title: 'Creative Coding for Interactive Media',
     summary: 'Learn how to bring art and code together using p5.js and motion libraries.',
-    details: ['💎 +20 Stunix', '🎨 Visual learners welcome', '⭐ 5.0 (17 reviews)'],
+    details: ['☕ +20 Stunix', '🎨 Visual learners welcome', '⭐ 5.0 (17 reviews)'],
     tags: ['CreativeCoding', 'JavaScript', 'ArtTech'],
     actions: [
       { icon: '👤', label: 'View Profile' },
@@ -56,7 +56,7 @@ export const exchangePosts = [
     name: 'David Kumar (UNSW)',
     title: 'System Design Mock Interview (Tech Career Prep)',
     summary: '1-hour session to prepare for system design interviews and tech communication.',
-    details: ['💎 +28 Stunix', '📅 Flexible hours', '⭐ 4.9 (24 reviews)'],
+    details: ['☕ +28 Stunix', '📅 Flexible hours', '⭐ 4.9 (24 reviews)'],
     tags: ['SystemDesign', 'CareerPrep', 'Interviews'],
     actions: [
       { icon: '👤', label: 'View Profile' },
@@ -74,7 +74,7 @@ export const exchangePosts = [
     name: 'Alyssa Lee (UniMelb)',
     title: 'Linear Algebra Concept Clinic',
     summary: 'Small-group tutorials covering eigenvalues, diagonalisation, and proofs.',
-    details: ['💎 +15 Stunix', '👥 Max 5 students', '⭐ 4.8 (22 reviews)'],
+    details: ['☕ +15 Stunix', '👥 Max 5 students', '⭐ 4.8 (22 reviews)'],
     tags: ['Maths', 'LinearAlgebra', 'PeerSupport'],
     actions: [
       { icon: '📅', label: 'See Schedule' },
@@ -90,7 +90,7 @@ export const exchangePosts = [
     name: 'Laila Singh (UTS)',
     title: 'Biostatistics Problem Set Lab',
     summary: 'Weekly review of lab assignments and R workflows tailored to your syllabus.',
-    details: ['💎 +12 Stunix', '🧪 Bring your data', '⭐ 5.0 (9 reviews)'],
+    details: ['☕ +12 Stunix', '🧪 Bring your data', '⭐ 5.0 (9 reviews)'],
     tags: ['Biostatistics', 'RStats', 'Labs'],
     actions: [
       { icon: '📅', label: 'See Schedule' },
@@ -106,7 +106,7 @@ export const exchangePosts = [
     name: 'Noah Lim (QUT)',
     title: 'C++ Fundamentals Study Jam',
     summary: 'Practice loops, arrays, and pointers through coding challenges and live Q&A.',
-    details: ['💎 +10 Stunix', '🧠 Weekly exercises', '⭐ 4.8 (20 reviews)'],
+    details: ['☕ +10 Stunix', '🧠 Weekly exercises', '⭐ 4.8 (20 reviews)'],
     tags: ['Programming', 'C++', 'StudyGroup'],
     actions: [
       { icon: '📅', label: 'See Schedule' },
@@ -122,7 +122,7 @@ export const exchangePosts = [
     name: 'Emily Roberts (Griffith University)',
     title: 'Genetics Exam Review Crash Session',
     summary: 'Review common exam pitfalls and strategies for gene mapping and inheritance.',
-    details: ['💎 +14 Stunix', '🧬 Final exam prep', '⭐ 5.0 (13 reviews)'],
+    details: ['☕ +14 Stunix', '🧬 Final exam prep', '⭐ 5.0 (13 reviews)'],
     tags: ['Biology', 'Genetics', 'ExamHelp'],
     actions: [
       { icon: '📅', label: 'See Schedule' },
@@ -140,7 +140,7 @@ export const exchangePosts = [
     name: 'Kevin Zhou (RMIT University)',
     title: 'Design Your First Web Portfolio (2-Session Workshop)',
     summary: 'Learn HTML and Tailwind basics through hands-on practice.',
-    details: ['💎 +25 Stunix', '2 × 1-hour sessions', '⭐ 4.9 (18 learners)'],
+    details: ['☕ +25 Stunix', '2 × 1-hour sessions', '⭐ 4.9 (18 learners)'],
     tags: ['WebDesign', 'Tailwind', 'UIUX'],
     actions: [
       { icon: '📖', label: 'View Details' },
@@ -156,7 +156,7 @@ export const exchangePosts = [
     name: 'Sofia Mendez (La Trobe)',
     title: 'Podcasting for Researchers Crash Course',
     summary: 'Plan, record, and distribute a research podcast in four guided lessons.',
-    details: ['💎 +22 Stunix', '🎙️ Equipment checklist', '⭐ 4.7 (15 learners)'],
+    details: ['☕ +22 Stunix', '🎙️ Equipment checklist', '⭐ 4.7 (15 learners)'],
     tags: ['Storytelling', 'Media', 'ResearchComms'],
     actions: [
       { icon: '📖', label: 'View Details' },
@@ -172,7 +172,7 @@ export const exchangePosts = [
     name: 'Lucas Huang (UTS)',
     title: 'Intro to Game Design with Godot Engine',
     summary: 'Hands-on lessons to build your first 2D puzzle game using open-source tools.',
-    details: ['💎 +30 Stunix', '🎮 3 sessions', '⭐ 4.9 (25 learners)'],
+    details: ['☕ +30 Stunix', '🎮 3 sessions', '⭐ 4.9 (25 learners)'],
     tags: ['GameDev', 'Godot', 'Design'],
     actions: [
       { icon: '📖', label: 'View Details' },
@@ -188,7 +188,7 @@ export const exchangePosts = [
     name: 'Amelia Park (Deakin University)',
     title: 'UX Writing and Microcopy for Beginners',
     summary: 'Learn how to write clear, human-centered UI text that guides users naturally.',
-    details: ['💎 +20 Stunix', '🗓️ 2-week course', '⭐ 4.8 (11 learners)'],
+    details: ['☕ +20 Stunix', '🗓️ 2-week course', '⭐ 4.8 (11 learners)'],
     tags: ['UXWriting', 'Design', 'Communication'],
     actions: [
       { icon: '📖', label: 'View Details' },
@@ -206,7 +206,7 @@ export const exchangePosts = [
     name: 'Linh Nguyen (Monash University)',
     title: 'SIT112 Data Science Exam Revision Notes (PDF)',
     summary: '32-page concise notes covering regression, clustering, and ethics.',
-    details: ['💎 +5 Stunix', '📁 Download on request', '📅 Updated Oct 2025'],
+    details: ['☕ +5 Stunix', '📁 Download on request', '📅 Updated Oct 2025'],
     tags: ['DataScience', 'Notes', 'StudyAid'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -222,7 +222,7 @@ export const exchangePosts = [
     name: 'ChemSoc Resource Team',
     title: 'First-Year Chemistry Cheatsheets',
     summary: 'Printable quick-reference sheets for stoichiometry, acids, and spectroscopy.',
-    details: ['💎 +4 Stunix', '📦 Bundle of 6', '📅 Updated Jan 2026'],
+    details: ['☕ +4 Stunix', '📦 Bundle of 6', '📅 Updated Jan 2026'],
     tags: ['Chemistry', 'CheatSheet', 'StudyAid'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -238,7 +238,7 @@ export const exchangePosts = [
     name: 'Policy Research Hub',
     title: 'AI Ethics and Governance Summary Pack',
     summary: 'Comprehensive overview of global AI policies and frameworks for coursework.',
-    details: ['💎 +6 Stunix', '📁 18 pages', '📅 Updated Aug 2025'],
+    details: ['☕ +6 Stunix', '📁 18 pages', '📅 Updated Aug 2025'],
     tags: ['AIEthics', 'Policy', 'Notes'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -254,7 +254,7 @@ export const exchangePosts = [
     name: 'TechSoc Archive',
     title: 'DevOps Tools Cheatsheet 2025 Edition',
     summary: 'Quick guide to Docker, CI/CD, and monitoring essentials for student teams.',
-    details: ['💎 +5 Stunix', '⚙️ For beginners', '📅 Updated Mar 2025'],
+    details: ['☕ +5 Stunix', '⚙️ For beginners', '📅 Updated Mar 2025'],
     tags: ['DevOps', 'Docker', 'CheatSheet'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -272,7 +272,7 @@ export const exchangePosts = [
     name: 'StuX Reading Circle',
     title: 'Weekly Deep Reads: Human-Centered AI',
     summary: 'Share annotated readings and reflective prompts with research peers.',
-    details: ['💎 +12 Stunix', '📚 4 articles / month', '🗓️ Meets Thursdays'],
+    details: ['☕ +12 Stunix', '📚 4 articles / month', '🗓️ Meets Thursdays'],
     tags: ['HCAI', 'Research', 'ReadingGroup'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -288,7 +288,7 @@ export const exchangePosts = [
     name: 'Green Labs Collective',
     title: 'Sustainability in STEM Literature Swap',
     summary: 'Exchange annotated bibliographies and key findings on eco-design research.',
-    details: ['💎 +8 Stunix', '📘 6 curated papers', '🗓️ Fortnightly meetups'],
+    details: ['☕ +8 Stunix', '📘 6 curated papers', '🗓️ Fortnightly meetups'],
     tags: ['Sustainability', 'STEM', 'LitReview'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -304,7 +304,7 @@ export const exchangePosts = [
     name: 'Cognitive Lab Circle',
     title: 'Neurotechnology and Behaviour Readings',
     summary: 'Exchange annotated neuroscience papers and host mini-presentations each month.',
-    details: ['💎 +10 Stunix', '🧠 3 articles/month', '🗓️ Sundays'],
+    details: ['☕ +10 Stunix', '🧠 3 articles/month', '🗓️ Sundays'],
     tags: ['Neurotech', 'Behaviour', 'Research'],
     actions: [
       { icon: '📖', label: 'Preview' },
@@ -320,7 +320,7 @@ export const exchangePosts = [
     name: 'Ethics & Tech Collective',
     title: 'AI Philosophy Roundtable Series',
     summary: 'Biweekly literature swap on philosophy of mind, ethics, and automation.',
-    details: ['💎 +9 Stunix', '📘 5 readings/term', '🗓️ Fortnightly'],
+    details: ['☕ +9 Stunix', '📘 5 readings/term', '🗓️ Fortnightly'],
     tags: ['AI', 'Philosophy', 'Ethics'],
     actions: [
       { icon: '📖', label: 'Preview' },

@@ -78,7 +78,7 @@ const logout = () => {
           </RouterLink>
           <span class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-4 py-2 text-brand ring-1 ring-indigo-100">
             <span>Stunix: {{ formattedBalance }}</span>
-            <span>🍵</span>
+            <span>☕</span>
           </span>
           <button
             type="button"

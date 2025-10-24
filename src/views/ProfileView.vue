@@ -44,7 +44,7 @@ const profileSchool = computed(() => user.value?.school ?? 'Independent learner'
 const profileRegion = computed(() => user.value?.region ?? 'Global')
 
 const formattedBalance = computed(
-  () => `${new Intl.NumberFormat('en-US').format(stunixBalance.value ?? 0)} 🍵`
+  () => `${new Intl.NumberFormat('en-US').format(stunixBalance.value ?? 0)} ☕`
 )
 
 const profileChanged = computed(() => {
