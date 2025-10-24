@@ -1,5 +1,6 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
+import PillarSidebar from './PillarSidebar.vue'
 import { withAlpha } from '@/utils/color'
 
 const props = defineProps({
@@ -52,6 +53,274 @@ watch(
 
 const showForm = ref(false)
 const sidebarExpanded = ref(false)
+const searchTerm = ref('')
+const selectedCategory = ref(null)
+const selectedTags = ref([])
+
+const normalizeCategoryOption = (category) => {
+  if (!category) return null
+
+  if (typeof category === 'string') {
+    const trimmed = category.trim()
+    if (!trimmed) return null
+    return {
+      label: trimmed,
+      value: trimmed,
+      normalized: trimmed.toLowerCase(),
+    }
+  }
+
+  const label = category.label ?? category.value
+  const value = category.value ?? category.label
+  const trimmedValue = value?.toString().trim()
+
+  if (!trimmedValue) return null
+
+  return {
+    label: label?.toString().trim() || trimmedValue,
+    value: trimmedValue,
+    normalized: trimmedValue.toLowerCase(),
+  }
+}
+
+const normalizeTagOption = (tag) => {
+  if (!tag) return null
+
+  const resolve = (value) => value?.toString().replace(/^#/, '').trim()
+
+  if (typeof tag === 'string') {
+    const cleanValue = resolve(tag)
+    if (!cleanValue) return null
+    return {
+      label: tag.trim() || `#${cleanValue}`,
+      value: cleanValue,
+      normalized: cleanValue.toLowerCase(),
+    }
+  }
+
+  const label = tag.label ?? tag.value
+  const cleanValue = resolve(tag.value ?? tag.label)
+
+  if (!cleanValue) return null
+
+  return {
+    label: label?.toString().trim() || `#${cleanValue}`,
+    value: cleanValue,
+    normalized: cleanValue.toLowerCase(),
+  }
+}
+
+const feedItems = computed(() => (Array.isArray(props.config.feed) ? props.config.feed : []))
+
+const categoryOptions = computed(() => {
+  const rawCategories = props.config.categories ?? []
+  const seen = new Set()
+
+  return rawCategories
+    .map(normalizeCategoryOption)
+    .filter((category) => {
+      if (!category) return false
+      if (seen.has(category.normalized)) return false
+      seen.add(category.normalized)
+      return true
+    })
+})
+
+const sidebarCategories = computed(() => {
+  const categories = categoryOptions.value
+  const selected = selectedCategory.value
+
+  if (!categories.length) return []
+
+  const allCategory = {
+    label: 'All',
+    value: null,
+    normalized: null,
+    isActive: selected == null,
+  }
+
+  return [
+    allCategory,
+    ...categories.map((category) => ({
+      ...category,
+      isActive: selected === category.normalized,
+    })),
+  ]
+})
+
+const tagOptions = computed(() => {
+  const rawTags = props.config.tags ?? []
+  const seen = new Set()
+
+  return rawTags
+    .map(normalizeTagOption)
+    .filter((tag) => {
+      if (!tag) return false
+      if (seen.has(tag.normalized)) return false
+      seen.add(tag.normalized)
+      return true
+    })
+})
+
+const sidebarTags = computed(() =>
+  tagOptions.value.map((tag) => ({
+    ...tag,
+    isSelected: selectedTags.value.includes(tag.normalized),
+  })),
+)
+
+watch(categoryOptions, (options) => {
+  if (!options.length) {
+    selectedCategory.value = null
+    return
+  }
+
+  const normalizedValues = options.map((option) => option.normalized)
+  if (!normalizedValues.includes(selectedCategory.value)) {
+    selectedCategory.value = null
+  }
+})
+
+watch(tagOptions, (options) => {
+  if (!options.length) {
+    selectedTags.value = []
+    return
+  }
+
+  const allowed = new Set(options.map((option) => option.normalized))
+  selectedTags.value = selectedTags.value.filter((tag) => allowed.has(tag))
+})
+
+const collectSearchableContent = (value, bucket) => {
+  if (value == null) return
+
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    bucket.push(String(value))
+    return
+  }
+
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectSearchableContent(item, bucket))
+    return
+  }
+
+  if (typeof value === 'object') {
+    Object.values(value).forEach((item) => collectSearchableContent(item, bucket))
+  }
+}
+
+const normalizeCategoryValue = (value) => value?.toString().trim().toLowerCase() || null
+
+const getItemCategory = (item) => {
+  if (!item || typeof item !== 'object') return null
+
+  if (typeof item.category === 'string') {
+    return item.category
+  }
+
+  if (item.category && typeof item.category === 'object' && typeof item.category.value === 'string') {
+    return item.category.value
+  }
+
+  if (item.type && typeof item.type === 'object' && typeof item.type.label === 'string') {
+    return item.type.label
+  }
+
+  return null
+}
+
+const getItemTags = (item) => {
+  if (!item || typeof item !== 'object') return []
+
+  const rawTags = item.tags
+
+  if (!rawTags) return []
+
+  if (Array.isArray(rawTags)) {
+    return rawTags.flatMap((tag) => {
+      if (typeof tag === 'string') return tag
+      if (tag && typeof tag === 'object' && typeof tag.label === 'string') return tag.label
+      return []
+    })
+  }
+
+  if (typeof rawTags === 'string') {
+    return rawTags.split(',')
+  }
+
+  return []
+}
+
+const normalizeTagValue = (value) => value?.toString().replace(/^#/, '').trim().toLowerCase() || null
+
+const itemMatchesCategory = (item) => {
+  if (!selectedCategory.value) return true
+
+  const itemCategory = normalizeCategoryValue(getItemCategory(item))
+  if (!itemCategory) return false
+
+  return itemCategory === selectedCategory.value
+}
+
+const itemMatchesTags = (item) => {
+  if (!selectedTags.value.length) return true
+
+  const itemTags = getItemTags(item)
+    .map((tag) => normalizeTagValue(tag))
+    .filter(Boolean)
+
+  if (!itemTags.length) return false
+
+  return selectedTags.value.every((tag) => itemTags.includes(tag))
+}
+
+const itemMatchesSearch = (item) => {
+  const query = searchTerm.value.trim().toLowerCase()
+  if (!query) return true
+
+  const bucket = []
+  collectSearchableContent(item, bucket)
+  const haystack = bucket.join(' ').toLowerCase()
+
+  if (!haystack) return false
+
+  return query
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((token) => haystack.includes(token))
+}
+
+const filteredFeed = computed(() =>
+  feedItems.value.filter((item) => itemMatchesSearch(item) && itemMatchesCategory(item) && itemMatchesTags(item)),
+)
+
+const sortFilters = computed(() => props.config.sortFilters ?? ['Latest', 'Most Popular', 'Reward Points'])
+
+const selectCategory = (category) => {
+  const normalized = category?.normalized ?? normalizeCategoryValue(category?.value)
+
+  if (!normalized) {
+    selectedCategory.value = null
+    return
+  }
+
+  selectedCategory.value = selectedCategory.value === normalized ? null : normalized
+}
+
+const toggleTag = (tag) => {
+  const normalized = tag?.normalized ?? normalizeTagValue(tag?.value ?? tag)
+  if (!normalized) return
+
+  selectedTags.value = selectedTags.value.includes(normalized)
+    ? selectedTags.value.filter((value) => value !== normalized)
+    : [...selectedTags.value, normalized]
+}
+
+const activeFilters = computed(() => ({
+  search: searchTerm.value,
+  category: selectedCategory.value,
+  tags: [...selectedTags.value],
+}))
 
 const resetFormState = () => {
   Object.assign(formState, defaultFormState.value)
@@ -70,14 +339,6 @@ const submitForm = () => {
   emit('submit', { ...formState })
   resetFormState()
   closeForm()
-}
-
-const openSidebar = () => {
-  sidebarExpanded.value = true
-}
-
-const closeSidebar = () => {
-  sidebarExpanded.value = false
 }
 </script>
 
@@ -120,101 +381,17 @@ const closeSidebar = () => {
           : 'lg:grid-cols-[max-content_1fr]'
       ]"
     >
-      <div
-        :class="[
-          'grid gap-3 self-start lg:top-24',
-          sidebarExpanded ? 'lg:sticky' : 'lg:sticky'
-        ]"
-      >
-        <button
-          v-if="!sidebarExpanded"
-          type="button"
-          class="flex h-16 w-full items-center justify-center rounded-3xl bg-white p-5 text-2xl shadow-panel ring-1 transition hover:ring-indigo-200 lg:mt-2 lg:h-18 lg:w-16 lg:rounded-3xl"
-          :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }"
-          aria-label="Open sidebar"
-          @click="openSidebar"
-        >
-          <span class="sr-only">Open sidebar</span>
-          🔍
-        </button>
-
-        <aside
-          v-else
-          class="grid gap-6 rounded-3xl bg-white p-7 shadow-panel ring-1"
-          :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
-          <!-- Search bar -->
-          <div class="grid gap-3">
-            <div class="flex items-center justify-between gap-4">
-              <label class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500" for="pillar-search">
-                Search
-              </label>
-              <button
-                type="button"
-                class="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-                aria-label="Close sidebar"
-                @click="closeSidebar"
-              >
-                <span class="sr-only">Close sidebar</span>
-                &times;
-              </button>
-            </div>
-            <div class="relative">
-              <span class="pointer-events-none absolute left-4 top-5 -translate-y-1/2 text-lg text-slate-400">🔍</span>
-              <input
-                id="pillar-search"
-                type="search"
-                placeholder="Search topics or tags..."
-                class="w-full rounded-full border border-slate-200 px-4 py-2.5 pl-11 text-sm text-slate-700 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
-              />
-            </div>
-          </div>
-
-          <!-- Categories -->
-          <div v-if="config.categories?.length" class="grid gap-3">
-            <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</h3>
-            <nav class="grid gap-2 text-sm font-medium text-slate-600">
-              <div class="grid gap-3 lg:grid-cols-1 sm:grid-cols-3">
-                <button
-                  v-for="category in config.categories"
-                  :key="category"
-                  type="button"
-                  class="rounded-2xl border border-indigo-100/70 px-4 py-2 text-left transition hover:border-indigo-200 hover:text-brand"
-                >
-                  {{ category }}
-                </button>
-              </div>
-            </nav>
-          </div>
-
-          <!-- Tags -->
-          <div v-if="config.tags?.length" class="grid gap-3">
-            <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Tags</h3>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="tag in config.tags"
-                :key="tag"
-                class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
-              >
-                {{ tag }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Sort by -->
-          <div class="grid gap-3">
-            <h3 class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Sort by</h3>
-            <div class="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
-              <button
-                v-for="sort in config.sortFilters ?? ['Latest', 'Most Popular', 'Reward Points']"
-                :key="sort"
-                type="button"
-                class="rounded-full border border-indigo-100/80 px-4 py-2 transition hover:border-indigo-200 hover:text-brand">
-                {{ sort }}
-              </button>
-            </div>
-          </div>
-        </aside>
-      </div>
+      <PillarSidebar
+        :expanded="sidebarExpanded"
+        :search-term="searchTerm"
+        :categories="sidebarCategories"
+        :tags="sidebarTags"
+        :sort-filters="sortFilters"
+        @update:expanded="sidebarExpanded = $event"
+        @update:search-term="searchTerm = $event"
+        @select-category="selectCategory"
+        @toggle-tag="toggleTag"
+      />
 
       <div class="grid gap-3">
         <!-- Create post prompt -->
@@ -247,10 +424,16 @@ const closeSidebar = () => {
 
         <!-- Feed -->
         <div class="grid gap-3">
-          <slot name="feed" :items="config.feed" :accent="accentColor">
+          <slot name="feed" :items="filteredFeed" :accent="accentColor" :filters="activeFilters">
+            <p
+              v-if="!filteredFeed.length"
+              class="rounded-3xl border border-dashed border-slate-200 px-6 py-12 text-center text-sm font-semibold text-slate-500"
+            >
+              No posts match the current filters. Try adjusting your search or tags.
+            </p>
             <article
-              v-for="item in config.feed"
-              :key="item.title"
+              v-for="item in filteredFeed"
+              :key="item.title ?? item.id"
               class="grid gap-5 rounded-2xl bg-white p-6 shadow-panel ring-1"
               :style="{ '--tw-ring-color': 'var(--pillar-ring-strong)' }">
               <!-- Post content -->
@@ -362,7 +545,7 @@ const closeSidebar = () => {
 </template>
 
 <style scoped>
-.shadow-banner {
+:deep(.shadow-panel) {
   --tw-shadow: var(
     --pillar-shadow-banner,
     0 30px 70px -30px rgba(67, 56, 202, 0.18)
