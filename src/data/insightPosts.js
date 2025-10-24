@@ -13,6 +13,7 @@ export const insightPosts = [
       { icon: '💭', label: '12 questions' },
     ],
     status: 'active',
+    category: 'academic',
   },
   {
     id: 'product-focusflow-feedback',
@@ -28,6 +29,7 @@ export const insightPosts = [
       { icon: '💭', label: '9 questions' },
     ],
     status: 'closing',
+    category: 'product',
   },
   {
     id: 'student-mentorship-journeys',
@@ -43,6 +45,7 @@ export const insightPosts = [
       { icon: '💭', label: '15 questions' },
     ],
     status: 'closed',
+    category: 'project',
   },
   {
     id: 'academic-neurodiverse-note-taking',
@@ -58,6 +61,7 @@ export const insightPosts = [
       { icon: '💭', label: '8 questions' },
     ],
     status: 'active',
+    category: 'academic',
   },
   {
     id: 'product-campus-nav-feedback',
@@ -73,6 +77,7 @@ export const insightPosts = [
       { icon: '💭', label: '6 questions' },
     ],
     status: 'active',
+    category: 'product',
   },
   {
     id: 'project-sustainable-studio-audit',
@@ -88,5 +93,6 @@ export const insightPosts = [
       { icon: '💭', label: '11 prompts' },
     ],
     status: 'closing',
+    category: 'project',
   },
 ]

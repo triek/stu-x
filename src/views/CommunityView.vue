@@ -17,8 +17,12 @@ const baseConfig = {
     'Share stories, discuss, review, and reflect with peers',
   highlights: ['Discussion forum'],
   actionLabel: 'Comment',
-  categories: ['Discussions', 'Critiques', 'Polls'],
-  tags: ['#Community', '#Storytelling', '#PeerSupport'],
+  categories: [
+    { label: 'Discussions', value: 'discussions' },
+    { label: 'Critiques', value: 'critiques' },
+    { label: 'Polls', value: 'polls' },
+  ],
+  tags: ['#Community', '#StudyTips', '#Tech', '#Wellbeing'],
 }
 
 const config = computed(() => ({

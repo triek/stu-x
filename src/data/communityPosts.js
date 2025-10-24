@@ -5,6 +5,8 @@ export const communityPosts = [
     description: 'Recommend essentials and share tips for incoming students.',
     discussion: 22,
     cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Community', 'FirstYear', 'Shopping'],
   },
   {
     id: 'topic-friends-at-university',
@@ -12,6 +14,8 @@ export const communityPosts = [
     description: 'My experience when making friends in uni felt so different from high school.',
     discussion: 10,
     cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Community', 'Friendship', 'Wellbeing'],
   },
   {
     id: 'poll-macbook-vs-windows',
@@ -19,6 +23,8 @@ export const communityPosts = [
     description: 'Share which one you use for your coding courses.',
     discussion: 12,
     cta: 'Vote',
+    category: 'polls',
+    tags: ['Poll', 'Technology', 'Hardware'],
   },
   {
     id: 'topic-lenovo-vs-hp',
@@ -27,6 +33,8 @@ export const communityPosts = [
       'Both are around the same price with 16GB RAM. Im not sure which is more reliable for running heavy tools like Docker or IntelliJ.',
     discussion: 10,
     cta: 'Discuss',
+    category: 'critiques',
+    tags: ['Laptops', 'Hardware', 'Advice'],
   },
   {
     id: 'topic-best-online-tools',
@@ -34,6 +42,8 @@ export const communityPosts = [
     description: 'List websites or apps that help with writing, coding, referencing, or time tracking.',
     discussion: 11,
     cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Productivity', 'Tools', 'Recommendations'],
   },
   {
     id: 'topic-student-discounts',
@@ -42,6 +52,8 @@ export const communityPosts = [
       'Share the best student deals on food, transport, software, and entertainment that others might not know about.',
     discussion: 4,
     cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Savings', 'Deals', 'StudentLife'],
   },
   {
     id: 'topic-managing-money',
@@ -49,6 +61,8 @@ export const communityPosts = [
     description: 'How do you plan weekly expenses, track spending, and save while studying?',
     discussion: 6,
     cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Finance', 'Budgeting', 'Advice'],
   },
   {
     id: 'topic-group-assignments',
@@ -57,6 +71,8 @@ export const communityPosts = [
       'What is your experiences and strategies for keeping projects on track when not everyone contributes equally?',
     discussion: 18,
     cta: 'Discuss',
+    category: 'critiques',
+    tags: ['Teamwork', 'Assignments', 'PeerSupport'],
   },
   {
     id: 'topic-choosing-laptop',
@@ -64,5 +80,7 @@ export const communityPosts = [
     description: 'Should I buy a MacBook Air M1 or an iPad Air for studying?',
     discussion: 3,
     cta: 'Discuss',
+    category: 'critiques',
+    tags: ['Hardware', 'Advice', 'Technology'],
   },
 ]

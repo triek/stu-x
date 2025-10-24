@@ -12,11 +12,23 @@ const parsePositiveInt = (value) => {
   return Number.isNaN(number) || number < 0 ? 0 : number
 }
 
+const parseTags = (input) => {
+  if (!input) return []
+
+  return input
+    .split(',')
+    .flatMap((segment) => segment.split(/\s+/))
+    .map((tag) => tag.replace(/^#/, '').trim())
+    .filter(Boolean)
+}
+
 const createPostFromForm = (form = {}) => {
   const title = form.title?.trim()
   const description = form.description?.trim()
   const discussion = parsePositiveInt(form.discussion)
   const cta = form.cta?.trim()
+  const category = form.category?.toString().trim().toLowerCase()
+  const tags = parseTags(form.tags)
 
   return {
     id: form.id ?? createId(),
@@ -24,6 +36,8 @@ const createPostFromForm = (form = {}) => {
     description: description || '',
     discussion,
     cta: cta || 'Discuss',
+    category: category || 'discussions',
+    tags,
   }
 }
 

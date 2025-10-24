@@ -32,7 +32,12 @@ const baseConfig = {
   description:
     'Share or join research studies and request feedback',
   highlights: ['Spend Stunix for requests', 'Earn Stunix for answers'],
-  categories: ['Academic Studies', 'Product Feedback', 'Student Projects', 'Reflection Journals'],
+  categories: [
+    { label: 'Academic Studies', value: 'academic' },
+    { label: 'Product Feedback', value: 'product' },
+    { label: 'Student Projects', value: 'project' },
+    { label: 'Reflection Journals', value: 'reflection' },
+  ],
   tags: ['#UX', '#Psychology', '#AI', '#Marketing'],
   sortFilters: ['Latest', 'Reward Points', 'Closing Soon'],
   actionLabel: 'Participate',
