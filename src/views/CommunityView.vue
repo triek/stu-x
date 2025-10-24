@@ -183,7 +183,7 @@ const handleSubmit = (form) => {
               ▲ {{ parseCount(getTopComment(item.id).upvotes) }}
             </span>
             <span
-              v-if="parseCount(getTopComment(item.id).upvotes) > 0"
+              v-if="parseCount(getTopComment(item.id).downvotes) > 0"
               class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-red-600"
             >
               ▼ {{ parseCount(getTopComment(item.id).downvotes) }}
@@ -234,11 +234,18 @@ const handleSubmit = (form) => {
                     </p>
                   </div>
 
-                  <span
-                    v-if="parseCount(comment.upvotes) > 0"
-                    class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600"
-                  >
-                    ▲ {{ parseCount(comment.upvotes) }}
+                  <span class="flex items-start gap-2">
+                    <span
+                      class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-green-600"
+                    >
+                      ▲ {{ parseCount(comment.upvotes) }}
+                    </span>
+
+                    <span
+                      class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-red-600"
+                    >
+                      ▼ {{ parseCount(comment.downvotes) }}
+                    </span>
                   </span>
                 </div>
 
