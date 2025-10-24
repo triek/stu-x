@@ -1,5 +1,85 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+
+import { useAuthStore } from '../stores/auth'
+
+const router = useRouter()
+const authStore = useAuthStore()
+const { isAuthenticated } = storeToRefs(authStore)
+
+const formState = reactive({
+  name: '',
+  email: '',
+  school: '',
+  region: '',
+  password: '',
+  confirmPassword: '',
+  termsAccepted: false,
+})
+
+const isSubmitting = ref(false)
+const errorMessage = ref('')
+
+const hasPasswordMismatch = computed(
+  () =>
+    Boolean(formState.password) &&
+    Boolean(formState.confirmPassword) &&
+    formState.password !== formState.confirmPassword
+)
+
+const isSubmitDisabled = computed(
+  () =>
+    isSubmitting.value ||
+    !formState.name.trim() ||
+    !formState.email.trim() ||
+    !formState.password.trim() ||
+    hasPasswordMismatch.value ||
+    !formState.termsAccepted
+)
+
+const resetError = () => {
+  if (errorMessage.value) {
+    errorMessage.value = ''
+  }
+}
+
+watch(formState, resetError, { deep: true })
+
+const handleSubmit = () => {
+  errorMessage.value = ''
+
+  if (hasPasswordMismatch.value) {
+    errorMessage.value = 'Passwords do not match. Please try again.'
+    return
+  }
+
+  isSubmitting.value = true
+
+  const { success, message } = authStore.signup({
+    name: formState.name,
+    email: formState.email,
+    school: formState.school,
+    region: formState.region,
+    password: formState.password,
+  })
+
+  isSubmitting.value = false
+
+  if (success) {
+    router.push('/profile')
+    return
+  }
+
+  errorMessage.value = message ?? 'We could not create your account. Please try again.'
+}
+
+onMounted(() => {
+  if (isAuthenticated.value) {
+    router.replace('/profile')
+  }
+})
 </script>
 
 <template>
@@ -23,7 +103,10 @@ import { RouterLink } from 'vue-router'
       <p class="text-sm text-slate-500">Already have an account? <RouterLink to="/login" class="font-semibold text-brand hover:underline">Log in here</RouterLink>.</p>
     </div>
 
-    <form class="grid gap-6 rounded-3xl border border-indigo-100/70 bg-white/85 p-6 shadow-panel">
+    <form
+      class="grid gap-6 rounded-3xl border border-indigo-100/70 bg-white/85 p-6 shadow-panel"
+      @submit.prevent="handleSubmit"
+    >
       <div class="grid gap-2">
         <label for="full-name" class="text-sm font-semibold text-slate-700">Full name</label>
         <input
@@ -33,6 +116,7 @@ import { RouterLink } from 'vue-router'
           autocomplete="name"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="Alex Morgan"
+          v-model="formState.name"
         />
       </div>
       <div class="grid gap-2">
@@ -44,6 +128,7 @@ import { RouterLink } from 'vue-router'
           autocomplete="email"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="you@example.com"
+          v-model="formState.email"
         />
       </div>
       <div class="grid gap-2">
@@ -54,6 +139,7 @@ import { RouterLink } from 'vue-router'
           name="school"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="StuX International Academy"
+          v-model="formState.school"
         />
       </div>
       <div class="grid gap-2">
@@ -62,6 +148,7 @@ import { RouterLink } from 'vue-router'
           id="region"
           name="region"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          v-model="formState.region"
         >
           <option value="">Select a region</option>
           <option>North America</option>
@@ -80,6 +167,7 @@ import { RouterLink } from 'vue-router'
           autocomplete="new-password"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="Create a strong password"
+          v-model="formState.password"
         />
       </div>
       <div class="grid gap-2">
@@ -91,17 +179,34 @@ import { RouterLink } from 'vue-router'
           autocomplete="new-password"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="Repeat your password"
+          v-model="formState.confirmPassword"
         />
+        <p v-if="hasPasswordMismatch" class="text-xs font-semibold text-rose-500">
+          Passwords do not match.
+        </p>
       </div>
       <label class="flex items-start gap-3 text-xs text-slate-500">
-        <input type="checkbox" name="terms" class="mt-1 h-4 w-4 rounded border-indigo-200 text-brand focus:ring-indigo-200" />
+        <input
+          type="checkbox"
+          name="terms"
+          class="mt-1 h-4 w-4 rounded border-indigo-200 text-brand focus:ring-indigo-200"
+          v-model="formState.termsAccepted"
+        />
         I agree to the StuX community charter and allow StuX to contact me with onboarding resources.
       </label>
+      <p v-if="errorMessage" class="text-sm font-semibold text-rose-500">
+        {{ errorMessage }}
+      </p>
       <button
         type="submit"
-        class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
+        class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+        :disabled="isSubmitDisabled"
       >
-        Sign up
+        <span v-if="isSubmitting" class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 animate-ping rounded-full bg-white"></span>
+          Creating account...
+        </span>
+        <span v-else>Sign up</span>
       </button>
       <p class="text-xs text-slate-400">We protect your data and only use it to personalize your StuX experience.</p>
     </form>
