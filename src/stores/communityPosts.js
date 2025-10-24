@@ -50,8 +50,27 @@ export const useCommunityPostsStore = defineStore('communityPosts', () => {
     return post
   }
 
+  const incrementDiscussionCount = (postId, amount = 1) => {
+    if (!postId) return
+
+    const delta = Number.isFinite(amount) ? amount : 1
+
+    posts.value = posts.value.map((post) => {
+      if (post.id !== postId) return post
+
+      const current = parsePositiveInt(post.discussion)
+      const updated = current + delta
+
+      return {
+        ...post,
+        discussion: updated < 0 ? 0 : updated,
+      }
+    })
+  }
+
   return {
     posts,
     addPost,
+    incrementDiscussionCount,
   }
 })
