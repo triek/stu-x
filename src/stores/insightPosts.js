@@ -73,7 +73,7 @@ const createPostFromForm = (form = {}) => {
   }
 
   if (reward) {
-    details.push(`💎 +${reward} Stunix`)
+    details.push(`🍵 +${reward} Stunix`)
   }
 
   if (closingDate) {
