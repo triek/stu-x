@@ -9,6 +9,7 @@ import CommunityView from '../views/CommunityView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignupView from '../views/SignupView.vue'
+import RegionSchoolSelectView from '../views/RegionSchoolSelectView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,11 @@ const router = createRouter({
       path: '/',
       name: 'landing',
       component: LandingView,
+    },
+    {
+      path: '/regions/:regionId/schools',
+      name: 'region-schools',
+      component: RegionSchoolSelectView,
     },
     {
       path: '/home',

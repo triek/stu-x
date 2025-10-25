@@ -1,11 +1,13 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { REGION_DEFINITIONS } from '@/constants/regions'
 import { withAlpha } from '@/utils/color'
+import { LANDING_SCHOOL_SHORTCUTS } from '@/constants/regionSchools'
+import { useRegionStore } from '@/stores/region'
 
 const regionCards = REGION_DEFINITIONS.filter((region) =>
-  ['australia', 'melbourne', 'deakin', 'sydney', 'brisbane'].includes(region.id),
+  ['australia', 'vietnam'].includes(region.id),
 ).map((region) => ({
   id: region.id,
   title: region.label,
@@ -15,13 +17,7 @@ const regionCards = REGION_DEFINITIONS.filter((region) =>
   status: region.statusLabel,
   isActive: region.isActive,
 }))
-
-const schools = [
-  'Deakin University',
-  'StuX International Academy',
-  'Open Learning Collective',
-  'Community College Network',
-]
+const schools = LANDING_SCHOOL_SHORTCUTS
 
 const pillars = [
   {
@@ -44,10 +40,24 @@ const pillars = [
   surface: withAlpha(pillar.accent, '18'),
   border: withAlpha(pillar.accent, '40'),
 }))
+
+const router = useRouter()
+const regionStore = useRegionStore()
+
+const handleRegionSelect = (region) => {
+  if (!region?.id) return
+  router.push({ name: 'region-schools', params: { regionId: region.id } })
+}
+
+const handleSchoolSelect = (school) => {
+  if (!school?.regionId || school.isActive === false) return
+  regionStore.setRegion(school.regionId)
+  router.push({ name: 'insight' })
+}
 </script>
 
 <template>
-  <section class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+  <section class="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
     <div class="grid gap-10 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-10 shadow-primary ring-1 ring-indigo-100/70 sm:p-14">
       <div class="space-y-4">
         <div class="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-brand shadow-sm ring-1 ring-indigo-100">
@@ -65,21 +75,16 @@ const pillars = [
       <div class="grid gap-6">
         <div class="space-y-3">
           <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Choose your region</h2>
-          <div class="grid gap-4 sm:grid-cols-3">
+          <div class="flex gap-4">
             <button
               v-for="region in regionCards"
               :key="region.id"
               type="button"
               class="group grid gap-3 rounded-2xl bg-white/80 p-4 text-left shadow-panel ring-1 ring-indigo-100/70 transition-transform hover:-translate-y-1 hover:shadow-lg"
+              @click="handleRegionSelect(region)"
             >
               <span :class="['inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold gap-2', region.accent]">
                 <span>{{ region.title }}</span>
-                <span
-                  v-if="region.status"
-                  class="rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600"
-                >
-                  {{ region.status }}
-                </span>
               </span>
               <span class="text-sm text-slate-600">{{ region.description }}</span>
               <span class="text-xs font-semibold text-brand opacity-0 transition-opacity group-hover:opacity-100">
@@ -94,11 +99,23 @@ const pillars = [
           <div class="flex flex-wrap gap-3">
             <button
               v-for="school in schools"
-              :key="school"
+              :key="school.id"
               type="button"
-              class="rounded-full border border-indigo-100/80 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-indigo-200 hover:text-indigo-600"
+              class="rounded-full border border-indigo-100/80 px-4 py-2 text-sm font-medium transition"
+              :class="[
+                school.isActive !== false
+                  ? 'bg-white/70 text-slate-700 hover:border-indigo-200 hover:text-indigo-600'
+                  : 'cursor-not-allowed bg-slate-100 text-slate-400',
+              ]"
+              @click="handleSchoolSelect(school)"
             >
-              {{ school }}
+              {{ school.label }}
+              <span
+                v-if="school.statusLabel"
+                class="ml-2 inline-flex items-center rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500"
+              >
+                {{ school.statusLabel }}
+              </span>
             </button>
             <button
               type="button"
