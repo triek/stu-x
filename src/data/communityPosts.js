@@ -53,7 +53,7 @@ export const communityPosts = [
     category: 'discussions',
     tags: ['Productivity', 'Tools', 'Recommendations'],
     region: 'melbourne',
-    regions: ['melbourne', 'australia'],
+    regions: ['melbourne'],
   },
   {
     id: 'topic-student-discounts',
@@ -65,7 +65,7 @@ export const communityPosts = [
     category: 'discussions',
     tags: ['Savings', 'Deals', 'StudentLife'],
     region: 'melbourne',
-    regions: ['melbourne', 'australia'],
+    regions: ['melbourne'],
   },
   {
     id: 'topic-managing-money',
@@ -99,6 +99,6 @@ export const communityPosts = [
     category: 'critiques',
     tags: ['Hardware', 'Advice', 'Technology'],
     region: 'deakin',
-    regions: ['deakin', 'melbourne', 'australia'],
+    regions: ['deakin'],
   },
 ]

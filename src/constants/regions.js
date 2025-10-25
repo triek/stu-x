@@ -58,14 +58,24 @@ export const REGION_DEFINITIONS = [
   },
 ]
 
+const REGION_SCOPE_OVERRIDES = {
+  australia: ['australia', 'melbourne', 'deakin'],
+  melbourne: ['melbourne', 'deakin'],
+}
+
 export const REGION_SCOPES = REGION_DEFINITIONS.reduce((scopes, region) => {
-  switch (region.id) {
-    case 'melbourne':
-      scopes[region.id] = ['melbourne', 'deakin']
-      break
-    default:
-      scopes[region.id] = [region.id]
-      break
+  const override = REGION_SCOPE_OVERRIDES[region.id]
+
+  if (override) {
+    const normalizedScope = Array.from(
+      new Set(
+        override.concat(region.id).map((id) => id.toLowerCase()),
+      ),
+    )
+    scopes[region.id] = normalizedScope
+    return scopes
   }
+
+  scopes[region.id] = [region.id]
   return scopes
 }, {})
