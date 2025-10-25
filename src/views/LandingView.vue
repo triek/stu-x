@@ -1,25 +1,20 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
+import { REGION_DEFINITIONS } from '@/constants/regions'
 import { withAlpha } from '@/utils/color'
 
-const regions = [
-  {
-    title: 'North America',
-    description: 'United States · Canada',
-    accent: 'bg-indigo-100 text-indigo-700',
-  },
-  {
-    title: 'Europe',
-    description: 'United Kingdom · EU',
-    accent: 'bg-emerald-100 text-emerald-700',
-  },
-  {
-    title: 'Asia-Pacific',
-    description: 'India · Singapore · Australia',
-    accent: 'bg-amber-100 text-amber-700',
-  },
-]
+const regionCards = REGION_DEFINITIONS.filter((region) =>
+  ['australia', 'melbourne', 'deakin', 'sydney', 'brisbane'].includes(region.id),
+).map((region) => ({
+  id: region.id,
+  title: region.label,
+  description: region.tagline,
+  accent: region.accent,
+  chipClass: region.chipClass,
+  status: region.statusLabel,
+  isActive: region.isActive,
+}))
 
 const schools = [
   'Deakin University',
@@ -72,14 +67,24 @@ const pillars = [
           <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Choose your region</h2>
           <div class="grid gap-4 sm:grid-cols-3">
             <button
-              v-for="region in regions"
-              :key="region.title"
+              v-for="region in regionCards"
+              :key="region.id"
               type="button"
               class="group grid gap-3 rounded-2xl bg-white/80 p-4 text-left shadow-panel ring-1 ring-indigo-100/70 transition-transform hover:-translate-y-1 hover:shadow-lg"
             >
-              <span :class="['inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold', region.accent]">{{ region.title }}</span>
+              <span :class="['inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold gap-2', region.accent]">
+                <span>{{ region.title }}</span>
+                <span
+                  v-if="region.status"
+                  class="rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600"
+                >
+                  {{ region.status }}
+                </span>
+              </span>
               <span class="text-sm text-slate-600">{{ region.description }}</span>
-              <span class="text-xs font-semibold text-brand opacity-0 transition-opacity group-hover:opacity-100">Coming Soon →</span>
+              <span class="text-xs font-semibold text-brand opacity-0 transition-opacity group-hover:opacity-100">
+                {{ region.isActive ? 'Explore region →' : 'Join waitlist →' }}
+              </span>
             </button>
           </div>
         </div>

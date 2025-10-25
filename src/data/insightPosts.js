@@ -14,6 +14,8 @@ export const insightPosts = [
     ],
     status: 'active',
     category: 'academic',
+    region: 'deakin',
+    regions: ['deakin'],
   },
   {
     id: 'product-focusflow-feedback',
@@ -30,6 +32,8 @@ export const insightPosts = [
     ],
     status: 'closing',
     category: 'product',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'student-mentorship-journeys',
@@ -46,6 +50,8 @@ export const insightPosts = [
     ],
     status: 'closed',
     category: 'project',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'academic-neurodiverse-note-taking',
@@ -62,6 +68,8 @@ export const insightPosts = [
     ],
     status: 'active',
     category: 'academic',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'product-campus-nav-feedback',
@@ -78,6 +86,8 @@ export const insightPosts = [
     ],
     status: 'active',
     category: 'product',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'project-sustainable-studio-audit',
@@ -94,5 +104,7 @@ export const insightPosts = [
     ],
     status: 'closing',
     category: 'project',
+    region: 'australia',
+    regions: ['australia'],
   },
 ]

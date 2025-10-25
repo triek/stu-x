@@ -5,10 +5,35 @@ import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useCommunityPostsStore } from '@/stores/communityPosts'
 import { useCommunityDiscussionsStore } from '@/stores/communityDiscussions'
+import { useRegionStore } from '@/stores/region'
+import { getItemRegionIds } from '@/utils/region'
 
 const communityPostsStore = useCommunityPostsStore()
 const communityDiscussionsStore = useCommunityDiscussionsStore()
 const { posts } = storeToRefs(communityPostsStore)
+
+const regionStore = useRegionStore()
+const { activeScope, activeRegion } = storeToRefs(regionStore)
+
+const filteredPosts = computed(() => {
+  const scope = new Set(activeScope.value)
+
+  return posts.value
+    .filter((post) => {
+      const regionIds = getItemRegionIds(post)
+      return regionIds.some((id) => scope.has(id))
+    })
+    .map((post) => {
+      const regionIds = getItemRegionIds(post)
+      const regionMeta = regionStore.getRegionMeta(post.region ?? regionIds[0])
+
+      return {
+        ...post,
+        regionIds,
+        regionMeta,
+      }
+    })
+})
 
 const openThreads = reactive({})
 const commentDrafts = reactive({})
@@ -119,10 +144,18 @@ const baseConfig = {
   tags: ['#Community', '#StudyTips', '#Tech', '#Wellbeing'],
 }
 
-const config = computed(() => ({
-  ...baseConfig,
-  feed: posts.value,
-}))
+const config = computed(() => {
+  const highlights = [...baseConfig.highlights]
+  if (activeRegion.value?.label) {
+    highlights.push(`${activeRegion.value.label} focus`)
+  }
+
+  return {
+    ...baseConfig,
+    highlights,
+    feed: filteredPosts.value,
+  }
+})
 
 const formDefaults = {
   discussion: '0',
@@ -130,7 +163,7 @@ const formDefaults = {
 }
 
 const handleSubmit = (form) => {
-  communityPostsStore.addPost(form)
+  communityPostsStore.addPost({ ...form, region: activeRegion.value?.id })
 }
 </script>
 
@@ -148,6 +181,13 @@ const handleSubmit = (form) => {
           <div class="space-y-2">
             <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
             <p class="text-slate-600">{{ item.description }}</p>
+            <span
+              v-if="item.regionMeta"
+              class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+              :class="item.regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+            >
+              📍 {{ item.regionMeta.shortLabel ?? item.regionMeta.label }}
+            </span>
           </div>
         </header>
 

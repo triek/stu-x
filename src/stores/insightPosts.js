@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { insightPosts as initialPosts } from '@/data/insightPosts'
+import { DEFAULT_REGION_ID } from '@/constants/regions'
+import { normalizeRegionId } from '@/utils/region'
 
 const clonePosts = (data) => JSON.parse(JSON.stringify(data ?? []))
 
@@ -28,6 +30,29 @@ const parseTags = (input) => {
 const parsePositiveInt = (value) => {
   const number = Number.parseInt(value, 10)
   return Number.isNaN(number) || number < 0 ? 0 : number
+}
+
+const resolveRegions = (form = {}) => {
+  const ids = new Set()
+
+  const collect = (value) => {
+    const normalized = normalizeRegionId(value)
+    if (normalized) {
+      ids.add(normalized)
+    }
+  }
+
+  collect(form.region ?? form.regionId)
+
+  if (Array.isArray(form.regions)) {
+    form.regions.forEach(collect)
+  }
+
+  if (!ids.size) {
+    ids.add(DEFAULT_REGION_ID)
+  }
+
+  return Array.from(ids)
 }
 
 const formatDate = (value) => {
@@ -90,6 +115,8 @@ const createPostFromForm = (form = {}) => {
     stats.push({ icon: '💭', label: `${questions} ${questions === 1 ? 'question' : 'questions'}` })
   }
 
+  const regions = resolveRegions(form)
+
   return {
     id: form.id ?? createId(),
     type: { icon: typeMeta.icon, label: typeMeta.label },
@@ -102,6 +129,8 @@ const createPostFromForm = (form = {}) => {
     stats,
     status,
     category: typeMeta.category ?? 'academic',
+    region: regions[0] ?? DEFAULT_REGION_ID,
+    regions,
   }
 }
 

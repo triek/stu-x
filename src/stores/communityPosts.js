@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { communityPosts as initialPosts } from '@/data/communityPosts'
+import { DEFAULT_REGION_ID } from '@/constants/regions'
+import { normalizeRegionId } from '@/utils/region'
 
 const clonePosts = (data) => JSON.parse(JSON.stringify(data ?? []))
 
@@ -30,6 +32,27 @@ const createPostFromForm = (form = {}) => {
   const category = form.category?.toString().trim().toLowerCase()
   const tags = parseTags(form.tags)
 
+  const ids = new Set()
+
+  const collect = (value) => {
+    const normalized = normalizeRegionId(value)
+    if (normalized) {
+      ids.add(normalized)
+    }
+  }
+
+  collect(form.region ?? form.regionId)
+
+  if (Array.isArray(form.regions)) {
+    form.regions.forEach(collect)
+  }
+
+  if (!ids.size) {
+    ids.add(DEFAULT_REGION_ID)
+  }
+
+  const regions = Array.from(ids)
+
   return {
     id: form.id ?? createId(),
     title: title || 'Untitled community topic',
@@ -38,6 +61,8 @@ const createPostFromForm = (form = {}) => {
     cta: cta || 'Discuss',
     category: category || 'discussions',
     tags,
+    region: regions[0] ?? DEFAULT_REGION_ID,
+    regions,
   }
 }
 

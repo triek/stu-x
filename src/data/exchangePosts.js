@@ -15,6 +15,8 @@ export const exchangePosts = [
       { icon: '🤝', label: 'Request Session', highlight: true },
     ],
     status: 'active',
+    region: 'deakin',
+    regions: ['deakin'],
   },
   {
     id: 'tristan-khuong-mentor',
@@ -31,6 +33,8 @@ export const exchangePosts = [
       { icon: '🤝', label: 'Request Session', highlight: true },
     ],
     status: 'active',
+    region: 'deakin',
+    regions: ['deakin'],
   },
   {
     id: 'ethan-cho-mentor',
@@ -47,6 +51,8 @@ export const exchangePosts = [
       { icon: '🤝', label: 'Request Session', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'david-kumar-mentor',
@@ -63,6 +69,8 @@ export const exchangePosts = [
       { icon: '🤝', label: 'Request Session', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
 
   // 🧑‍🏫 TAs
@@ -81,6 +89,8 @@ export const exchangePosts = [
       { icon: '✍️', label: 'Join Session', highlight: true },
     ],
     status: 'active',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'laila-singh-ta',
@@ -97,6 +107,8 @@ export const exchangePosts = [
       { icon: '✍️', label: 'Join Session', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'noah-lim-ta',
@@ -113,6 +125,8 @@ export const exchangePosts = [
       { icon: '✍️', label: 'Join Session', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'emily-roberts-ta',
@@ -129,6 +143,8 @@ export const exchangePosts = [
       { icon: '✍️', label: 'Join Session', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
 
   // 🧠 Mini Courses
@@ -147,6 +163,8 @@ export const exchangePosts = [
       { icon: '🛒', label: 'Enroll Session', highlight: true },
     ],
     status: 'active',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'sofia-mendez-mini-course',
@@ -163,6 +181,8 @@ export const exchangePosts = [
       { icon: '🛒', label: 'Enroll Session', highlight: true },
     ],
     status: 'active',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'lucas-huang-mini-course',
@@ -179,6 +199,8 @@ export const exchangePosts = [
       { icon: '🛒', label: 'Enroll Session', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'amelia-park-mini-course',
@@ -195,6 +217,8 @@ export const exchangePosts = [
       { icon: '🛒', label: 'Enroll Session', highlight: true },
     ],
     status: 'active',
+    region: 'deakin',
+    regions: ['deakin'],
   },
 
   // 📚 Resources
@@ -213,6 +237,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'available',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'chemistry-cheatsheets-resource',
@@ -229,6 +255,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'open',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'ai-policy-notes-resource',
@@ -245,6 +273,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'available',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'devops-cheatsheet-resource',
@@ -261,6 +291,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'available',
+    region: 'australia',
+    regions: ['australia'],
   },
 
   // 📖 Literature
@@ -279,6 +311,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'sustainability-lit-forum',
@@ -295,6 +329,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'active',
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'neurotech-lit-swap',
@@ -311,6 +347,8 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'ai-philosophy-lit-forum',
@@ -327,5 +365,7 @@ export const exchangePosts = [
       { icon: '💾', label: 'Request Access', highlight: true },
     ],
     status: 'active',
+    region: 'australia',
+    regions: ['australia'],
   },
 ]

@@ -6,6 +6,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useInsightDiscussionsStore } from '@/stores/insightDiscussions'
 import { useInsightPostsStore } from '@/stores/insightPosts'
+import { useRegionStore } from '@/stores/region'
+import { getItemRegionIds } from '@/utils/region'
 
 const statusStyles = {
   active: {
@@ -28,6 +30,7 @@ const router = useRouter()
 const discussionsStore = useInsightDiscussionsStore()
 const insightPostsStore = useInsightPostsStore()
 const { posts } = storeToRefs(insightPostsStore)
+const regionStore = useRegionStore()
 
 const isDiscussionOpen = ref(false)
 const isSubmittingQuestion = ref(false)
@@ -80,6 +83,13 @@ const shouldAutoOpenDiscussion = computed(() => {
 const accent = PILLAR_ACCENTS.insight
 
 const post = computed(() => posts.value.find((item) => item.id === route.params.id))
+
+const regionMeta = computed(() => {
+  if (!post.value) return null
+
+  const regionIds = getItemRegionIds(post.value)
+  return regionStore.getRegionMeta(post.value.region ?? regionIds[0])
+})
 
 const discussionThreads = computed(() => {
   if (!post.value?.id) return []
@@ -321,6 +331,14 @@ watch(
           <h1 class="text-3xl font-bold text-slate-900">{{ post.title }}</h1>
           <p class="text-base text-slate-600">{{ post.subtitle }}</p>
         </div>
+
+        <span
+          v-if="regionMeta"
+          class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+          :class="regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+        >
+          📍 {{ regionMeta.shortLabel ?? regionMeta.label }}
+        </span>
 
         <p v-if="post.author" class="text-sm font-medium text-slate-500">
           Hosted by <span class="text-slate-700">{{ post.author }}</span>
