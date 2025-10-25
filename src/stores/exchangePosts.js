@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { exchangePosts as initialPosts } from '@/data/exchangePosts'
+import { DEFAULT_REGION_ID } from '@/constants/regions'
+import { normalizeRegionId } from '@/utils/region'
 
 const clonePosts = (data) => JSON.parse(JSON.stringify(data ?? []))
 
@@ -82,6 +84,29 @@ const parsePositiveInt = (value) => {
   return Number.isNaN(number) || number < 0 ? 0 : number
 }
 
+const resolveRegions = (form = {}) => {
+  const ids = new Set()
+
+  const collect = (value) => {
+    const normalized = normalizeRegionId(value)
+    if (normalized) {
+      ids.add(normalized)
+    }
+  }
+
+  collect(form.region ?? form.regionId)
+
+  if (Array.isArray(form.regions)) {
+    form.regions.forEach(collect)
+  }
+
+  if (!ids.size) {
+    ids.add(DEFAULT_REGION_ID)
+  }
+
+  return Array.from(ids)
+}
+
 const createPostFromForm = (form = {}) => {
   const category = form.category in CATEGORY_META ? form.category : form.category?.trim()
   const resolvedCategory = category && CATEGORY_META[category] ? category : 'mentors'
@@ -101,6 +126,8 @@ const createPostFromForm = (form = {}) => {
 
   details.push('🆕 Community submission')
 
+  const regions = resolveRegions(form)
+
   return {
     id: form.id ?? createId(),
     category: resolvedCategory,
@@ -113,6 +140,8 @@ const createPostFromForm = (form = {}) => {
     tags,
     actions: meta.actions ?? DEFAULT_META.actions,
     status: 'active',
+    region: regions[0] ?? DEFAULT_REGION_ID,
+    regions,
   }
 }
 

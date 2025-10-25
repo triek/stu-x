@@ -7,6 +7,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'discussions',
     tags: ['Community', 'FirstYear', 'Shopping'],
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'topic-friends-at-university',
@@ -16,6 +18,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'discussions',
     tags: ['Community', 'Friendship', 'Wellbeing'],
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'poll-macbook-vs-windows',
@@ -25,6 +29,8 @@ export const communityPosts = [
     cta: 'Vote',
     category: 'polls',
     tags: ['Poll', 'Technology', 'Hardware'],
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'topic-lenovo-vs-hp',
@@ -35,6 +41,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'critiques',
     tags: ['Laptops', 'Hardware', 'Advice'],
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'topic-best-online-tools',
@@ -44,6 +52,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'discussions',
     tags: ['Productivity', 'Tools', 'Recommendations'],
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'topic-student-discounts',
@@ -54,6 +64,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'discussions',
     tags: ['Savings', 'Deals', 'StudentLife'],
+    region: 'melbourne',
+    regions: ['melbourne'],
   },
   {
     id: 'topic-managing-money',
@@ -63,6 +75,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'discussions',
     tags: ['Finance', 'Budgeting', 'Advice'],
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'topic-group-assignments',
@@ -73,6 +87,8 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'critiques',
     tags: ['Teamwork', 'Assignments', 'PeerSupport'],
+    region: 'australia',
+    regions: ['australia'],
   },
   {
     id: 'topic-choosing-laptop',
@@ -82,5 +98,7 @@ export const communityPosts = [
     cta: 'Discuss',
     category: 'critiques',
     tags: ['Hardware', 'Advice', 'Technology'],
+    region: 'deakin',
+    regions: ['deakin'],
   },
 ]

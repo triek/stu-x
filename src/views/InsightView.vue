@@ -5,6 +5,8 @@ import { useRouter } from 'vue-router'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useInsightPostsStore } from '@/stores/insightPosts'
+import { useRegionStore } from '@/stores/region'
+import { getItemRegionIds } from '@/utils/region'
 
 const statusStyles = {
   active: {
@@ -23,6 +25,29 @@ const statusStyles = {
 
 const insightPostsStore = useInsightPostsStore()
 const { posts } = storeToRefs(insightPostsStore)
+
+const regionStore = useRegionStore()
+const { activeScope, activeRegion } = storeToRefs(regionStore)
+
+const filteredPosts = computed(() => {
+  const scope = new Set(activeScope.value)
+
+  return posts.value
+    .filter((item) => {
+      const regionIds = getItemRegionIds(item)
+      return regionIds.some((id) => scope.has(id))
+    })
+    .map((item) => {
+      const regionIds = getItemRegionIds(item)
+      const regionMeta = regionStore.getRegionMeta(item.region ?? regionIds[0])
+
+      return {
+        ...item,
+        regionIds,
+        regionMeta,
+      }
+    })
+})
 
 const baseConfig = {
   title: 'Insight',
@@ -44,10 +69,18 @@ const baseConfig = {
   createLabel: 'Request Insight',
 }
 
-const config = computed(() => ({
-  ...baseConfig,
-  feed: posts.value,
-}))
+const config = computed(() => {
+  const highlights = [...baseConfig.highlights]
+  if (activeRegion.value?.label) {
+    highlights.push(`${activeRegion.value.label} focus`)
+  }
+
+  return {
+    ...baseConfig,
+    highlights,
+    feed: filteredPosts.value,
+  }
+})
 
 const insightTypeOptions = [
   { value: 'academic', label: '🧪 Academic' },
@@ -88,7 +121,7 @@ const openDiscussion = (item) => {
   })
 }
 const handleSubmit = (form) => {
-  insightPostsStore.addPost(form)
+  insightPostsStore.addPost({ ...form, region: activeRegion.value?.id })
 }
 </script>
 
@@ -122,9 +155,21 @@ const handleSubmit = (form) => {
 
         <!-- Post author and title -->
         <div class="space-y-2">
-          <p v-if="item.author" class="text-sm font-medium text-slate-500">
-            Author: <span class="text-slate-700">{{ item.author }}</span>
-          </p>
+          <div
+            v-if="item.author || item.regionMeta"
+            class="flex flex-wrap items-center gap-2"
+          >
+            <p v-if="item.author" class="text-sm font-medium text-slate-500">
+              Author: <span class="text-slate-700">{{ item.author }}</span>
+            </p>
+            <span
+              v-if="item.regionMeta"
+              class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+              :class="item.regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+            >
+              📍 {{ item.regionMeta.shortLabel ?? item.regionMeta.label }}
+            </span>
+          </div>
           <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
           <p class="text-slate-600">{{ item.subtitle }}</p>
         </div>

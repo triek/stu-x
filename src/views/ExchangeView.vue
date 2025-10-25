@@ -4,6 +4,8 @@ import { storeToRefs } from 'pinia'
 import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useExchangePostsStore } from '@/stores/exchangePosts'
+import { useRegionStore } from '@/stores/region'
+import { getItemRegionIds } from '@/utils/region'
 
 const categories = [
   {
@@ -56,9 +58,29 @@ const statusStyles = {
 const exchangePostsStore = useExchangePostsStore()
 const { posts } = storeToRefs(exchangePostsStore)
 
-const filteredPosts = computed(() =>
-  posts.value.filter((post) => post.category === activeCategory.value),
-)
+const regionStore = useRegionStore()
+const { activeScope, activeRegion } = storeToRefs(regionStore)
+
+const filteredPosts = computed(() => {
+  const scope = new Set(activeScope.value)
+
+  return posts.value
+    .filter((post) => {
+      const regionIds = getItemRegionIds(post)
+      return regionIds.some((id) => scope.has(id))
+    })
+    .filter((post) => post.category === activeCategory.value)
+    .map((post) => {
+      const regionIds = getItemRegionIds(post)
+      const regionMeta = regionStore.getRegionMeta(post.region ?? regionIds[0])
+
+      return {
+        ...post,
+        regionIds,
+        regionMeta,
+      }
+    })
+})
 
 const activeCategoryMeta = computed(() =>
   categories.find((category) => category.id === activeCategory.value),
@@ -80,10 +102,18 @@ const baseConfig = {
   createLabel: 'Create Exchange Offer',
 }
 
-const config = computed(() => ({
-  ...baseConfig,
-  feed: filteredPosts.value,
-}))
+const config = computed(() => {
+  const highlights = [...baseConfig.highlights]
+  if (activeRegion.value?.label) {
+    highlights.push(`${activeRegion.value.label} focus`)
+  }
+
+  return {
+    ...baseConfig,
+    highlights,
+    feed: filteredPosts.value,
+  }
+})
 
 const formDefaults = computed(() => ({
   category: activeCategory.value,
@@ -93,7 +123,8 @@ const formDefaults = computed(() => ({
 }))
 
 const handleSubmit = (form) => {
-  const post = exchangePostsStore.addPost(form)
+  const regionId = activeRegion.value?.id
+  const post = exchangePostsStore.addPost({ ...form, region: regionId })
   activeCategory.value = post.category
 }
 </script>
@@ -161,6 +192,13 @@ const handleSubmit = (form) => {
                   <span>{{ post.type.label }}</span>
                 </span>
                 <p class="text-sm font-semibold text-slate-500">{{ post.name }}</p>
+                <span
+                  v-if="post.regionMeta"
+                  class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+                  :class="post.regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+                >
+                  📍 {{ post.regionMeta.shortLabel ?? post.regionMeta.label }}
+                </span>
               </div>
 
               <!-- Active status -->

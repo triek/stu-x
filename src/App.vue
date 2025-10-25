@@ -1,70 +1,173 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { RouterLink, RouterView } from 'vue-router'
 
 import { useAuthStore } from './stores/auth'
+import { useRegionStore } from './stores/region'
 
 const authStore = useAuthStore()
 const { isAuthenticated, stunixBalance, displayName } = storeToRefs(authStore)
+
+const regionStore = useRegionStore()
+const { availableRegions, activeRegion } = storeToRefs(regionStore)
 
 const formattedBalance = computed(() =>
   new Intl.NumberFormat('en-US').format(stunixBalance.value)
 )
 
+const activeRegionLabel = computed(
+  () => activeRegion.value?.shortLabel ?? activeRegion.value?.label ?? 'Australia',
+)
+
+const activeRegionStatus = computed(() => activeRegion.value?.statusLabel ?? '')
+
 const logout = () => {
   authStore.logout()
 }
+
+const regionMenuOpen = ref(false)
+const regionMenuRef = ref(null)
+
+const toggleRegionMenu = () => {
+  regionMenuOpen.value = !regionMenuOpen.value
+}
+
+const closeRegionMenu = () => {
+  regionMenuOpen.value = false
+}
+
+const handleRegionSelect = (region) => {
+  if (!region?.id || region.isActive === false) {
+    return
+  }
+
+  regionStore.setRegion(region.id)
+  closeRegionMenu()
+}
+
+const handleDocumentClick = (event) => {
+  if (!regionMenuOpen.value) return
+
+  const target = event.target
+  if (regionMenuRef.value && !regionMenuRef.value.contains(target)) {
+    closeRegionMenu()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleDocumentClick)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleDocumentClick)
+})
 </script>
 
 <template>
 <div class="flex min-h-screen flex-col">
   <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
-    <div class="mx-auto flex w-full flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <div
+      class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between"
+    >
       <!-- Logo -->
       <RouterLink to="/" class="flex flex-col text-slate-900 no-underline">
         <span class="text-2xl font-bold uppercase tracking-[0.08em] text-brand">StuX</span>
         <span class="text-sm font-medium text-slate-500">The Human Insight Network</span>
       </RouterLink>
 
-      <!-- Nav items -->
-      <nav class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600 sm:gap-6">
-        <RouterLink
-          to="/home"
-          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-          active-class="border-indigo-400/60 text-indigo-600"
-        >
-          Home
-        </RouterLink>
-        <RouterLink
-          to="/insight"
-          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-          active-class="border-indigo-400/60 text-indigo-600"
-        >
-          Insight
-        </RouterLink>
-        <RouterLink
-          to="/exchange"
-          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-          active-class="border-indigo-400/60 text-indigo-600"
-        >
-          Exchange
-        </RouterLink>
-        <RouterLink
-          to="/community"
-          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-          active-class="border-indigo-400/60 text-indigo-600"
-        >
-          Community
-        </RouterLink>
-        <RouterLink
-          to="/profile"
-          class="inline-flex items-center gap-2 border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-          active-class="border-indigo-400/60 text-indigo-600"
-        >
-          Profile
-        </RouterLink>
-      </nav>
+      <div class="flex flex-1 flex-wrap items-center justify-center gap-4 md:justify-center">
+        <!-- Nav items -->
+        <nav class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600 sm:gap-6">
+          <RouterLink
+            to="/home"
+            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+            active-class="border-indigo-400/60 text-indigo-600"
+          >
+            Home
+          </RouterLink>
+          <RouterLink
+            to="/insight"
+            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+            active-class="border-indigo-400/60 text-indigo-600"
+          >
+            Insight
+          </RouterLink>
+          <RouterLink
+            to="/exchange"
+            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+            active-class="border-indigo-400/60 text-indigo-600"
+          >
+            Exchange
+          </RouterLink>
+          <RouterLink
+            to="/community"
+            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+            active-class="border-indigo-400/60 text-indigo-600"
+          >
+            Community
+          </RouterLink>
+          <RouterLink
+            to="/profile"
+            class="inline-flex items-center gap-2 border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+            active-class="border-indigo-400/60 text-indigo-600"
+          >
+            Profile
+          </RouterLink>
+        </nav>
+
+        <!-- Region toggler -->
+        <div ref="regionMenuRef" class="relative">
+          <button
+            type="button"
+            class="inline-flex w-full min-w-[10rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            @click="toggleRegionMenu"
+            aria-haspopup="listbox"
+            :aria-expanded="regionMenuOpen"
+          >
+            <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Region</span>
+            <span class="text-sm font-semibold text-slate-700">{{ activeRegionLabel }}</span>
+            <span v-if="activeRegionStatus" class="text-xs font-medium text-indigo-500">
+              {{ activeRegionStatus }}
+            </span>
+          </button>
+
+          <div
+            v-if="regionMenuOpen"
+            class="absolute right-0 z-20 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
+          >
+            <p class="px-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Regions</p>
+            <ul class="mt-2 grid gap-1">
+              <li v-for="region in availableRegions" :key="region.id">
+                <button
+                  type="button"
+                  class="flex w-full flex-col gap-1 rounded-xl px-3 py-2 text-left transition"
+                  :class="[
+                    region.id === activeRegion?.id
+                      ? 'bg-indigo-50 text-indigo-700 shadow-inner'
+                      : 'text-slate-600 hover:bg-slate-100',
+                    region.isActive === false ? 'cursor-not-allowed opacity-70 hover:bg-white' : '',
+                  ]"
+                  @click="handleRegionSelect(region)"
+                  :disabled="region.isActive === false"
+                >
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-sm font-semibold">{{ region.label }}</span>
+                    <span
+                      v-if="region.statusLabel"
+                      class="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                      :class="region.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+                    >
+                      {{ region.statusLabel }}
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-500">{{ region.tagline }}</p>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <!-- Auth state -->
       <div class="flex items-center gap-3 text-sm font-semibold">
