@@ -56,7 +56,7 @@ const baseConfig = {
   headline: 'Insight Hub',
   description:
     'Share or join research studies and request feedback',
-  highlights: ['Spend Stunix for requests', 'Earn Stunix for answers'],
+  highlights: ['Spend and earn Stunix'],
   categories: [
     { label: 'Academic Studies', value: 'academic' },
     { label: 'Product Feedback', value: 'product' },

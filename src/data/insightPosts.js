@@ -15,7 +15,7 @@ export const insightPosts = [
     status: 'active',
     category: 'academic',
     region: 'deakin',
-    regions: ['deakin'],
+    regions: ['deakin', 'melbourne', 'australia'],
   },
   {
     id: 'product-focusflow-feedback',
@@ -51,7 +51,7 @@ export const insightPosts = [
     status: 'closed',
     category: 'project',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'academic-neurodiverse-note-taking',
@@ -69,7 +69,7 @@ export const insightPosts = [
     status: 'active',
     category: 'academic',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'product-campus-nav-feedback',

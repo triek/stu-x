@@ -16,7 +16,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'deakin',
-    regions: ['deakin'],
+    regions: ['deakin', 'melbourne', 'australia'],
   },
   {
     id: 'tristan-khuong-mentor',
@@ -34,7 +34,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'deakin',
-    regions: ['deakin'],
+    regions: ['deakin', 'melbourne', 'australia'],
   },
   {
     id: 'ethan-cho-mentor',
@@ -90,7 +90,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'laila-singh-ta',
@@ -164,7 +164,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'sofia-mendez-mini-course',
@@ -182,7 +182,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'lucas-huang-mini-course',
@@ -218,7 +218,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'deakin',
-    regions: ['deakin'],
+    regions: ['deakin', 'melbourne', 'australia'],
   },
 
   // 📚 Resources
@@ -238,7 +238,7 @@ export const exchangePosts = [
     ],
     status: 'available',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'chemistry-cheatsheets-resource',
@@ -330,7 +330,7 @@ export const exchangePosts = [
     ],
     status: 'active',
     region: 'melbourne',
-    regions: ['melbourne'],
+    regions: ['melbourne', 'australia'],
   },
   {
     id: 'neurotech-lit-swap',

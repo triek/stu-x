@@ -20,8 +20,6 @@ const activeRegionLabel = computed(
   () => activeRegion.value?.shortLabel ?? activeRegion.value?.label ?? 'Australia',
 )
 
-const activeRegionStatus = computed(() => activeRegion.value?.statusLabel ?? '')
-
 const logout = () => {
   authStore.logout()
 }
@@ -115,57 +113,54 @@ onBeforeUnmount(() => {
             Profile
           </RouterLink>
         </nav>
+      </div>
 
-        <!-- Region toggler -->
-        <div ref="regionMenuRef" class="relative">
-          <button
-            type="button"
-            class="inline-flex w-full min-w-[10rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
-            @click="toggleRegionMenu"
-            aria-haspopup="listbox"
-            :aria-expanded="regionMenuOpen"
-          >
-            <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Region</span>
-            <span class="text-sm font-semibold text-slate-700">{{ activeRegionLabel }}</span>
-            <span v-if="activeRegionStatus" class="text-xs font-medium text-indigo-500">
-              {{ activeRegionStatus }}
-            </span>
-          </button>
+      <!-- Region toggler -->
+      <div ref="regionMenuRef" class="relative">
+        <button
+          type="button"
+          class="inline-flex w-full min-w-[10rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          @click="toggleRegionMenu"
+          aria-haspopup="listbox"
+          :aria-expanded="regionMenuOpen"
+        >
+          <span class="text-sm font-semibold text-slate-700">{{ activeRegionLabel }}</span>
+        </button>
 
-          <div
-            v-if="regionMenuOpen"
-            class="absolute right-0 z-20 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
-          >
-            <p class="px-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Regions</p>
-            <ul class="mt-2 grid gap-1">
-              <li v-for="region in availableRegions" :key="region.id">
-                <button
-                  type="button"
-                  class="flex w-full flex-col gap-1 rounded-xl px-3 py-2 text-left transition"
-                  :class="[
-                    region.id === activeRegion?.id
-                      ? 'bg-indigo-50 text-indigo-700 shadow-inner'
-                      : 'text-slate-600 hover:bg-slate-100',
-                    region.isActive === false ? 'cursor-not-allowed opacity-70 hover:bg-white' : '',
-                  ]"
-                  @click="handleRegionSelect(region)"
-                  :disabled="region.isActive === false"
-                >
-                  <div class="flex items-center justify-between gap-2">
-                    <span class="text-sm font-semibold">{{ region.label }}</span>
-                    <span
-                      v-if="region.statusLabel"
-                      class="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                      :class="region.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
-                    >
-                      {{ region.statusLabel }}
-                    </span>
-                  </div>
-                  <p class="text-xs text-slate-500">{{ region.tagline }}</p>
-                </button>
-              </li>
-            </ul>
-          </div>
+        <div
+          v-if="regionMenuOpen"
+          class="absolute right-0 z-20 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
+        >
+          <!-- Region list -->
+          <p class="px-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Regions</p>
+          <ul class="mt-2 grid gap-1">
+            <li v-for="region in availableRegions" :key="region.id">
+              <button
+                type="button"
+                class="flex w-full flex-col gap-1 rounded-xl px-3 py-2 text-left transition"
+                :class="[
+                  region.id === activeRegion?.id
+                    ? 'bg-indigo-50 text-indigo-700 shadow-inner'
+                    : 'text-slate-600 hover:bg-slate-100',
+                  region.isActive === false ? 'cursor-not-allowed opacity-70 hover:bg-white' : '',
+                ]"
+                @click="handleRegionSelect(region)"
+                :disabled="region.isActive === false"
+              >
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-sm font-semibold">{{ region.label }}</span>
+                  <span
+                    v-if="region.statusLabel"
+                    class="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                    :class="region.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+                  >
+                    {{ region.statusLabel }}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500">{{ region.tagline }}</p>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
 
