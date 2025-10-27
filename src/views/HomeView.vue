@@ -84,7 +84,7 @@ const pillars = [
 
       <!-- How it works -->
       <div
-        class="relative z-10 rounded-2xl bg-white/50 px-7 pb-7 pt-36 shadow-panel ring-1 ring-indigo-100/60 transition-transform duration-300 group-hover:-translate-y-1"
+        class="relative z-10 rounded-2xl bg-white/50 px-7 pb-7 pt-36 md:pt-46 lg:pt-36 shadow-panel ring-1 ring-indigo-100/60 transition-transform duration-300 group-hover:-translate-y-1"
       >
         <h3 class="text-lg font-semibold text-slate-800">{{ pillar.how.title }}</h3>
         <p class="text-sm text-slate-600">{{ pillar.how.description }}</p>
