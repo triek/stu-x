@@ -250,15 +250,19 @@ watch(isAuthenticated, (value) => {
       </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-[2fr_1fr]">
-      <div class="grid gap-4">
-        <!-- My posts -->
-        <div class="grid gap-4 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
-          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <h2 class="text-2xl font-semibold text-slate-900">My posts</h2>
-            <span class="text-sm text-slate-500">Sharing your insight boosts collective learning</span>
-          </div>
-          <ul v-if="formattedPosts.length" class="grid gap-3">
+    <div
+      class="grid gap-4 auto-rows-[8px] lg:grid-cols-[2fr_1fr] lg:grid-flow-dense"
+    >
+      <!-- My posts -->
+      <div
+        class="flex min-h-0 flex-col gap-4 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-1 row-span-18"
+      >
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <h2 class="text-2xl font-semibold text-slate-900">My posts</h2>
+          <span class="text-sm text-slate-500">Sharing your insight boosts collective learning</span>
+        </div>
+        <div class="flex-1 min-h-0 overflow-y-auto">
+          <ul v-if="formattedPosts.length" class="grid gap-3 pr-1">
             <li
               v-for="post in formattedPosts"
               :key="post.id"
@@ -275,11 +279,15 @@ watch(isAuthenticated, (value) => {
             You haven't published any posts yet. Share your first insight from the community or exchange pages.
           </p>
         </div>
+      </div>
 
-        <!-- Activity feed -->
-        <div class="grid gap-4 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
-          <h2 class="text-2xl font-semibold text-slate-900">Activity feed</h2>
-          <ul v-if="formattedActivity.length" class="grid gap-3">
+      <!-- Activity feed -->
+      <div
+        class="flex min-h-0 flex-col gap-4 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-1 row-span-14"
+      >
+        <h2 class="text-2xl font-semibold text-slate-900">Activity feed</h2>
+        <div class="flex-1 min-h-0 overflow-y-auto">
+          <ul v-if="formattedActivity.length" class="grid gap-3 pr-1">
             <li
               v-for="item in formattedActivity"
               :key="item.id"
@@ -295,30 +303,31 @@ watch(isAuthenticated, (value) => {
         </div>
       </div>
 
-      <div class="grid gap-4">
-        <!-- Wallet section -->
-        <div class="grid gap-4 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
+      <!-- Wallet section -->
+      <div
+        class="flex min-h-0 flex-col gap-4 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-2 row-span-14"
+      >
+        <div class="flex flex-shrink-0 items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-semibold text-slate-900">Wallet</h2>
+          </div>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-100"
+            @click="toggleWallet"
+          >
+            <span>{{ isWalletOpen ? 'Hide activity' : 'Open wallet' }}</span>
+          </button>
+        </div>
+        <div class="grid flex-shrink-0 gap-3 rounded-2xl bg-slate-50/70 p-5 text-sm text-slate-600">
           <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-semibold text-slate-900">Wallet</h2>
-              <p class="text-sm text-slate-500">Track how you earn and spend your Stunix.</p>
-            </div>
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-100"
-              @click="toggleWallet"
-            >
-              <span>{{ isWalletOpen ? 'Hide activity' : 'Open wallet' }}</span>
-            </button>
+            <span class="font-semibold uppercase tracking-[0.16em] text-slate-400">Current balance</span>
+            <span class="text-lg font-bold text-slate-900">{{ formattedBalance }}</span>
           </div>
-          <div class="grid gap-3 rounded-2xl bg-slate-50/70 p-5 text-sm text-slate-600">
-            <div class="flex items-center justify-between">
-              <span class="font-semibold uppercase tracking-[0.16em] text-slate-400">Current balance</span>
-              <span class="text-lg font-bold text-slate-900">{{ formattedBalance }}</span>
-            </div>
-            <p>Use your Stunix to unlock mentorship, exchange opportunities, and exclusive community access.</p>
-          </div>
-          <div v-if="isWalletOpen" class="grid gap-4">
+          <p>Use your Stunix to unlock mentorship, exchange opportunities, and exclusive community access.</p>
+        </div>
+        <div v-if="isWalletOpen" class="flex-1 min-h-0 overflow-y-auto">
+          <div class="grid gap-4 pr-1">
             <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">Recent wallet activity</h3>
             <ul v-if="formattedWallet.length" class="grid gap-3">
               <li
@@ -347,13 +356,16 @@ watch(isAuthenticated, (value) => {
             </p>
           </div>
         </div>
+      </div>
 
-        <!-- Update profile details -->
-        <div class="grid gap-5 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
-          <div class="space-y-1">
-            <h2 class="text-2xl font-semibold text-slate-900">Update profile details</h2>
-            <p class="text-sm text-slate-500">Keep your school and region current so we can tailor opportunities for you.</p>
-          </div>
+      <!-- Update profile details -->
+      <div
+        class="flex min-h-0 flex-col gap-5 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-2 row-span-18"
+      >
+        <div class="space-y-1">
+          <h2 class="text-2xl font-semibold text-slate-900">Update profile details</h2>
+        </div>
+        <div class="flex-1 min-h-0 overflow-y-auto pr-1">
           <form class="grid gap-4" @submit.prevent="handleProfileUpdate">
             <label class="grid gap-2 text-sm">
               <span class="font-semibold text-slate-700">School or organization</span>

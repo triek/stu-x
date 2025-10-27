@@ -26,23 +26,38 @@ const REGION_CITY_OVERRIDES = {
   australia: withDefinedOptions(
     createOptionFromRegion('melbourne'),
     createOptionFromRegion('sydney'),
+    createOptionFromRegion('brisbane'),
+  ),
+  vietnam: withDefinedOptions(
+    createOptionFromRegion('tphcm'),
+    createOptionFromRegion('danang'),
+    createOptionFromRegion('hanoi'),
   ),
 }
 
 const REGION_SCHOOL_OVERRIDES = {
+  // Australia
   melbourne: withDefinedOptions(
     createOptionFromRegion('deakin'),
     createOptionFromRegion('monash'),
   ),
-  sydney: withDefinedOptions(createOptionFromRegion('usyd')),
-  vietnam: withDefinedOptions(
-    createOptionFromRegion('tphcm'),
-    createOptionFromRegion('iu-vnu'),
-    createOptionFromRegion('ussh'),
+  sydney: withDefinedOptions(
+    createOptionFromRegion('usyd'),
   ),
+  brisbane: withDefinedOptions(
+    // Placeholder for future uni
+  ),
+
+  // Vietnam
   tphcm: withDefinedOptions(
     createOptionFromRegion('iu-vnu'),
     createOptionFromRegion('ussh'),
+  ),
+  danang: withDefinedOptions(
+    // Placeholder for future uni
+  ),
+  hanoi: withDefinedOptions(
+    // Placeholder for future uni
   ),
 }
 
