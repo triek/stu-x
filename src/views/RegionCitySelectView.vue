@@ -1,8 +1,9 @@
 <script setup>
 import { computed, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+import { getCitiesForRegion } from '@/constants/regionSchools'
 import { useRegionStore } from '@/stores/region'
-import { getCitiesForRegion, getSchoolsForRegion } from '@/constants/regionSchools'
 
 const route = useRoute()
 const router = useRouter()
@@ -10,7 +11,6 @@ const regionStore = useRegionStore()
 
 const regionId = computed(() => route.params.regionId?.toString().toLowerCase() ?? '')
 const regionMeta = computed(() => regionStore.getRegionMeta(regionId.value))
-const schools = computed(() => getSchoolsForRegion(regionId.value))
 const cities = computed(() => getCitiesForRegion(regionId.value))
 
 watchEffect(() => {
@@ -19,16 +19,16 @@ watchEffect(() => {
     return
   }
 
-  if (cities.value.length && regionId.value) {
-    router.replace({ name: 'region-cities', params: { regionId: regionId.value } })
+  if (regionMeta.value && !cities.value.length) {
+    router.replace({ name: 'region-schools', params: { regionId: regionId.value } })
   }
 })
 
-const handleSchoolSelect = (school) => {
-  if (!school?.regionId || school.isActive === false) return
+const handleCitySelect = (city) => {
+  if (!city?.regionId || city.isActive === false) return
 
-  regionStore.setRegion(school.regionId)
-  router.push({ name: 'insight' })
+  regionStore.setRegion(city.regionId)
+  router.push({ name: 'region-schools', params: { regionId: city.regionId } })
 }
 
 const goBack = () => {
@@ -47,7 +47,7 @@ const goBack = () => {
     </button>
 
     <header class="space-y-3">
-      <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Choose your school</p>
+      <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Choose your city</p>
       <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">
         {{ regionMeta?.label ?? 'Select your region' }}
       </h1>
@@ -58,44 +58,44 @@ const goBack = () => {
 
     <div class="grid gap-4 sm:grid-cols-2">
       <button
-        v-for="school in schools"
-        :key="school.id"
+        v-for="city in cities"
+        :key="city.id"
         type="button"
         class="group flex flex-col gap-2 rounded-2xl border p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
         :class="[
-          school.isActive !== false
+          city.isActive !== false
             ? 'border-indigo-100/80 bg-white/80'
             : 'cursor-not-allowed border-slate-200 bg-slate-50 text-slate-400',
         ]"
-        @click="handleSchoolSelect(school)"
+        @click="handleCitySelect(city)"
       >
         <span
           class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-          :class="school.accent ?? 'bg-indigo-50 text-indigo-700'"
+          :class="city.accent ?? 'bg-indigo-50 text-indigo-700'"
         >
-          <span>{{ school.label }}</span>
+          <span>{{ city.label }}</span>
           <span
-            v-if="school.statusLabel"
+            v-if="city.statusLabel"
             class="rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600"
           >
-            {{ school.statusLabel }}
+            {{ city.statusLabel }}
           </span>
         </span>
-        <span class="text-sm text-slate-600" :class="{ 'text-slate-400': school.isActive === false }">
-          {{ school.description || 'Join peers and collaborators in this network.' }}
+        <span class="text-sm text-slate-600" :class="{ 'text-slate-400': city.isActive === false }">
+          {{ city.description || 'Join peers and collaborators in this city network.' }}
         </span>
         <span
-          v-if="school.isActive !== false"
+          v-if="city.isActive !== false"
           class="text-xs font-semibold text-brand opacity-0 transition-opacity group-hover:opacity-100"
         >
-          Go to insights →
+          Choose city →
         </span>
         <span v-else class="text-xs font-semibold text-slate-400">Coming soon</span>
       </button>
     </div>
 
-    <p v-if="!schools.length" class="text-sm text-slate-500">
-      We’re still onboarding schools for this region. Check back soon or request your school on the landing page.
+    <p v-if="!cities.length" class="text-sm text-slate-500">
+      We’re still onboarding cities for this region. Check back soon or request your city on the landing page.
     </p>
   </section>
 </template>

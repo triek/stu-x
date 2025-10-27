@@ -22,16 +22,33 @@ const createOptionFromRegion = (regionId) => {
 
 const withDefinedOptions = (...options) => options.filter(Boolean)
 
-const REGION_SCHOOL_OVERRIDES = {
+const REGION_CITY_OVERRIDES = {
   australia: withDefinedOptions(
     createOptionFromRegion('melbourne'),
-    createOptionFromRegion('deakin'),
+    createOptionFromRegion('sydney'),
   ),
+}
+
+const REGION_SCHOOL_OVERRIDES = {
+  melbourne: withDefinedOptions(
+    createOptionFromRegion('deakin'),
+    createOptionFromRegion('monash'),
+  ),
+  sydney: withDefinedOptions(createOptionFromRegion('usyd')),
   vietnam: withDefinedOptions(
     createOptionFromRegion('tphcm'),
     createOptionFromRegion('iu-vnu'),
     createOptionFromRegion('ussh'),
   ),
+  tphcm: withDefinedOptions(
+    createOptionFromRegion('iu-vnu'),
+    createOptionFromRegion('ussh'),
+  ),
+}
+
+export const getCitiesForRegion = (regionId) => {
+  if (!regionId) return []
+  return REGION_CITY_OVERRIDES[regionId] ?? []
 }
 
 export const getSchoolsForRegion = (regionId) => {

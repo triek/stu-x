@@ -10,6 +10,9 @@ import ProfileView from '../views/ProfileView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignupView from '../views/SignupView.vue'
 import RegionSchoolSelectView from '../views/RegionSchoolSelectView.vue'
+import RegionCitySelectView from '../views/RegionCitySelectView.vue'
+import { getCitiesForRegion } from '@/constants/regionSchools'
+import { normalizeRegionId } from '@/utils/region'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,9 +23,25 @@ const router = createRouter({
       component: LandingView,
     },
     {
+      path: '/regions/:regionId/cities',
+      name: 'region-cities',
+      component: RegionCitySelectView,
+    },
+    {
       path: '/regions/:regionId/schools',
       name: 'region-schools',
       component: RegionSchoolSelectView,
+      beforeEnter: (to) => {
+        const normalizedId = normalizeRegionId(to.params.regionId)
+        if (!normalizedId) return true
+
+        const cities = getCitiesForRegion(normalizedId)
+        if (cities.length) {
+          return { name: 'region-cities', params: { regionId: normalizedId } }
+        }
+
+        return true
+      },
     },
     {
       path: '/home',

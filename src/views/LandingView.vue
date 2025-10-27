@@ -3,7 +3,10 @@ import { RouterLink, useRouter } from 'vue-router'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { REGION_DEFINITIONS } from '@/constants/regions'
 import { withAlpha } from '@/utils/color'
-import { LANDING_SCHOOL_SHORTCUTS } from '@/constants/regionSchools'
+import {
+  LANDING_SCHOOL_SHORTCUTS,
+  getCitiesForRegion,
+} from '@/constants/regionSchools'
 import { useRegionStore } from '@/stores/region'
 
 const regionCards = REGION_DEFINITIONS.filter((region) =>
@@ -46,7 +49,16 @@ const regionStore = useRegionStore()
 
 const handleRegionSelect = (region) => {
   if (!region?.id) return
-  router.push({ name: 'region-schools', params: { regionId: region.id } })
+
+  const regionId = region.id.toString().toLowerCase()
+  const cities = getCitiesForRegion(regionId)
+
+  if (cities.length) {
+    router.push({ name: 'region-cities', params: { regionId } })
+    return
+  }
+
+  router.push({ name: 'region-schools', params: { regionId } })
 }
 
 const handleSchoolSelect = (school) => {
