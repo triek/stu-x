@@ -5,8 +5,8 @@ export const REGION_DEFINITIONS = [
   {
     id: 'australia',
     label: 'Australia',
-    shortLabel: 'Australia',
-    tagline: 'Nationwide network',
+    shortLabel: 'AUS',
+    tagline: '3 Regions',
     accent: 'bg-indigo-100 text-indigo-700',
     chipClass: 'border border-indigo-200/60 bg-indigo-50 text-indigo-700',
     statusLabel: 'National',
@@ -16,8 +16,8 @@ export const REGION_DEFINITIONS = [
   {
     id: 'melbourne',
     label: 'Melbourne',
-    shortLabel: 'Melbourne',
-    tagline: 'City hub with campus partners',
+    shortLabel: 'Mel',
+    tagline: '2 Universities',
     accent: 'bg-emerald-100 text-emerald-700',
     chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
     statusLabel: 'Live',
@@ -27,7 +27,7 @@ export const REGION_DEFINITIONS = [
   {
     id: 'deakin',
     label: 'Deakin University',
-    shortLabel: 'Deakin University',
+    shortLabel: 'Deakin',
     tagline: 'Burwood campus pilot',
     accent: 'bg-emerald-100 text-emerald-700',
     chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
@@ -38,7 +38,7 @@ export const REGION_DEFINITIONS = [
   {
     id: 'monash',
     label: 'Monash University',
-    shortLabel: 'Monash University',
+    shortLabel: 'Monash',
     tagline: 'Clayton campus pilot',
     accent: 'bg-amber-100 text-amber-700',
     chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
@@ -49,8 +49,8 @@ export const REGION_DEFINITIONS = [
   {
     id: 'sydney',
     label: 'Sydney',
-    shortLabel: 'Sydney',
-    tagline: 'Beta waitlist now forming for 2025 launch.',
+    shortLabel: 'Syd',
+    tagline: '1 University',
     accent: 'bg-amber-100 text-amber-700',
     chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
     statusLabel: 'Waitlist',
@@ -60,8 +60,8 @@ export const REGION_DEFINITIONS = [
   {
     id: 'usyd',
     label: 'University of Sydney',
-    shortLabel: 'University of Sydney',
-    tagline: 'Sydney campus pilot',
+    shortLabel: 'USYD',
+    tagline: 'All campuses',
     accent: 'bg-amber-100 text-amber-700',
     chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
     statusLabel: 'Waitlist',
@@ -73,8 +73,8 @@ export const REGION_DEFINITIONS = [
   {
     id: 'vietnam',
     label: 'Việt Nam',
-    shortLabel: 'Vietnam',
-    tagline: 'Nationwide network',
+    shortLabel: 'VN',
+    tagline: '3 Regions',
     accent: 'bg-indigo-100 text-indigo-700',
     chipClass: 'border border-indigo-200/60 bg-indigo-50 text-indigo-700',
     statusLabel: 'National',
@@ -84,8 +84,8 @@ export const REGION_DEFINITIONS = [
   {
     id: 'tphcm',
     label: 'Thành phố Hồ Chí Minh',
-    shortLabel: 'Ho Chi Minh City',
-    tagline: 'City hub with campus partners',
+    shortLabel: 'HCMC',
+    tagline: '2 Universities',
     accent: 'bg-emerald-100 text-emerald-700',
     chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
     statusLabel: 'Live',
@@ -95,8 +95,8 @@ export const REGION_DEFINITIONS = [
   {
   id: 'iu-vnu',
   label: 'International University - VNU',
-  shortLabel: 'IU - VNU',
-  tagline: 'IU campus pilot',
+  shortLabel: 'IU-VNU',
+  tagline: 'Cơ sở Thủ Đức',
   accent: 'bg-emerald-100 text-emerald-700',
   chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
   statusLabel: 'Live',
@@ -106,8 +106,8 @@ export const REGION_DEFINITIONS = [
   {
   id: 'ussh',
   label: 'University of Social Sciences and Humanities',
-  shortLabel: 'IU - VNU',
-  tagline: 'USSH campus pilot',
+  shortLabel: 'USSH',
+  tagline: 'Mọi cơ sở',
   accent: 'bg-amber-100 text-amber-700',
   chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
   statusLabel: 'Waitlist',
@@ -117,7 +117,7 @@ export const REGION_DEFINITIONS = [
   {
   id: 'danang',
   label: 'Đà Nẵng',
-  shortLabel: 'Da Nang',
+  shortLabel: 'DN',
   tagline: 'Central hub with campus partners',
   accent: 'bg-amber-100 text-amber-700',
   chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
@@ -128,7 +128,7 @@ export const REGION_DEFINITIONS = [
 {
   id: 'hanoi',
   label: 'Hà Nội',
-  shortLabel: 'Ha Noi',
+  shortLabel: 'HN',
   tagline: 'Capital region with campus partners',
   accent: 'bg-amber-100 text-amber-700',
   chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
@@ -138,26 +138,36 @@ export const REGION_DEFINITIONS = [
 },
 ]
 
-const REGION_SCOPE_OVERRIDES = {
-  australia: ['australia', 'melbourne', 'deakin', 'monash'],
-  melbourne: ['melbourne', 'deakin', 'monash'],
-  vietnam: ['vietnam', 'tphcm', 'iu-vnu', 'ussh'],
-  tphcm: ['tphcm', 'iu-vnu', 'ussh'],
+export const REGION_CHILDREN = {
+  australia: ['melbourne', 'sydney'],
+  melbourne: ['deakin', 'monash'],
+  sydney: ['usyd'],
+  vietnam: ['tphcm', 'danang', 'hanoi'],
+  tphcm: ['iu-vnu', 'ussh'],
+}
+
+const buildRegionScope = (regionId, visited = new Set()) => {
+  const normalizedId = regionId?.toString().toLowerCase()
+  if (!normalizedId || visited.has(normalizedId)) {
+    return []
+  }
+
+  visited.add(normalizedId)
+
+  const directChildren = REGION_CHILDREN[normalizedId] ?? []
+  const scope = [normalizedId]
+
+  directChildren.forEach((childId) => {
+    scope.push(...buildRegionScope(childId, visited))
+  })
+
+  return scope
 }
 
 export const REGION_SCOPES = REGION_DEFINITIONS.reduce((scopes, region) => {
-  const override = REGION_SCOPE_OVERRIDES[region.id]
-
-  if (override) {
-    const normalizedScope = Array.from(
-      new Set(
-        override.concat(region.id).map((id) => id.toLowerCase()),
-      ),
-    )
-    scopes[region.id] = normalizedScope
-    return scopes
-  }
-
-  scopes[region.id] = [region.id]
+  const scope = buildRegionScope(region.id, new Set())
+  scopes[region.id] = scope.length
+    ? Array.from(new Set(scope))
+    : [region.id.toLowerCase()]
   return scopes
 }, {})

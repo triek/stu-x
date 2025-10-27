@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 import { useAuthStore } from './stores/auth'
 import { useRegionStore } from './stores/region'
-import { REGION_SCOPES } from './constants/regions'
+import { REGION_CHILDREN } from './constants/regions'
 
 const authStore = useAuthStore()
 const { isAuthenticated, stunixBalance, displayName } = storeToRefs(authStore)
@@ -31,12 +31,8 @@ const subregionParentId = ref(null)
 const regionMenuDirection = ref('forward')
 
 const regionSubregionMap = computed(() => {
-  return Object.entries(REGION_SCOPES).reduce((map, [regionId, scope]) => {
-    const subregionIds = Array.from(
-      new Set(scope.filter((id) => id && id !== regionId)),
-    )
-
-    const subregions = subregionIds
+  return Object.entries(REGION_CHILDREN).reduce((map, [regionId, childIds]) => {
+    const subregions = childIds
       .map((id) => regionStore.getRegionMeta(id))
       .filter((meta) => meta && meta.showInSwitcher !== false)
 
@@ -218,7 +214,7 @@ onBeforeUnmount(() => {
       <div ref="regionMenuRef" class="relative">
         <button
           type="button"
-          class="inline-flex w-full min-w-[10rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="inline-flex items-center w-full min-w-[5rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
           @click="toggleRegionMenu"
           aria-haspopup="listbox"
           :aria-expanded="regionMenuOpen"
