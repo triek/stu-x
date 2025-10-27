@@ -217,216 +217,216 @@ watch(isAuthenticated, (value) => {
 </script>
 
 <template>
-  <section class="grid gap-6">
-    <div class="grid gap-6 rounded-3xl bg-white p-10 shadow-panel ring-1 ring-indigo-100/60">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <div class="grid h-24 w-24 flex-shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-brand to-indigo-400 text-3xl font-bold uppercase tracking-[0.08em] text-white">
-          {{ initials }}
-        </div>
-        <div class="flex-1 space-y-6">
-          <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-            <div class="space-y-3">
-              <h1 class="text-3xl font-bold text-slate-900">{{ displayName }}</h1>
-              <p class="text-base leading-relaxed text-slate-600">
-                {{ profileBio }}
-              </p>
-            </div>
-            <div class="grid gap-2 rounded-3xl bg-indigo-50/80 px-5 py-4 text-right text-slate-700">
-              <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Stunix balance</span>
-              <span class="text-2xl font-bold text-brand">{{ formattedBalance }}</span>
-            </div>
+<section class="grid gap-6">
+  <div class="grid gap-6 rounded-3xl bg-white p-10 shadow-panel ring-1 ring-indigo-100/60">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div class="grid h-24 w-24 flex-shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-brand to-indigo-400 text-3xl font-bold uppercase tracking-[0.08em] text-white">
+        {{ initials }}
+      </div>
+      <div class="flex-1 space-y-6">
+        <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div class="space-y-3">
+            <h1 class="text-3xl font-bold text-slate-900">{{ displayName }}</h1>
+            <p class="text-base leading-relaxed text-slate-600">
+              {{ profileBio }}
+            </p>
           </div>
-          <div class="grid gap-4 text-sm text-slate-600 sm:grid-cols-2">
-            <div class="rounded-2xl bg-slate-50/80 p-4">
-              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">School</p>
-              <p class="mt-1 text-base font-semibold text-slate-800">{{ profileSchool }}</p>
-            </div>
-            <div class="rounded-2xl bg-slate-50/80 p-4">
-              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">Region</p>
-              <p class="mt-1 text-base font-semibold text-slate-800">{{ profileRegion }}</p>
-            </div>
+          <div class="grid gap-2 rounded-3xl bg-indigo-50/80 px-5 py-4 text-right text-slate-700">
+            <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Stunix balance</span>
+            <span class="text-2xl font-bold text-brand">{{ formattedBalance }}</span>
+          </div>
+        </div>
+        <div class="grid gap-4 text-sm text-slate-600 sm:grid-cols-2">
+          <div class="rounded-2xl bg-slate-50/80 p-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">School</p>
+            <p class="mt-1 text-base font-semibold text-slate-800">{{ profileSchool }}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50/80 p-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">Region</p>
+            <p class="mt-1 text-base font-semibold text-slate-800">{{ profileRegion }}</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
+  <div
+    class="grid gap-4 [--ru:23px] lg:grid-cols-[2fr_1fr] lg:grid-flow-dense"
+  >
+    <!-- My posts -->
     <div
-      class="grid gap-4 auto-rows-[8px] lg:grid-cols-[2fr_1fr] lg:grid-flow-dense"
+      class="flex min-h-0 flex-col gap-4 overflow-y-auto rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 max-h-[calc(var(--ru)*18)] lg:col-start-1 lg:row-span-18 lg:overflow-hidden"
     >
-      <!-- My posts -->
-      <div
-        class="flex min-h-0 flex-col gap-4 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-1 row-span-18"
-      >
-        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <h2 class="text-2xl font-semibold text-slate-900">My posts</h2>
-          <span class="text-sm text-slate-500">Sharing your insight boosts collective learning</span>
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <h2 class="text-2xl font-semibold text-slate-900">My posts</h2>
+        <span class="text-sm text-slate-500">Sharing your insight boosts collective learning</span>
+      </div>
+      <div class="flex-1 min-h-0 overflow-y-auto">
+        <ul v-if="formattedPosts.length" class="grid gap-3 pr-1">
+          <li
+            v-for="post in formattedPosts"
+            :key="post.id"
+            class="grid gap-2 rounded-2xl bg-indigo-50/70 px-5 py-4"
+          >
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="text-base font-semibold text-slate-900">{{ post.title }}</h3>
+              <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{{ post.createdLabel }}</span>
+            </div>
+            <p class="text-sm text-slate-600">{{ post.summary }}</p>
+          </li>
+        </ul>
+        <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
+          You haven't published any posts yet. Share your first insight from the community or exchange pages.
+        </p>
+      </div>
+    </div>
+
+    <!-- Activity feed -->
+    <div
+      class="flex min-h-0 flex-col gap-4 overflow-y-auto rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 max-h-[calc(var(--ru)*14)] lg:col-start-1 lg:row-span-14 lg:overflow-hidden"
+    >
+      <h2 class="text-2xl font-semibold text-slate-900">Activity feed</h2>
+      <div class="flex-1 min-h-0 overflow-y-auto">
+        <ul v-if="formattedActivity.length" class="grid gap-3 pr-1">
+          <li
+            v-for="item in formattedActivity"
+            :key="item.id"
+            class="rounded-2xl border border-indigo-100 bg-white px-5 py-3"
+          >
+            <p class="text-sm font-semibold text-slate-800">{{ item.description }}</p>
+            <p class="mt-1 text-xs uppercase tracking-[0.16em] text-slate-400">{{ item.timestampLabel }}</p>
+          </li>
+        </ul>
+        <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
+          Your activity will appear here as you participate in surveys, exchanges, and community events.
+        </p>
+      </div>
+    </div>
+
+    <!-- Wallet section -->
+    <div
+      class="flex min-h-0 flex-col gap-4 overflow-y-auto rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 max-h-[calc(var(--ru)*14)] lg:col-start-2 lg:row-span-14 lg:overflow-hidden"
+    >
+      <div class="flex flex-shrink-0 items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold text-slate-900">Wallet</h2>
         </div>
-        <div class="flex-1 min-h-0 overflow-y-auto">
-          <ul v-if="formattedPosts.length" class="grid gap-3 pr-1">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-100"
+          @click="toggleWallet"
+        >
+          <span>{{ isWalletOpen ? 'Hide activity' : 'Open wallet' }}</span>
+        </button>
+      </div>
+      <div class="grid flex-shrink-0 gap-3 rounded-2xl bg-slate-50/70 p-5 text-sm text-slate-600">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold uppercase tracking-[0.16em] text-slate-400">Current balance</span>
+          <span class="text-lg font-bold text-slate-900">{{ formattedBalance }}</span>
+        </div>
+        <p>Use your Stunix to unlock mentorship, exchange opportunities, and exclusive community access.</p>
+      </div>
+      <div v-if="isWalletOpen" class="flex-1 min-h-0 overflow-y-auto">
+        <div class="grid gap-4 pr-1">
+          <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">Recent wallet activity</h3>
+          <ul v-if="formattedWallet.length" class="grid gap-3">
             <li
-              v-for="post in formattedPosts"
-              :key="post.id"
-              class="grid gap-2 rounded-2xl bg-indigo-50/70 px-5 py-4"
+              v-for="entry in formattedWallet"
+              :key="entry.id"
+              class="grid gap-1 rounded-2xl border border-indigo-100 bg-white px-5 py-4 text-sm text-slate-700"
             >
               <div class="flex items-center justify-between gap-3">
-                <h3 class="text-base font-semibold text-slate-900">{{ post.title }}</h3>
-                <span class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{{ post.createdLabel }}</span>
-              </div>
-              <p class="text-sm text-slate-600">{{ post.summary }}</p>
-            </li>
-          </ul>
-          <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
-            You haven't published any posts yet. Share your first insight from the community or exchange pages.
-          </p>
-        </div>
-      </div>
-
-      <!-- Activity feed -->
-      <div
-        class="flex min-h-0 flex-col gap-4 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-1 row-span-14"
-      >
-        <h2 class="text-2xl font-semibold text-slate-900">Activity feed</h2>
-        <div class="flex-1 min-h-0 overflow-y-auto">
-          <ul v-if="formattedActivity.length" class="grid gap-3 pr-1">
-            <li
-              v-for="item in formattedActivity"
-              :key="item.id"
-              class="rounded-2xl border border-indigo-100 bg-white px-5 py-3"
-            >
-              <p class="text-sm font-semibold text-slate-800">{{ item.description }}</p>
-              <p class="mt-1 text-xs uppercase tracking-[0.16em] text-slate-400">{{ item.timestampLabel }}</p>
-            </li>
-          </ul>
-          <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
-            Your activity will appear here as you participate in surveys, exchanges, and community events.
-          </p>
-        </div>
-      </div>
-
-      <!-- Wallet section -->
-      <div
-        class="flex min-h-0 flex-col gap-4 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-2 row-span-14"
-      >
-        <div class="flex flex-shrink-0 items-center justify-between">
-          <div>
-            <h2 class="text-2xl font-semibold text-slate-900">Wallet</h2>
-          </div>
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-100"
-            @click="toggleWallet"
-          >
-            <span>{{ isWalletOpen ? 'Hide activity' : 'Open wallet' }}</span>
-          </button>
-        </div>
-        <div class="grid flex-shrink-0 gap-3 rounded-2xl bg-slate-50/70 p-5 text-sm text-slate-600">
-          <div class="flex items-center justify-between">
-            <span class="font-semibold uppercase tracking-[0.16em] text-slate-400">Current balance</span>
-            <span class="text-lg font-bold text-slate-900">{{ formattedBalance }}</span>
-          </div>
-          <p>Use your Stunix to unlock mentorship, exchange opportunities, and exclusive community access.</p>
-        </div>
-        <div v-if="isWalletOpen" class="flex-1 min-h-0 overflow-y-auto">
-          <div class="grid gap-4 pr-1">
-            <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">Recent wallet activity</h3>
-            <ul v-if="formattedWallet.length" class="grid gap-3">
-              <li
-                v-for="entry in formattedWallet"
-                :key="entry.id"
-                class="grid gap-1 rounded-2xl border border-indigo-100 bg-white px-5 py-4 text-sm text-slate-700"
-              >
-                <div class="flex items-center justify-between gap-3">
-                  <span class="font-semibold text-slate-800">{{ entry.description }}</span>
-                  <span
-                    class="text-sm font-semibold"
-                    :class="{
-                      'text-emerald-600': entry.type === 'credit',
-                      'text-rose-600': entry.type === 'debit',
-                      'text-slate-500': entry.type === 'info',
-                    }"
-                  >
-                    {{ entry.amount > 0 ? `+${entry.amount}` : entry.amount }} Stunix
-                  </span>
-                </div>
-                <span class="text-xs uppercase tracking-[0.14em] text-slate-400">{{ entry.dateLabel }}</span>
-              </li>
-            </ul>
-            <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
-              Once you start earning or spending, your wallet history will be recorded here.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Update profile details -->
-      <div
-        class="flex min-h-0 flex-col gap-5 overflow-hidden rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 lg:col-start-2 row-span-18"
-      >
-        <div class="space-y-1">
-          <h2 class="text-2xl font-semibold text-slate-900">Update profile details</h2>
-        </div>
-        <div class="flex-1 min-h-0 overflow-y-auto pr-1">
-          <form class="grid gap-4" @submit.prevent="handleProfileUpdate">
-            <label class="grid gap-2 text-sm">
-              <span class="font-semibold text-slate-700">School or organization</span>
-              <input
-                v-model="editForm.school"
-                type="text"
-                class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                placeholder="StuX International Academy"
-              />
-            </label>
-            <label class="grid gap-2 text-sm">
-              <span class="font-semibold text-slate-700">
-                Country or region
-                <span class="text-rose-500" aria-hidden="true">*</span>
-                <span class="sr-only">required</span>
-              </span>
-              <select
-                v-model="editForm.regionId"
-                class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                name="region"
-                required
-                aria-required="true"
-              >
-                <option value="">Select your country or region</option>
-                <option
-                  v-for="region in countryRegions"
-                  :key="region.id"
-                  :value="region.id"
+                <span class="font-semibold text-slate-800">{{ entry.description }}</span>
+                <span
+                  class="text-sm font-semibold"
+                  :class="{
+                    'text-emerald-600': entry.type === 'credit',
+                    'text-rose-600': entry.type === 'debit',
+                    'text-slate-500': entry.type === 'info',
+                  }"
                 >
-                  {{ region.label }}
-                </option>
-              </select>
-            </label>
-            <p
-              v-if="updateFeedback"
-              class="text-sm font-semibold"
-              :class="{
-                'text-emerald-600': updateFeedbackVariant === 'success',
-                'text-amber-600': updateFeedbackVariant === 'warning',
-                'text-rose-600': updateFeedbackVariant === 'error',
-                'text-slate-500': updateFeedbackVariant === 'neutral',
-              }"
-            >
-              {{ updateFeedback }}
-            </p>
-            <button
-              type="submit"
-              class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
-              :disabled="isSaving || !profileChanged"
-            >
-              <span v-if="isSaving" class="flex items-center gap-2">
-                <span class="h-2.5 w-2.5 animate-ping rounded-full bg-white"></span>
-                Saving changes...
-              </span>
-              <span v-else>Save changes</span>
-            </button>
-          </form>
+                  {{ entry.amount > 0 ? `+${entry.amount}` : entry.amount }} Stunix
+                </span>
+              </div>
+              <span class="text-xs uppercase tracking-[0.14em] text-slate-400">{{ entry.dateLabel }}</span>
+            </li>
+          </ul>
+          <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
+            Once you start earning or spending, your wallet history will be recorded here.
+          </p>
         </div>
       </div>
     </div>
-  </section>
+
+    <!-- Update profile details -->
+    <div
+      class="flex min-h-0 flex-col gap-5 overflow-y-auto rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60 max-h-[calc(var(--ru)*18)] lg:col-start-2 lg:row-span-18 lg:overflow-hidden"
+    >
+      <div class="space-y-1">
+        <h2 class="text-2xl font-semibold text-slate-900">Update profile details</h2>
+      </div>
+      <div class="flex-1 min-h-0 overflow-y-auto pr-1">
+        <form class="grid gap-4" @submit.prevent="handleProfileUpdate">
+          <label class="grid gap-2 text-sm">
+            <span class="font-semibold text-slate-700">School or organization</span>
+            <input
+              v-model="editForm.school"
+              type="text"
+              class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              placeholder="StuX International Academy"
+            />
+          </label>
+          <label class="grid gap-2 text-sm">
+            <span class="font-semibold text-slate-700">
+              Country or region
+              <span class="text-rose-500" aria-hidden="true">*</span>
+              <span class="sr-only">required</span>
+            </span>
+            <select
+              v-model="editForm.regionId"
+              class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              name="region"
+              required
+              aria-required="true"
+            >
+              <option value="">Select your country or region</option>
+              <option
+                v-for="region in countryRegions"
+                :key="region.id"
+                :value="region.id"
+              >
+                {{ region.label }}
+              </option>
+            </select>
+          </label>
+          <p
+            v-if="updateFeedback"
+            class="text-sm font-semibold"
+            :class="{
+              'text-emerald-600': updateFeedbackVariant === 'success',
+              'text-amber-600': updateFeedbackVariant === 'warning',
+              'text-rose-600': updateFeedbackVariant === 'error',
+              'text-slate-500': updateFeedbackVariant === 'neutral',
+            }"
+          >
+            {{ updateFeedback }}
+          </p>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="isSaving || !profileChanged"
+          >
+            <span v-if="isSaving" class="flex items-center gap-2">
+              <span class="h-2.5 w-2.5 animate-ping rounded-full bg-white"></span>
+              Saving changes...
+            </span>
+            <span v-else>Save changes</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 </template>
 
 <style scoped>
