@@ -5,6 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 import { useAuthStore } from './stores/auth'
 import { useRegionStore } from './stores/region'
+import { REGION_SCOPES } from './constants/regions'
 
 const authStore = useAuthStore()
 const { isAuthenticated, stunixBalance, displayName } = storeToRefs(authStore)
@@ -26,13 +27,97 @@ const logout = () => {
 
 const regionMenuOpen = ref(false)
 const regionMenuRef = ref(null)
+const subregionParentId = ref(null)
+const regionMenuDirection = ref('forward')
+
+const regionSubregionMap = computed(() => {
+  return Object.entries(REGION_SCOPES).reduce((map, [regionId, scope]) => {
+    const subregionIds = Array.from(
+      new Set(scope.filter((id) => id && id !== regionId)),
+    )
+
+    const subregions = subregionIds
+      .map((id) => regionStore.getRegionMeta(id))
+      .filter((meta) => meta && meta.showInSwitcher !== false)
+
+    if (subregions.length > 0) {
+      map.set(regionId, subregions)
+    }
+
+    return map
+  }, new Map())
+})
+
+const isSubregionView = computed(() => subregionParentId.value !== null)
+const regionMenuViewKey = computed(() => subregionParentId.value ?? 'root')
+const regionMenuTransition = computed(() =>
+  regionMenuDirection.value === 'backward'
+    ? 'region-slide-backward'
+    : 'region-slide-forward',
+)
+
+const menuParentRegion = computed(() => {
+  if (!subregionParentId.value) {
+    return null
+  }
+
+  return regionStore.getRegionMeta(subregionParentId.value)
+})
+
+const getRegionSubregions = (regionId) =>
+  regionSubregionMap.value.get(regionId) ?? []
+
+const regionHasSubregions = (regionId) =>
+  getRegionSubregions(regionId).length > 0
+
+const subregionIds = computed(() => {
+  const ids = new Set()
+
+  regionSubregionMap.value.forEach((subregions) => {
+    subregions.forEach((region) => {
+      if (region?.id) {
+        ids.add(region.id)
+      }
+    })
+  })
+
+  return ids
+})
+
+const rootRegions = computed(() =>
+  availableRegions.value.filter((region) => !subregionIds.value.has(region.id)),
+)
+
+const menuRegions = computed(() => {
+  if (!isSubregionView.value) {
+    return rootRegions.value
+  }
+
+  return getRegionSubregions(subregionParentId.value)
+})
+
+const menuHeaderLabel = computed(() => {
+  if (!isSubregionView.value) {
+    return 'Regions'
+  }
+
+  return menuParentRegion.value?.shortLabel ?? menuParentRegion.value?.label ?? 'Subregions'
+})
 
 const toggleRegionMenu = () => {
-  regionMenuOpen.value = !regionMenuOpen.value
+  const nextState = !regionMenuOpen.value
+  regionMenuOpen.value = nextState
+
+  if (nextState) {
+    regionMenuDirection.value = 'forward'
+    subregionParentId.value = null
+  }
 }
 
 const closeRegionMenu = () => {
   regionMenuOpen.value = false
+  subregionParentId.value = null
+  regionMenuDirection.value = 'forward'
 }
 
 const handleRegionSelect = (region) => {
@@ -42,6 +127,20 @@ const handleRegionSelect = (region) => {
 
   regionStore.setRegion(region.id)
   closeRegionMenu()
+}
+
+const openSubregionView = (regionId) => {
+  if (!regionId || !regionHasSubregions(regionId)) {
+    return
+  }
+
+  regionMenuDirection.value = 'forward'
+  subregionParentId.value = regionId
+}
+
+const handleRegionMenuBack = () => {
+  regionMenuDirection.value = 'backward'
+  subregionParentId.value = null
 }
 
 const handleDocumentClick = (event) => {
@@ -131,36 +230,76 @@ onBeforeUnmount(() => {
           v-if="regionMenuOpen"
           class="absolute right-0 z-20 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
         >
-          <!-- Region list -->
-          <p class="px-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Regions</p>
-          <ul class="mt-2 grid gap-1">
-            <li v-for="region in availableRegions" :key="region.id">
-              <button
-                type="button"
-                class="flex w-full flex-col gap-1 rounded-xl px-3 py-2 text-left transition"
-                :class="[
-                  region.id === activeRegion?.id
-                    ? 'bg-indigo-50 text-indigo-700 shadow-inner'
-                    : 'text-slate-600 hover:bg-slate-100',
-                  region.isActive === false ? 'cursor-not-allowed opacity-70 hover:bg-white' : '',
-                ]"
-                @click="handleRegionSelect(region)"
-                :disabled="region.isActive === false"
-              >
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-sm font-semibold">{{ region.label }}</span>
-                  <span
-                    v-if="region.statusLabel"
-                    class="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                    :class="region.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
-                  >
-                    {{ region.statusLabel }}
-                  </span>
-                </div>
-                <p class="text-xs text-slate-500">{{ region.tagline }}</p>
-              </button>
-            </li>
-          </ul>
+          <Transition :name="regionMenuTransition" mode="out-in">
+            <div :key="regionMenuViewKey">
+              <!-- Back button -->
+              <div class="px-3">
+                <button
+                  v-if="isSubregionView"
+                  type="button"
+                  class="inline-flex items-center gap-1 rounded-lg py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:bg-indigo-50/80 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  @click="handleRegionMenuBack"
+                >
+                  <span aria-hidden="true">←</span>
+                  Regions
+                </button>
+                <p class="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {{ menuHeaderLabel }}
+                </p>
+
+                <p
+                  v-if="isSubregionView && menuParentRegion?.tagline"
+                  class="mt-1 text-[11px] text-slate-500"
+                >
+                  {{ menuParentRegion.tagline }}
+                </p>
+              </div>
+
+              <!-- Region list -->
+              <ul class="mt-2 grid gap-1">
+                <li v-for="region in menuRegions" :key="region.id">
+                  <div class="grid grid-cols-[1fr_auto] items-stretch gap-1">
+                    <!-- Region button -->
+                    <button
+                      type="button"
+                      class="flex w-full flex-1 flex-col gap-1 rounded-xl px-3 py-2 text-left transition"
+                      :class="[
+                        region.id === activeRegion?.id
+                          ? 'bg-indigo-50 text-indigo-700 shadow-inner'
+                          : 'text-slate-600 hover:bg-slate-100',
+                        region.isActive === false ? 'cursor-not-allowed opacity-70 hover:bg-white' : '',
+                      ]"
+                      @click="handleRegionSelect(region)"
+                      :disabled="region.isActive === false"
+                    >
+                      <div class="flex items-center justify-between gap-2">
+                        <span class="text-sm font-semibold">{{ region.label }}</span>
+                        <span
+                          v-if="region.statusLabel"
+                          class="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                          :class="region.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+                        >
+                          {{ region.statusLabel }}
+                        </span>
+                      </div>
+                      <p class="text-xs text-slate-500">{{ region.tagline }}</p>
+                    </button>
+
+                    <!-- Expand subregions arrow button -->
+                    <button
+                      v-if="regionHasSubregions(region.id)"
+                      type="button"
+                      class="inline-flex h-full items-center justify-center rounded-xl border border-transparent px-5 py-2 text-slate-400 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                      @click.stop="openSubregionView(region.id)"
+                      :aria-label="`View subregions for ${region.shortLabel ?? region.label}`"
+                    >
+                      <span aria-hidden="true" class="text-lg leading-none">›</span>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </Transition>
         </div>
       </div>
 
@@ -232,4 +371,22 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+.region-slide-forward-enter-active,
+.region-slide-forward-leave-active,
+.region-slide-backward-enter-active,
+.region-slide-backward-leave-active {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.region-slide-forward-enter-from,
+.region-slide-backward-leave-to {
+  opacity: 0;
+  transform: translateX(16px);
+}
+
+.region-slide-forward-leave-to,
+.region-slide-backward-enter-from {
+  opacity: 0;
+  transform: translateX(-16px);
+}
 </style>
