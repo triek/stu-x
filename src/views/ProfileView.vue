@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 import { useAuthStore } from '../stores/auth'
+import { REGION_DEFINITIONS } from '../constants/regions'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -12,7 +13,36 @@ const { user, stunixBalance, profilePosts, activityFeed, walletHistory, isAuthen
 
 const editForm = reactive({
   school: '',
-  region: '',
+  regionId: '',
+})
+
+const countryRegions = computed(() =>
+  REGION_DEFINITIONS.filter((region) => region.statusLabel === 'National')
+)
+
+const getRegionLabelFromId = (regionId) =>
+  countryRegions.value.find((region) => region.id === regionId)?.label ?? ''
+
+const resolveRegionIdFromLabel = (label) => {
+  if (!label) {
+    return ''
+  }
+
+  const normalizedLabel = label.trim().toLowerCase()
+
+  return (
+    countryRegions.value.find(
+      (region) => region.label.toLowerCase() === normalizedLabel
+    )?.id ?? ''
+  )
+}
+
+const pendingRegionLabel = computed(() => {
+  if (editForm.regionId) {
+    return getRegionLabelFromId(editForm.regionId).trim()
+  }
+
+  return (user.value?.region ?? '').trim()
 })
 
 const updateFeedback = ref('')
@@ -48,13 +78,12 @@ const formattedBalance = computed(
 )
 
 const profileChanged = computed(() => {
-  const currentSchool = user.value?.school ?? ''
-  const currentRegion = user.value?.region ?? ''
+  const currentSchool = (user.value?.school ?? '').trim()
+  const currentRegion = (user.value?.region ?? '').trim()
+  const pendingSchool = editForm.school.trim()
+  const pendingRegion = pendingRegionLabel.value
 
-  return (
-    editForm.school.trim() !== currentSchool.trim() ||
-    editForm.region.trim() !== currentRegion.trim()
-  )
+  return pendingSchool !== currentSchool || pendingRegion !== currentRegion
 })
 
 const formattedPosts = computed(() =>
@@ -102,12 +131,12 @@ watch(
   user,
   (value) => {
     editForm.school = value?.school ?? ''
-    editForm.region = value?.region ?? ''
+    editForm.regionId = resolveRegionIdFromLabel(value?.region ?? '')
   },
   { immediate: true }
 )
 
-watch([() => editForm.school, () => editForm.region], resetFeedback)
+watch([() => editForm.school, () => editForm.regionId], resetFeedback)
 
 const handleProfileUpdate = () => {
   resetFeedback()
@@ -119,10 +148,10 @@ const handleProfileUpdate = () => {
   }
 
   const trimmedSchool = editForm.school.trim()
-  const trimmedRegion = editForm.region.trim()
+  const trimmedRegion = pendingRegionLabel.value
 
   if (!trimmedSchool || !trimmedRegion) {
-    updateFeedback.value = 'School and region cannot be blank.'
+    updateFeedback.value = 'School and country or region cannot be blank.'
     updateFeedbackVariant.value = 'error'
     return
   }
@@ -188,7 +217,7 @@ watch(isAuthenticated, (value) => {
 </script>
 
 <template>
-  <section class="grid gap-10">
+  <section class="grid gap-6">
     <div class="grid gap-6 rounded-3xl bg-white p-10 shadow-panel ring-1 ring-indigo-100/60">
       <div class="flex flex-col gap-6 lg:flex-row lg:items-start">
         <div class="grid h-24 w-24 flex-shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-brand to-indigo-400 text-3xl font-bold uppercase tracking-[0.08em] text-white">
@@ -221,14 +250,15 @@ watch(isAuthenticated, (value) => {
       </div>
     </div>
 
-    <div class="grid gap-8 lg:grid-cols-[2fr_1fr]">
-      <div class="grid gap-6">
+    <div class="grid gap-4 lg:grid-cols-[2fr_1fr]">
+      <div class="grid gap-4">
+        <!-- My posts -->
         <div class="grid gap-4 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
           <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h2 class="text-2xl font-semibold text-slate-900">My posts</h2>
-            <span class="text-sm text-slate-500">Sharing your insight boosts collective learning.</span>
+            <span class="text-sm text-slate-500">Sharing your insight boosts collective learning</span>
           </div>
-          <ul v-if="formattedPosts.length" class="grid gap-4">
+          <ul v-if="formattedPosts.length" class="grid gap-3">
             <li
               v-for="post in formattedPosts"
               :key="post.id"
@@ -242,17 +272,18 @@ watch(isAuthenticated, (value) => {
             </li>
           </ul>
           <p v-else class="rounded-2xl bg-slate-50/80 px-5 py-6 text-sm text-slate-600">
-            You haven’t published any posts yet. Share your first insight from the community or exchange pages.
+            You haven't published any posts yet. Share your first insight from the community or exchange pages.
           </p>
         </div>
 
+        <!-- Activity feed -->
         <div class="grid gap-4 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
           <h2 class="text-2xl font-semibold text-slate-900">Activity feed</h2>
-          <ul v-if="formattedActivity.length" class="grid gap-4">
+          <ul v-if="formattedActivity.length" class="grid gap-3">
             <li
               v-for="item in formattedActivity"
               :key="item.id"
-              class="rounded-2xl border border-indigo-100 bg-white px-5 py-4"
+              class="rounded-2xl border border-indigo-100 bg-white px-5 py-3"
             >
               <p class="text-sm font-semibold text-slate-800">{{ item.description }}</p>
               <p class="mt-1 text-xs uppercase tracking-[0.16em] text-slate-400">{{ item.timestampLabel }}</p>
@@ -264,62 +295,8 @@ watch(isAuthenticated, (value) => {
         </div>
       </div>
 
-      <div class="grid gap-6">
-        <div class="grid gap-5 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
-          <div class="space-y-1">
-            <h2 class="text-2xl font-semibold text-slate-900">Update profile details</h2>
-            <p class="text-sm text-slate-500">Keep your school and region current so we can tailor opportunities for you.</p>
-          </div>
-          <form class="grid gap-4" @submit.prevent="handleProfileUpdate">
-            <label class="grid gap-2 text-sm">
-              <span class="font-semibold text-slate-700">School or organization</span>
-              <input
-                v-model="editForm.school"
-                type="text"
-                class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                placeholder="StuX International Academy"
-              />
-            </label>
-            <label class="grid gap-2 text-sm">
-              <span class="font-semibold text-slate-700">Preferred region</span>
-              <select
-                v-model="editForm.region"
-                class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-              >
-                <option value="">Select a region</option>
-                <option>North America</option>
-                <option>Europe</option>
-                <option>Asia-Pacific</option>
-                <option>Latin America</option>
-                <option>Africa &amp; Middle East</option>
-              </select>
-            </label>
-            <p
-              v-if="updateFeedback"
-              class="text-sm font-semibold"
-              :class="{
-                'text-emerald-600': updateFeedbackVariant === 'success',
-                'text-amber-600': updateFeedbackVariant === 'warning',
-                'text-rose-600': updateFeedbackVariant === 'error',
-                'text-slate-500': updateFeedbackVariant === 'neutral',
-              }"
-            >
-              {{ updateFeedback }}
-            </p>
-            <button
-              type="submit"
-              class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
-              :disabled="isSaving || !profileChanged"
-            >
-              <span v-if="isSaving" class="flex items-center gap-2">
-                <span class="h-2.5 w-2.5 animate-ping rounded-full bg-white"></span>
-                Saving changes...
-              </span>
-              <span v-else>Save changes</span>
-            </button>
-          </form>
-        </div>
-
+      <div class="grid gap-4">
+        <!-- Wallet section -->
         <div class="grid gap-4 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
           <div class="flex items-center justify-between">
             <div>
@@ -369,6 +346,71 @@ watch(isAuthenticated, (value) => {
               Once you start earning or spending, your wallet history will be recorded here.
             </p>
           </div>
+        </div>
+
+        <!-- Update profile details -->
+        <div class="grid gap-5 rounded-3xl bg-white/95 p-8 shadow-panel ring-1 ring-indigo-100/60">
+          <div class="space-y-1">
+            <h2 class="text-2xl font-semibold text-slate-900">Update profile details</h2>
+            <p class="text-sm text-slate-500">Keep your school and region current so we can tailor opportunities for you.</p>
+          </div>
+          <form class="grid gap-4" @submit.prevent="handleProfileUpdate">
+            <label class="grid gap-2 text-sm">
+              <span class="font-semibold text-slate-700">School or organization</span>
+              <input
+                v-model="editForm.school"
+                type="text"
+                class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                placeholder="StuX International Academy"
+              />
+            </label>
+            <label class="grid gap-2 text-sm">
+              <span class="font-semibold text-slate-700">
+                Country or region
+                <span class="text-rose-500" aria-hidden="true">*</span>
+                <span class="sr-only">required</span>
+              </span>
+              <select
+                v-model="editForm.regionId"
+                class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                name="region"
+                required
+                aria-required="true"
+              >
+                <option value="">Select your country or region</option>
+                <option
+                  v-for="region in countryRegions"
+                  :key="region.id"
+                  :value="region.id"
+                >
+                  {{ region.label }}
+                </option>
+              </select>
+            </label>
+            <p
+              v-if="updateFeedback"
+              class="text-sm font-semibold"
+              :class="{
+                'text-emerald-600': updateFeedbackVariant === 'success',
+                'text-amber-600': updateFeedbackVariant === 'warning',
+                'text-rose-600': updateFeedbackVariant === 'error',
+                'text-slate-500': updateFeedbackVariant === 'neutral',
+              }"
+            >
+              {{ updateFeedback }}
+            </p>
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+              :disabled="isSaving || !profileChanged"
+            >
+              <span v-if="isSaving" class="flex items-center gap-2">
+                <span class="h-2.5 w-2.5 animate-ping rounded-full bg-white"></span>
+                Saving changes...
+              </span>
+              <span v-else>Save changes</span>
+            </button>
+          </form>
         </div>
       </div>
     </div>

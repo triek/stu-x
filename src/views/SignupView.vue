@@ -4,6 +4,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 import { useAuthStore } from '../stores/auth'
+import { REGION_DEFINITIONS } from '../constants/regions'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -22,6 +23,10 @@ const formState = reactive({
 const isSubmitting = ref(false)
 const errorMessage = ref('')
 
+const countryRegions = computed(() =>
+  REGION_DEFINITIONS.filter((region) => region.statusLabel === 'National')
+)
+
 const hasPasswordMismatch = computed(
   () =>
     Boolean(formState.password) &&
@@ -35,6 +40,8 @@ const isSubmitDisabled = computed(
     !formState.name.trim() ||
     !formState.email.trim() ||
     !formState.password.trim() ||
+    !formState.confirmPassword.trim() ||
+    !formState.region ||
     hasPasswordMismatch.value ||
     !formState.termsAccepted
 )
@@ -57,11 +64,15 @@ const handleSubmit = () => {
 
   isSubmitting.value = true
 
+  const selectedRegionDefinition = countryRegions.value.find(
+    (region) => region.id === formState.region
+  )
+
   const { success, message } = authStore.signup({
     name: formState.name,
     email: formState.email,
     school: formState.school,
-    region: formState.region,
+    region: selectedRegionDefinition?.label ?? formState.region,
     password: formState.password,
   })
 
@@ -108,19 +119,29 @@ onMounted(() => {
       @submit.prevent="handleSubmit"
     >
       <div class="grid gap-2">
-        <label for="full-name" class="text-sm font-semibold text-slate-700">Full name</label>
+        <label for="username" class="text-sm font-semibold text-slate-700">
+          Username
+          <span class="text-rose-500" aria-hidden="true">*</span>
+          <span class="sr-only">required</span>
+        </label>
         <input
-          id="full-name"
+          id="username"
           type="text"
-          name="full-name"
-          autocomplete="name"
+          name="username"
+          autocomplete="username"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-          placeholder="Alex Morgan"
+          placeholder="alexmorgan"
           v-model="formState.name"
+          required
+          aria-required="true"
         />
       </div>
       <div class="grid gap-2">
-        <label for="email" class="text-sm font-semibold text-slate-700">Email</label>
+        <label for="email" class="text-sm font-semibold text-slate-700">
+          Email
+          <span class="text-rose-500" aria-hidden="true">*</span>
+          <span class="sr-only">required</span>
+        </label>
         <input
           id="email"
           type="email"
@@ -129,6 +150,8 @@ onMounted(() => {
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="you@example.com"
           v-model="formState.email"
+          required
+          aria-required="true"
         />
       </div>
       <div class="grid gap-2">
@@ -143,23 +166,35 @@ onMounted(() => {
         />
       </div>
       <div class="grid gap-2">
-        <label for="region" class="text-sm font-semibold text-slate-700">Preferred region</label>
+        <label for="region" class="text-sm font-semibold text-slate-700">
+          Country or region
+          <span class="text-rose-500" aria-hidden="true">*</span>
+          <span class="sr-only">required</span>
+        </label>
         <select
           id="region"
           name="region"
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           v-model="formState.region"
+          required
+          aria-required="true"
         >
-          <option value="">Select a region</option>
-          <option>North America</option>
-          <option>Europe</option>
-          <option>Asia-Pacific</option>
-          <option>Latin America</option>
-          <option>Africa &amp; Middle East</option>
+          <option value="">Select your country or region</option>
+          <option
+            v-for="region in countryRegions"
+            :key="region.id"
+            :value="region.id"
+          >
+            {{ region.label }}
+          </option>
         </select>
       </div>
       <div class="grid gap-2">
-        <label for="password" class="text-sm font-semibold text-slate-700">Password</label>
+        <label for="password" class="text-sm font-semibold text-slate-700">
+          Password
+          <span class="text-rose-500" aria-hidden="true">*</span>
+          <span class="sr-only">required</span>
+        </label>
         <input
           id="password"
           type="password"
@@ -168,10 +203,16 @@ onMounted(() => {
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="Create a strong password"
           v-model="formState.password"
+          required
+          aria-required="true"
         />
       </div>
       <div class="grid gap-2">
-        <label for="confirm-password" class="text-sm font-semibold text-slate-700">Confirm password</label>
+        <label for="confirm-password" class="text-sm font-semibold text-slate-700">
+          Confirm password
+          <span class="text-rose-500" aria-hidden="true">*</span>
+          <span class="sr-only">required</span>
+        </label>
         <input
           id="confirm-password"
           type="password"
@@ -180,6 +221,8 @@ onMounted(() => {
           class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           placeholder="Repeat your password"
           v-model="formState.confirmPassword"
+          required
+          aria-required="true"
         />
         <p v-if="hasPasswordMismatch" class="text-xs font-semibold text-rose-500">
           Passwords do not match.
@@ -191,8 +234,14 @@ onMounted(() => {
           name="terms"
           class="mt-1 h-4 w-4 rounded border-indigo-200 text-brand focus:ring-indigo-200"
           v-model="formState.termsAccepted"
+          required
+          aria-required="true"
         />
-        I agree to the StuX community charter and allow StuX to contact me with onboarding resources.
+        <span>
+          I agree to the StuX community charter and allow StuX to contact me with onboarding resources
+          <span class="text-rose-500" aria-hidden="true">*</span>
+          <span class="sr-only">(required)</span>
+        </span>
       </label>
       <p v-if="errorMessage" class="text-sm font-semibold text-rose-500">
         {{ errorMessage }}
