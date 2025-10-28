@@ -177,13 +177,13 @@ onBeforeUnmount(() => {
 
 <template>
 <div class="flex min-h-screen flex-col">
-  <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
+  <header class="sticky top-0 z-40 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
     <div
-      class="mx-auto flex w-full flex-col items-center gap-4 px-4 py-4 sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between"
+      class="mx-auto flex w-full flex-col items-center gap-4 px-4 py-4 sm:px-6 lg:px-8 sm:flex-row sm:items-center sm:justify-between"
     >
       <!-- Logo -->
       <RouterLink to="/" class="flex flex-col text-slate-900 no-underline">
-        <div class="flex flex-col items-center text-center md:items-start md:text-left">
+        <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
           <span class="text-2xl font-bold uppercase tracking-[0.08em] text-brand">StuX</span>
           <span class="text-sm font-medium text-slate-500">The Human Insight Network</span>
         </div>
@@ -375,10 +375,11 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </div>
+
     <Transition name="fade">
       <div
         v-if="navMenuOpen"
-        class="mx-4 mt-2 flex flex-col gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg lg:hidden"
+        class="ml-auto mr-4 mt-2 flex w-fit flex-col gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg lg:hidden"
       >
         <div :ref="setRegionMenuRef" class="relative">
           <button
