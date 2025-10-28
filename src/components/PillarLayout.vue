@@ -1,5 +1,6 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 import PillarSidebar from './PillarSidebar.vue'
 import { withAlpha } from '@/utils/color'
 
@@ -326,7 +327,15 @@ const resetFormState = () => {
   Object.assign(formState, defaultFormState.value)
 }
 
+
+const authStore = useAuthStore()
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+
 const openForm = () => {
+  if (!isAuthenticated.value) {
+    window.alert('Please log in to create a post.')
+    return
+  }
   resetFormState()
   showForm.value = true
 }
@@ -336,6 +345,10 @@ const closeForm = () => {
 }
 
 const submitForm = () => {
+  if (!isAuthenticated.value) {
+    window.alert('Please log in to create a post.')
+    return
+  }
   emit('submit', { ...formState })
   resetFormState()
   closeForm()

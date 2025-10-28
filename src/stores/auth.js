@@ -23,7 +23,8 @@ const sanitizeAccount = (account) => {
     return null
   }
 
-  const { password, ...profile } = account
+  const { password: _unusedPassword, ...profile } = account
+  void _unusedPassword
   return JSON.parse(JSON.stringify(profile))
 }
 

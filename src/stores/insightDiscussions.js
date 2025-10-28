@@ -26,10 +26,13 @@ export const useInsightDiscussionsStore = defineStore('insightDiscussions', () =
     if (!postId || !question?.question) return
     ensurePost(postId)
 
+    const region = question.region?.toString().trim() || question.role?.toString().trim() || ''
+
     threadsByPost.value[postId].unshift({
       id: question.id ?? createId('question'),
-      author: question.author?.trim() || 'Anonymous',
-      role: question.role?.trim() || 'Participant',
+      author: question.author?.toString().trim() || 'Anonymous',
+      role: question.role?.toString().trim() || region || 'Participant',
+      region,
       question: question.question.trim(),
       timeAgo: question.timeAgo ?? 'Just now',
       answers: question.answers ?? [],
@@ -47,10 +50,13 @@ export const useInsightDiscussionsStore = defineStore('insightDiscussions', () =
       thread.answers = []
     }
 
+    const region = answer.region?.toString().trim() || answer.role?.toString().trim() || ''
+
     thread.answers.push({
       id: answer.id ?? createId('answer'),
-      author: answer.author?.trim() || 'Anonymous',
-      role: answer.role?.trim() || 'Contributor',
+      author: answer.author?.toString().trim() || 'Anonymous',
+      role: answer.role?.toString().trim() || region || 'Contributor',
+      region,
       message: answer.message.trim(),
       timeAgo: answer.timeAgo ?? 'Just now',
     })

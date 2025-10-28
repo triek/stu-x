@@ -27,11 +27,13 @@ export const useCommunityDiscussionsStore = defineStore('communityDiscussions', 
     ensurePost(postId)
 
     const parsedUpvotes = Number.parseInt(comment.upvotes, 10)
+    const region = comment.region?.toString().trim() || comment.role?.toString().trim() || ''
 
     commentsByPost.value[postId].unshift({
       id: comment.id ?? createId(),
-      author: comment.author?.trim() || 'Community member',
-      role: comment.role?.trim() || '',
+      author: comment.author?.toString().trim() || 'Community member',
+      role: comment.role?.toString().trim() || region,
+      region,
       message: comment.message.trim(),
       timeAgo: comment.timeAgo ?? 'Just now',
       upvotes: Number.isNaN(parsedUpvotes) || parsedUpvotes < 0 ? 0 : parsedUpvotes,
