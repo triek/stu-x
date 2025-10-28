@@ -1,4 +1,4 @@
-export const DEFAULT_REGION_ID = 'australia'
+export const DEFAULT_REGION_ID = 'vietnam'
 
 export const REGION_DEFINITIONS = [
   // Australia
