@@ -1,11 +1,12 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 import { useAuthStore } from '../stores/auth'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const { isAuthenticated } = storeToRefs(authStore)
 
@@ -17,6 +18,25 @@ const isSubmitDisabled = computed(
   () => !username.value.trim() || !password.value.trim()
 )
 
+const redirectPath = computed(() => {
+  const { redirect } = route.query
+
+  if (Array.isArray(redirect)) {
+    return redirect.find((entry) => typeof entry === 'string' && entry) ?? ''
+  }
+
+  return typeof redirect === 'string' ? redirect : ''
+})
+
+const signupLink = computed(() => {
+  const target = redirectPath.value
+  if (target) {
+    return { name: 'signup', query: { redirect: target } }
+  }
+
+  return { name: 'signup' }
+})
+
 const handleSubmit = () => {
   errorMessage.value = ''
 
@@ -26,7 +46,7 @@ const handleSubmit = () => {
   })
 
   if (success) {
-    router.push('/profile')
+    router.push(redirectPath.value || '/profile')
     return
   }
 
@@ -35,7 +55,7 @@ const handleSubmit = () => {
 
 onMounted(() => {
   if (isAuthenticated.value) {
-    router.replace('/profile')
+    router.replace(redirectPath.value || '/profile')
   }
 })
 </script>
@@ -55,7 +75,7 @@ onMounted(() => {
       </ul>
       <p class="text-sm text-slate-500">
         Need an account?
-        <RouterLink to="/signup" class="font-semibold text-brand hover:underline">Create one here</RouterLink>.
+        <RouterLink :to="signupLink" class="font-semibold text-brand hover:underline">Create one here</RouterLink>.
       </p>
     </div>
 

@@ -87,4 +87,22 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 })
 
+router.beforeEach((to, from, next) => {
+  if (
+    (to.name === 'login' || to.name === 'signup') &&
+    !to.query.redirect &&
+    from?.fullPath &&
+    from.name
+  ) {
+    next({
+      ...to,
+      query: { ...to.query, redirect: from.fullPath },
+      replace: true,
+    })
+    return
+  }
+
+  next()
+})
+
 export default router

@@ -51,6 +51,7 @@ const isSubmittingQuestion = ref(false)
 const activeReply = ref('')
 const isQuestionFormExpanded = ref(false)
 const questionFormRef = ref(null)
+const isNavigatingToAuth = ref(false)
 
 const newQuestion = reactive({
   question: '',
@@ -119,6 +120,24 @@ const participate = () => {
 
 const getParticipantRegion = (entry) =>
   entry?.region?.toString().trim() || entry?.role?.toString().trim() || ''
+
+const redirectToLogin = () => {
+  if (isNavigatingToAuth.value) return
+
+  isNavigatingToAuth.value = true
+
+  const redirectTarget = route.fullPath || route.path || '/'
+
+  router
+    .push({
+      name: 'login',
+      query: { redirect: redirectTarget },
+    })
+    .catch(() => {})
+    .finally(() => {
+      isNavigatingToAuth.value = false
+    })
+}
 
 const ensureReplyDrafts = (threads) => {
   threads.forEach((thread) => {
@@ -445,7 +464,8 @@ watch(
                 <label :class="['grid', isQuestionFormExpanded ? 'gap-2' : '']">
                   <span
                     v-if="isQuestionFormExpanded"
-                    class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
+                    class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1"
+                  >
                     Your question
                   </span>
 
@@ -477,12 +497,18 @@ watch(
                   </button>
                 </div>
               </form>
-              <p
-                v-else
-                class="rounded-2xl border border-dashed border-slate-300 bg-white p-5 text-sm text-slate-500"
-              >
-                Log in to post a question.
-              </p>
+              <div v-else class="grid">
+                <label class="grid">
+                  <textarea
+                    rows="1"
+                    placeholder="What would you like to know?"
+                    class="w-full cursor-pointer rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                    readonly
+                    @focus="redirectToLogin"
+                    @pointerdown.prevent="redirectToLogin"
+                  ></textarea>
+                </label>
+              </div>
             </article>
 
             <article class="grid gap-4">
@@ -583,12 +609,18 @@ watch(
                       </button>
                     </div>
                   </form>
-                  <p
-                    v-else
-                    class="rounded-2xl border border-dashed border-slate-300 bg-white p-3 text-sm text-slate-500"
-                  >
-                    Log in to reply.
-                  </p>
+                  <div v-else class="grid">
+                    <label class="grid">
+                      <textarea
+                        rows="1"
+                        placeholder="Share your answer or follow-up"
+                        class="w-full cursor-pointer rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                        readonly
+                        @focus="redirectToLogin"
+                        @pointerdown.prevent="redirectToLogin"
+                      ></textarea>
+                    </label>
+                  </div>
                 </li>
               </ul>
             </article>

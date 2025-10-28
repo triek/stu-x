@@ -1,12 +1,13 @@
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 import { useAuthStore } from '../stores/auth'
 import { REGION_DEFINITIONS } from '../constants/regions'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const { isAuthenticated } = storeToRefs(authStore)
 
@@ -26,6 +27,25 @@ const errorMessage = ref('')
 const countryRegions = computed(() =>
   REGION_DEFINITIONS.filter((region) => region.statusLabel === 'National')
 )
+
+const redirectPath = computed(() => {
+  const { redirect } = route.query
+
+  if (Array.isArray(redirect)) {
+    return redirect.find((entry) => typeof entry === 'string' && entry) ?? ''
+  }
+
+  return typeof redirect === 'string' ? redirect : ''
+})
+
+const loginLink = computed(() => {
+  const target = redirectPath.value
+  if (target) {
+    return { name: 'login', query: { redirect: target } }
+  }
+
+  return { name: 'login' }
+})
 
 const hasPasswordMismatch = computed(
   () =>
@@ -79,7 +99,7 @@ const handleSubmit = () => {
   isSubmitting.value = false
 
   if (success) {
-    router.push('/profile')
+    router.push(redirectPath.value || '/profile')
     return
   }
 
@@ -88,7 +108,7 @@ const handleSubmit = () => {
 
 onMounted(() => {
   if (isAuthenticated.value) {
-    router.replace('/profile')
+    router.replace(redirectPath.value || '/profile')
   }
 })
 </script>
@@ -111,7 +131,7 @@ onMounted(() => {
           <li class="flex items-start gap-3"><span class="mt-1 text-brand">◆</span><span>Exclusive access to StuX community cohorts and events.</span></li>
         </ul>
       </div>
-      <p class="text-sm text-slate-500">Already have an account? <RouterLink to="/login" class="font-semibold text-brand hover:underline">Log in here</RouterLink>.</p>
+      <p class="text-sm text-slate-500">Already have an account? <RouterLink :to="loginLink" class="font-semibold text-brand hover:underline">Log in here</RouterLink>.</p>
     </div>
 
     <form
