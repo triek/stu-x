@@ -156,6 +156,14 @@ const submitComment = (postId) => {
 const getCommentRegion = (comment) =>
   comment?.region?.toString().trim() || comment?.role?.toString().trim() || ''
 
+const getPostAuthorRegion = (post) =>
+  post?.authorRegion?.toString().trim() || post?.regionMeta?.label || ''
+
+const resolveRegionLabel = (regionId) => {
+  if (!regionId) return ''
+  return regionStore.getRegionMeta(regionId)?.label ?? ''
+}
+
 const baseConfig = {
   title: 'Community',
   icon: '💬',
@@ -192,11 +200,25 @@ const formDefaults = {
 }
 
 const handleSubmit = (form) => {
-  communityPostsStore.addPost({ ...form, region: activeRegion.value?.id })
+  const author = currentUsername.value || 'Community member'
+  const activeRegionId = activeRegion.value?.id
+  const activeLabel = activeRegion.value?.label || resolveRegionLabel(activeRegionId)
+
+  communityPostsStore.addPost({
+    ...form,
+    author,
+    authorRegion: activeLabel,
+    region: activeRegionId,
+  })
   if (!isAuthenticated.value) return
 
   communityPostsStore.addPost({
     ...form,
+    author,
+    authorRegion:
+      resolveRegionLabel(resolvedUserRegionId.value) ||
+      currentRegionLabel.value ||
+      activeLabel,
     region: resolvedUserRegionId.value,
   })
 }
@@ -215,6 +237,10 @@ const handleSubmit = (form) => {
           <span class="text-3xl">💬</span>
           <div class="space-y-2">
             <h3 class="text-xl font-semibold text-slate-900">{{ item.title }}</h3>
+            <div class="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
+              <span class="text-slate-700">{{ item.author }}</span>
+              <span v-if="getPostAuthorRegion(item)">· {{ getPostAuthorRegion(item) }}</span>
+            </div>
             <p class="text-slate-600">{{ item.description }}</p>
             <span
               v-if="item.regionMeta"

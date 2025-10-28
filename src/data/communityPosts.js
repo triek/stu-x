@@ -2,6 +2,8 @@ export const communityPosts = [
   // Australia
   {
     id: 'topic-first-year-essentials',
+    author: 'Amelia N.',
+    authorRegion: 'Australia',
     title: 'Topic: What to buy for first-year students?',
     description: 'Recommend essentials and share tips for incoming students.',
     discussion: 22,
@@ -13,6 +15,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-friends-at-university',
+    author: 'Jordan S.',
+    authorRegion: 'Melbourne',
     title: 'Topic: Friends at university is not as expected',
     description: 'My experience when making friends in uni felt so different from high school.',
     discussion: 10,
@@ -24,6 +28,8 @@ export const communityPosts = [
   },
   {
     id: 'poll-macbook-vs-windows',
+    author: 'Priya L.',
+    authorRegion: 'Australia',
     title: 'Poll: MacBook vs Windows laptop for programming',
     description: 'Share which one you use for your coding courses.',
     discussion: 12,
@@ -35,6 +41,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-lenovo-vs-hp',
+    author: 'Leo V.',
+    authorRegion: 'Sydney',
     title: 'Topic: Lenovo IdeaPad Slim 5 or HP Pavilion for CS students?',
     description:
       'Both are around the same price with 16GB RAM. Im not sure which is more reliable for running heavy tools like Docker or IntelliJ.',
@@ -47,6 +55,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-best-online-tools',
+    author: 'Hannah W.',
+    authorRegion: 'Melbourne',
     title: 'Topic: Best free online tools for students',
     description: 'List websites or apps that help with writing, coding, referencing, or time tracking.',
     discussion: 11,
@@ -58,6 +68,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-student-discounts',
+    author: 'Marcus D.',
+    authorRegion: 'Melbourne',
     title: 'Topic: Student discounts',
     description:
       'Share the best student deals on food, transport, software, and entertainment that others might not know about.',
@@ -70,6 +82,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-managing-money',
+    author: 'Sofia R.',
+    authorRegion: 'Australia',
     title: 'Topic: Managing money on a student budget',
     description: 'How do you plan weekly expenses, track spending, and save while studying?',
     discussion: 6,
@@ -81,6 +95,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-group-assignments',
+    author: 'Isabelle T.',
+    authorRegion: 'Australia',
     title: 'Topic: Group assignments and how to deal with unresponsive teammates',
     description:
       'What is your experiences and strategies for keeping projects on track when not everyone contributes equally?',
@@ -93,6 +109,8 @@ export const communityPosts = [
   },
   {
     id: 'topic-choosing-laptop',
+    author: 'Aaron P.',
+    authorRegion: 'Deakin University',
     title: 'Topic: Choosing the right laptop or tablet for study',
     description: 'Should I buy a MacBook Air M1 or an iPad Air for studying?',
     discussion: 3,
@@ -104,40 +122,46 @@ export const communityPosts = [
   },
 
   // Vietnam
-{
-  id: 'topic-hcmc-study-spots',
-  title: 'Chủ đề: Địa điểm học yêu thích quanh Thủ Đức?',
-  description:
-    'Chia sẻ quán cà phê, thư viện hay góc yên tĩnh ở TP.HCM nơi bạn tập trung học tốt nhất.',
-  discussion: 7,
-  cta: 'Thảo luận',
-  category: 'discussions',
-  tags: ['Việt Nam', 'Địa điểm học', 'Cộng đồng'],
-  region: 'tphcm',
-  regions: ['tphcm'],
-},
-{
-  id: 'topic-iu-vnu-research-teams',
-  title: 'Chủ đề: Tham gia nhóm nghiên cứu đa ngành tại IU-VNU',
-  description:
-    'Những phòng lab nào đang mở cho sinh viên đại học kỳ này và họ yêu cầu kỹ năng gì?',
-  discussion: 5,
-  cta: 'Thảo luận',
-  category: 'discussions',
-  tags: ['Nghiên cứu', 'Phòng lab', 'IU-VNU'],
-  region: 'iu-vnu',
-  regions: ['iu-vnu'],
-},
-{
-  id: 'poll-vietnam-budget-apps',
-  title: 'Bình chọn: Ứng dụng quản lý chi tiêu tốt nhất cho sinh viên Việt Nam',
-  description:
-    'Bình chọn ứng dụng tài chính giúp bạn kiểm soát tiền thuê nhà, ăn uống và phí câu lạc bộ hiệu quả nhất.',
-  discussion: 9,
-  cta: 'Bình chọn',
-  category: 'polls',
-  tags: ['Tài chính', 'Ứng dụng', 'Việt Nam'],
-  region: 'vietnam',
-  regions: ['vietnam'],
+  {
+    id: 'topic-hcmc-study-spots',
+    author: 'Minh Châu',
+    authorRegion: 'Thành phố Hồ Chí Minh',
+    title: 'Chủ đề: Địa điểm học yêu thích quanh Thủ Đức?',
+    description:
+      'Chia sẻ quán cà phê, thư viện hay góc yên tĩnh ở TP.HCM nơi bạn tập trung học tốt nhất.',
+    discussion: 7,
+    cta: 'Thảo luận',
+    category: 'discussions',
+    tags: ['Việt Nam', 'Địa điểm học', 'Cộng đồng'],
+    region: 'tphcm',
+    regions: ['tphcm'],
+  },
+  {
+    id: 'topic-iu-vnu-research-teams',
+    author: 'Quang Huy',
+    authorRegion: 'IU-VNU',
+    title: 'Chủ đề: Tham gia nhóm nghiên cứu đa ngành tại IU-VNU',
+    description:
+      'Những phòng lab nào đang mở cho sinh viên đại học kỳ này và họ yêu cầu kỹ năng gì?',
+    discussion: 5,
+    cta: 'Thảo luận',
+    category: 'discussions',
+    tags: ['Nghiên cứu', 'Phòng lab', 'IU-VNU'],
+    region: 'iu-vnu',
+    regions: ['iu-vnu'],
+  },
+  {
+    id: 'poll-vietnam-budget-apps',
+    author: 'Lan Anh',
+    authorRegion: 'Việt Nam',
+    title: 'Bình chọn: Ứng dụng quản lý chi tiêu tốt nhất cho sinh viên Việt Nam',
+    description:
+      'Bình chọn ứng dụng tài chính giúp bạn kiểm soát tiền thuê nhà, ăn uống và phí câu lạc bộ hiệu quả nhất.',
+    discussion: 9,
+    cta: 'Bình chọn',
+    category: 'polls',
+    tags: ['Tài chính', 'Ứng dụng', 'Việt Nam'],
+    region: 'vietnam',
+    regions: ['vietnam'],
   },
 ]

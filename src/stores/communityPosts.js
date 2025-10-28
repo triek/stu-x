@@ -31,6 +31,8 @@ const createPostFromForm = (form = {}) => {
   const cta = form.cta?.trim()
   const category = form.category?.toString().trim().toLowerCase()
   const tags = parseTags(form.tags)
+  const author = form.author?.toString().trim()
+  const authorRegion = form.authorRegion?.toString().trim()
 
   const ids = new Set()
 
@@ -63,6 +65,8 @@ const createPostFromForm = (form = {}) => {
     tags,
     region: regions[0] ?? DEFAULT_REGION_ID,
     regions,
+    author: author || 'Community member',
+    authorRegion: authorRegion || '',
   }
 }
 
