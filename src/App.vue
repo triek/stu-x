@@ -26,6 +26,7 @@ const logout = () => {
 }
 
 const regionMenuOpen = ref(false)
+const navMenuOpen = ref(false)
 const regionMenuRef = ref(null)
 const subregionParentId = ref(null)
 const regionMenuDirection = ref('forward')
@@ -100,6 +101,14 @@ const menuHeaderLabel = computed(() => {
   return menuParentRegion.value?.shortLabel ?? menuParentRegion.value?.label ?? 'Subregions'
 })
 
+const toggleNavMenu = () => {
+  navMenuOpen.value = !navMenuOpen.value
+}
+
+const closeNavMenu = () => {
+  navMenuOpen.value = false
+}
+
 const toggleRegionMenu = () => {
   const nextState = !regionMenuOpen.value
   regionMenuOpen.value = nextState
@@ -161,7 +170,7 @@ onBeforeUnmount(() => {
 <div class="flex min-h-screen flex-col">
   <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
     <div
-      class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between"
+      class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 sm:flex-row sm:items-center sm:justify-between"
     >
       <!-- Logo -->
       <RouterLink to="/" class="flex flex-col text-slate-900 no-underline">
@@ -169,13 +178,45 @@ onBeforeUnmount(() => {
         <span class="text-sm font-medium text-slate-500">The Human Insight Network</span>
       </RouterLink>
 
-      <div class="flex flex-1 flex-wrap items-center justify-center gap-4 md:justify-center">
+      <div class="relative flex flex-1 flex-wrap items-center justify-center gap-4 sm:justify-center">
+        <!-- Nav toggle -->
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full border border-indigo-100/60 bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-indigo-200 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-200 lg:hidden"
+          @click="toggleNavMenu"
+          :aria-expanded="navMenuOpen"
+          aria-controls="primary-navigation"
+        >
+          <span class="text-xs uppercase tracking-[0.24em]">Menu</span>
+          <span class="relative block h-4 w-5" aria-hidden="true">
+            <span
+              class="absolute inset-x-0 top-0 h-0.5 rounded-full bg-current transition-transform"
+              :class="navMenuOpen ? 'translate-y-1.5 rotate-45' : ''"
+            ></span>
+            <span
+              class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-current transition-opacity"
+              :class="navMenuOpen ? 'opacity-0' : 'opacity-100'"
+            ></span>
+            <span
+              class="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-current transition-transform"
+              :class="navMenuOpen ? '-translate-y-1.5 -rotate-45' : ''"
+            ></span>
+          </span>
+        </button>
+
         <!-- Nav items -->
-        <nav class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600 sm:gap-6">
+        <nav
+          id="primary-navigation"
+          :class="[
+            navMenuOpen ? 'flex' : 'hidden',
+            'absolute left-0 right-0 top-full z-20 flex-col items-center gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg lg:static lg:flex lg:flex-row lg:items-center lg:gap-6 lg:border-none lg:bg-transparent lg:p-0 lg:shadow-none',
+          ]"
+        >
           <RouterLink
             to="/home"
             class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
             active-class="border-indigo-400/60 text-indigo-600"
+            @click="closeNavMenu"
           >
             Home
           </RouterLink>
@@ -183,6 +224,7 @@ onBeforeUnmount(() => {
             to="/insight"
             class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
             active-class="border-indigo-400/60 text-indigo-600"
+            @click="closeNavMenu"
           >
             Insight
           </RouterLink>
@@ -190,6 +232,7 @@ onBeforeUnmount(() => {
             to="/exchange"
             class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
             active-class="border-indigo-400/60 text-indigo-600"
+            @click="closeNavMenu"
           >
             Exchange
           </RouterLink>
@@ -197,6 +240,7 @@ onBeforeUnmount(() => {
             to="/community"
             class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
             active-class="border-indigo-400/60 text-indigo-600"
+            @click="closeNavMenu"
           >
             Community
           </RouterLink>
@@ -204,6 +248,7 @@ onBeforeUnmount(() => {
             to="/profile"
             class="inline-flex items-center gap-2 border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
             active-class="border-indigo-400/60 text-indigo-600"
+            @click="closeNavMenu"
           >
             Profile
           </RouterLink>
@@ -214,7 +259,7 @@ onBeforeUnmount(() => {
       <div ref="regionMenuRef" class="relative">
         <button
           type="button"
-          class="inline-flex items-center w-full min-w-[5rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="inline-flex items-center w-auto min-w-[5rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
           @click="toggleRegionMenu"
           aria-haspopup="listbox"
           :aria-expanded="regionMenuOpen"
