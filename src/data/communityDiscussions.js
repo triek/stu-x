@@ -187,4 +187,70 @@ export const communityDiscussions = {
       downvotes: 3,
     },
   ],
+  'topic-hcmc-study-spots': [
+    {
+      id: 'comment-hcmc-vy',
+      author: 'Vy',
+      role: 'Logistics Major · HCMC',
+      message:
+        'CoLab Thủ Đức is quiet before noon and their Wi-Fi rarely drops. Bring a jacket though—the AC is serious.',
+      timeAgo: '1h ago',
+      upvotes: 17,
+      downvotes: 0,
+    },
+    {
+      id: 'comment-hcmc-tuan',
+      author: 'Tuấn',
+      role: 'CS Sophomore',
+      message:
+        'For late nights I go to The Coffee House on Võ Văn Ngân. Plenty of plugs and the staff let study groups stay past 10pm.',
+      timeAgo: '45m ago',
+      upvotes: 11,
+      downvotes: 1,
+    },
+  ],
+  'topic-iu-vnu-research-teams': [
+    {
+      id: 'comment-iu-vnu-anh',
+      author: 'Anh',
+      role: 'Biomedical Engineering',
+      message:
+        'The BioMEMS Lab posts openings on the faculty Slack. They expect MATLAB basics and one semester of circuits.',
+      timeAgo: '3h ago',
+      upvotes: 14,
+      downvotes: 0,
+    },
+    {
+      id: 'comment-iu-vnu-linh',
+      author: 'Linh',
+      role: 'Teaching Assistant',
+      message:
+        'If you are into data science, check the Smart Health Analytics group. Send them a GitHub link plus your GPA and they usually reply within a week.',
+      timeAgo: '2h ago',
+      upvotes: 9,
+      downvotes: 0,
+    },
+  ],
+  'poll-vietnam-budget-apps': [
+    {
+      id: 'comment-budget-hanh',
+      author: 'Hạnh',
+      role: 'Economics Junior',
+      message:
+        'Money Lover syncs bank SMS really well. I tag meals vs. transport so I know when to slow down on Grab.',
+      timeAgo: '6h ago',
+      upvotes: 21,
+      downvotes: 2,
+    },
+    {
+      id: 'comment-budget-quang',
+      author: 'Quang',
+      role: 'Student Union Finance',
+      message:
+        'If you prefer free, try Sổ Thu Chi. We export monthly reports and it still handles multi-currency clubs without glitches.',
+      timeAgo: '5h ago',
+      upvotes: 16,
+      downvotes: 1,
+    },
+  ],
 }

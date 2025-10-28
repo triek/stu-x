@@ -72,6 +72,24 @@ export const exchangePosts = [
     region: 'australia',
     regions: ['australia'],
   },
+  {
+    id: 'thu-nguyen-mentor',
+    category: 'mentors',
+    image: { emoji: '🌏', gradient: 'from-teal-100 to-emerald-200' },
+    type: { icon: '🎓', label: 'Mentor' },
+    name: 'Thu Nguyen (IU-VNU)',
+    title: 'Data Product Strategy for Smart City Pilots',
+    summary: 'Workshop roadmaps and KPIs for IoT or sustainability initiatives with campus partners.',
+    details: ['☕ +22 Stunix', '📅 Early mornings', '⭐ 4.9 (19 reviews)'],
+    tags: ['ProductStrategy', 'SmartCity', 'Mentorship'],
+    actions: [
+      { icon: '👤', label: 'View Profile' },
+      { icon: '🤝', label: 'Request Session', highlight: true },
+    ],
+    status: 'active',
+    region: 'iu-vnu',
+    regions: ['iu-vnu'],
+  },
 
   // 🧑‍🏫 TAs
   {
@@ -146,6 +164,24 @@ export const exchangePosts = [
     region: 'australia',
     regions: ['australia'],
   },
+  {
+    id: 'bao-phan-ta',
+    category: 'tas',
+    image: { emoji: '🧪', gradient: 'from-emerald-100 to-lime-200' },
+    type: { icon: '🧑‍🏫', label: 'Teaching Assistant' },
+    name: 'Bảo Phan (IU-VNU)',
+    title: 'Applied Statistics with R Clinics',
+    summary: 'Weekly code-along for regression, ANOVA, and ggplot tailored to IU-VNU coursework.',
+    details: ['☕ +11 Stunix', '👥 Max 6 students', '⭐ 4.8 (14 reviews)'],
+    tags: ['Statistics', 'RStats', 'PeerSupport'],
+    actions: [
+      { icon: '📅', label: 'See Schedule' },
+      { icon: '✍️', label: 'Join Session', highlight: true },
+    ],
+    status: 'active',
+    region: 'iu-vnu',
+    regions: ['iu-vnu'],
+  },
 
   // 🧠 Mini Courses
   {
@@ -201,6 +237,24 @@ export const exchangePosts = [
     status: 'active',
     region: 'australia',
     regions: ['australia'],
+  },
+  {
+    id: 'thao-le-mini-course',
+    category: 'mini-courses',
+    image: { emoji: '🏙️', gradient: 'from-rose-100 to-orange-200' },
+    type: { icon: '🧠', label: 'Mini Course' },
+    name: 'Thảo Lê (IU-VNU)',
+    title: 'Designing Climate-Ready Campus Dashboards',
+    summary: 'Hands-on Tableau and Power BI labs using open data from HCMC to craft actionable insights.',
+    details: ['☕ +24 Stunix', '🗓️ 3×1.5h workshops', '⭐ 4.9 (16 learners)'],
+    tags: ['DataViz', 'Tableau', 'Climate'],
+    actions: [
+      { icon: '📖', label: 'View Details' },
+      { icon: '🛒', label: 'Enroll Session', highlight: true },
+    ],
+    status: 'active',
+    region: 'iu-vnu',
+    regions: ['iu-vnu'],
   },
   {
     id: 'amelia-park-mini-course',
@@ -275,6 +329,24 @@ export const exchangePosts = [
     status: 'available',
     region: 'australia',
     regions: ['australia'],
+  },
+  {
+    id: 'hcmc-grant-tracker-resource',
+    category: 'resources',
+    image: { emoji: '📊', gradient: 'from-emerald-100 to-cyan-200' },
+    type: { icon: '📚', label: 'Resource' },
+    name: 'Saigon Innovation Fund',
+    title: 'Vietnam Student Grant Tracker Spreadsheet',
+    summary: 'Updated list of local research, startup, and social impact grants with deadlines and contacts.',
+    details: ['☕ +6 Stunix', '📁 Google Sheets', '📅 Updated Sep 2025'],
+    tags: ['Funding', 'Vietnam', 'Opportunities'],
+    actions: [
+      { icon: '📖', label: 'Preview' },
+      { icon: '💾', label: 'Request Access', highlight: true },
+    ],
+    status: 'available',
+    region: 'vietnam',
+    regions: ['vietnam'],
   },
   {
     id: 'devops-cheatsheet-resource',
@@ -367,5 +439,23 @@ export const exchangePosts = [
     status: 'active',
     region: 'australia',
     regions: ['australia'],
+  },
+  {
+    id: 'mekong-resilience-lit-circle',
+    category: 'literature',
+    image: { emoji: '🌏', gradient: 'from-teal-100 to-blue-200' },
+    type: { icon: '📖', label: 'Literature' },
+    name: 'Mekong Resilience Collective',
+    title: 'Climate Adaptation Readings for the Mekong Delta',
+    summary: 'Swap annotated papers on flood management, food systems, and student-led resilience projects.',
+    details: ['☕ +10 Stunix', '📘 5 readings/month', '🗓️ Meets Saturdays'],
+    tags: ['Climate', 'Resilience', 'Vietnam'],
+    actions: [
+      { icon: '📖', label: 'Preview' },
+      { icon: '💾', label: 'Request Access', highlight: true },
+    ],
+    status: 'active',
+    region: 'vietnam',
+    regions: ['vietnam'],
   },
 ]

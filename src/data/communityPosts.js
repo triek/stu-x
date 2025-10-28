@@ -101,4 +101,40 @@ export const communityPosts = [
     region: 'deakin',
     regions: ['deakin'],
   },
+  {
+    id: 'topic-hcmc-study-spots',
+    title: 'Topic: Favorite study spots around Thủ Đức?',
+    description:
+      'Share cafés, libraries, and quiet corners in HCMC where you get your best focus sessions in.',
+    discussion: 7,
+    cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Vietnam', 'StudySpaces', 'Community'],
+    region: 'tphcm',
+    regions: ['tphcm'],
+  },
+  {
+    id: 'topic-iu-vnu-research-teams',
+    title: 'Topic: Joining multidisciplinary research teams at IU-VNU',
+    description:
+      'Which labs are welcoming undergrads this semester and what skills do they expect from applicants?',
+    discussion: 5,
+    cta: 'Discuss',
+    category: 'discussions',
+    tags: ['Research', 'Labs', 'IU-VNU'],
+    region: 'iu-vnu',
+    regions: ['iu-vnu'],
+  },
+  {
+    id: 'poll-vietnam-budget-apps',
+    title: 'Poll: Best budgeting app for Vietnamese students',
+    description:
+      'Vote for the finance app that actually helps you keep track of rent, food, and club fees.',
+    discussion: 9,
+    cta: 'Vote',
+    category: 'polls',
+    tags: ['Finance', 'Apps', 'Vietnam'],
+    region: 'vietnam',
+    regions: ['vietnam'],
+  },
 ]

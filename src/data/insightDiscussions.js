@@ -77,4 +77,64 @@ export const insightDiscussions = {
       ],
     },
   ],
+  'academic-iu-vnu-smart-campus': [
+    {
+      id: 'question-1',
+      author: 'Lan Trần',
+      role: 'Facilities Analyst',
+      timeAgo: '5h ago',
+      question:
+        'Do you need live sensor data for the prototype test or can we upload historical CSV exports from the energy dashboard?',
+      answers: [
+        {
+          id: 'answer-1',
+          author: 'Dr. Minh Phan',
+          role: 'Host · IU-VNU',
+          timeAgo: '4h ago',
+          message:
+            'Historical CSVs are perfect. The study compares how participants interpret trends, so static data works as long as it covers a full heatwave week.',
+        },
+      ],
+    },
+  ],
+  'product-hcmc-transit-feedback': [
+    {
+      id: 'question-1',
+      author: 'Huyền Lê',
+      role: 'Commuter Student',
+      timeAgo: '1d ago',
+      question:
+        'Will the beta cover Line 1 only or can we log issues on bus route 30 as well? That route is always late after 8pm.',
+      answers: [
+        {
+          id: 'answer-1',
+          author: 'Saigon Student Mobility Lab',
+          role: 'Product Team',
+          timeAgo: '22h ago',
+          message:
+            'Please include bus route feedback! The trip matcher learns from those reports, and we already have city approval to tweak notifications for route 30.',
+        },
+      ],
+    },
+  ],
+  'project-vietnam-service-learning': [
+    {
+      id: 'question-1',
+      author: 'Mai Phạm',
+      role: 'Community Clinic Coordinator',
+      timeAgo: '2d ago',
+      question:
+        'Should stories focus on quantitative impact or narrative reflections? We have attendance numbers and alumni testimonials.',
+      answers: [
+        {
+          id: 'answer-1',
+          author: 'Vietnam National Student Forum Team',
+          role: 'Project Hosts',
+          timeAgo: '2d ago',
+          message:
+            'Send both if you can. The map pins will display headline stats, and the long-form reflections help other campuses replicate your model.',
+        },
+      ],
+    },
+  ],
 }
