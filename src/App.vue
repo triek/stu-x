@@ -28,6 +28,9 @@ const logout = () => {
 const regionMenuOpen = ref(false)
 const navMenuOpen = ref(false)
 const regionMenuRef = ref(null)
+const setRegionMenuRef = (element) => {
+  regionMenuRef.value = element
+}
 const subregionParentId = ref(null)
 const regionMenuDirection = ref('forward')
 
@@ -102,11 +105,17 @@ const menuHeaderLabel = computed(() => {
 })
 
 const toggleNavMenu = () => {
-  navMenuOpen.value = !navMenuOpen.value
+  const nextState = !navMenuOpen.value
+  navMenuOpen.value = nextState
+
+  if (!nextState) {
+    closeRegionMenu()
+  }
 }
 
 const closeNavMenu = () => {
   navMenuOpen.value = false
+  closeRegionMenu()
 }
 
 const toggleRegionMenu = () => {
@@ -131,7 +140,7 @@ const handleRegionSelect = (region) => {
   }
 
   regionStore.setRegion(region.id)
-  closeRegionMenu()
+  closeNavMenu()
 }
 
 const openSubregionView = (regionId) => {
@@ -180,6 +189,45 @@ onBeforeUnmount(() => {
         </div>
       </RouterLink>
 
+      <!-- Nav items -->
+      <nav
+        id="primary-navigation"
+        class="flex flex-1 flex-wrap items-center justify-center gap-3 text-sm font-semibold text-slate-600 sm:gap-4 lg:gap-6"
+      >
+        <RouterLink
+          to="/home"
+          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+          active-class="border-indigo-400/60 text-indigo-600"
+          @click="closeNavMenu"
+        >
+          Home
+        </RouterLink>
+        <RouterLink
+          to="/insight"
+          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+          active-class="border-indigo-400/60 text-indigo-600"
+          @click="closeNavMenu"
+        >
+          Insight
+        </RouterLink>
+        <RouterLink
+          to="/exchange"
+          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+          active-class="border-indigo-400/60 text-indigo-600"
+          @click="closeNavMenu"
+        >
+          Exchange
+        </RouterLink>
+        <RouterLink
+          to="/community"
+          class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
+          active-class="border-indigo-400/60 text-indigo-600"
+          @click="closeNavMenu"
+        >
+          Community
+        </RouterLink>
+      </nav>
+
       <div class="relative flex min-w-[6rem] flex-wrap items-center justify-center gap-4 md:justify-center md:flex-none">
         <!-- Nav toggle -->
         <button
@@ -206,63 +254,11 @@ onBeforeUnmount(() => {
           </span>
           <span class="text-xs uppercase tracking-[0.24em]">Menu</span>
         </button>
-
-        <!-- Nav items -->
-        <nav
-          id="primary-navigation"
-          :class="[
-            navMenuOpen ? 'flex' : 'hidden',
-            'absolute left-0 right-0 top-full z-20 flex-col items-center gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg lg:static lg:flex lg:flex-row lg:items-center lg:gap-6 lg:border-none lg:bg-transparent lg:p-0 lg:shadow-none',
-          ]"
-        >
-          <RouterLink
-            to="/home"
-            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-            active-class="border-indigo-400/60 text-indigo-600"
-            @click="closeNavMenu"
-          >
-            Home
-          </RouterLink>
-          <RouterLink
-            to="/insight"
-            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-            active-class="border-indigo-400/60 text-indigo-600"
-            @click="closeNavMenu"
-          >
-            Insight
-          </RouterLink>
-          <RouterLink
-            to="/exchange"
-            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-            active-class="border-indigo-400/60 text-indigo-600"
-            @click="closeNavMenu"
-          >
-            Exchange
-          </RouterLink>
-          <RouterLink
-            to="/community"
-            class="border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-            active-class="border-indigo-400/60 text-indigo-600"
-            @click="closeNavMenu"
-          >
-            Community
-          </RouterLink>
-          <RouterLink
-            to="/profile"
-            class="inline-flex items-center gap-2 border-b-2 border-transparent pb-1 transition-colors hover:border-indigo-200 hover:text-indigo-600"
-            active-class="border-indigo-400/60 text-indigo-600"
-            @click="closeNavMenu"
-          >
-            Profile
-          </RouterLink>
-        </nav>
       </div>
 
-      <div
-        class="flex w-full flex-wrap items-center justify-center gap-3 md:w-auto md:justify-end"
-      >
+      <div class="hidden items-center gap-4 lg:flex">
         <!-- Region toggler -->
-        <div ref="regionMenuRef" class="relative flex-shrink-0">
+        <div :ref="setRegionMenuRef" class="relative">
           <button
             type="button"
             class="inline-flex items-center w-auto min-w-[5rem] flex-col gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
@@ -290,16 +286,6 @@ onBeforeUnmount(() => {
                     <span aria-hidden="true">←</span>
                     Regions
                   </button>
-                  <p class="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-                    {{ menuHeaderLabel }}
-                  </p>
-
-                  <p
-                    v-if="isSubregionView && menuParentRegion?.tagline"
-                    class="mt-1 text-[11px] text-slate-500"
-                  >
-                    {{ menuParentRegion.tagline }}
-                  </p>
                 </div>
 
                 <!-- Region list -->
@@ -351,7 +337,7 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- Auth state -->
-        <div class="flex items-center justify-center gap-3 text-sm font-semibold">
+        <div class="flex items-center gap-3 text-sm font-semibold">
           <template v-if="isAuthenticated">
             <RouterLink
               to="/profile"
@@ -389,6 +375,137 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </div>
+    <Transition name="fade">
+      <div
+        v-if="navMenuOpen"
+        class="mx-4 mt-2 flex flex-col gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg lg:hidden"
+      >
+        <div :ref="setRegionMenuRef" class="relative">
+          <button
+            type="button"
+            class="flex w-full flex-col items-start gap-1 rounded-2xl border border-indigo-100/70 bg-white px-4 py-2 text-left shadow-sm transition hover:border-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            @click="toggleRegionMenu"
+            aria-haspopup="listbox"
+            :aria-expanded="regionMenuOpen"
+          >
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Active region</span>
+            <span class="text-base font-semibold text-slate-700">{{ activeRegionLabel }}</span>
+          </button>
+
+          <div
+            v-if="regionMenuOpen"
+            class="z-20 mt-3 w-full rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
+          >
+            <Transition :name="regionMenuTransition" mode="out-in">
+              <div :key="regionMenuViewKey">
+                <!-- Back button -->
+                <div class="px-3">
+                  <button
+                    v-if="isSubregionView"
+                    type="button"
+                    class="inline-flex items-center gap-1 rounded-lg py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:bg-indigo-50/80 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                    @click="handleRegionMenuBack"
+                  >
+                    <span aria-hidden="true">←</span>
+                    Regions
+                  </button>
+                  <p class="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                    {{ menuHeaderLabel }}
+                  </p>
+
+                  <p
+                    v-if="isSubregionView && menuParentRegion?.tagline"
+                    class="mt-1 text-[11px] text-slate-500"
+                  >
+                    {{ menuParentRegion.tagline }}
+                  </p>
+                </div>
+
+                <!-- Region list -->
+                <ul class="mt-2 grid gap-1">
+                  <li v-for="region in menuRegions" :key="region.id">
+                    <div class="grid grid-cols-1 gap-1">
+                      <!-- Region button -->
+                      <button
+                        type="button"
+                        class="flex w-full flex-1 flex-col gap-1 rounded-xl px-3 py-2 text-left transition"
+                        :class="[
+                          region.id === activeRegion?.id
+                            ? 'bg-indigo-50 text-indigo-700 shadow-inner'
+                            : 'text-slate-600 hover:bg-slate-100',
+                          region.isActive === false ? 'cursor-not-allowed opacity-70 hover:bg-white' : '',
+                        ]"
+                        @click="handleRegionSelect(region)"
+                        :disabled="region.isActive === false"
+                      >
+                        <div class="flex items-center justify-between gap-2">
+                          <span class="text-sm font-semibold">{{ region.label }}</span>
+                          <span
+                            v-if="region.statusLabel"
+                            class="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                            :class="region.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+                          >
+                            {{ region.statusLabel }}
+                          </span>
+                        </div>
+                        <p class="text-xs text-slate-500">{{ region.tagline }}</p>
+                      </button>
+
+                      <!-- Expand subregions arrow button -->
+                      <button
+                        v-if="regionHasSubregions(region.id)"
+                        type="button"
+                        class="inline-flex h-full items-center justify-center rounded-xl border border-transparent px-5 py-2 text-slate-400 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                        @click.stop="openSubregionView(region.id)"
+                        :aria-label="`View subregions for ${region.shortLabel ?? region.label}`"
+                      >
+                        <span aria-hidden="true" class="text-lg leading-none">›</span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </Transition>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3 text-sm font-semibold">
+          <template v-if="isAuthenticated">
+            <RouterLink
+              to="/profile"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
+            >
+              Hi, {{ displayName }}
+            </RouterLink>
+            <span class="inline-flex w-full items-center justify-center gap-1 rounded-full bg-indigo-50 px-4 py-2 text-brand ring-1 ring-indigo-100">
+              <span>Stunix: {{ formattedBalance }}</span>
+              <span>☕</span>
+            </span>
+            <button
+              type="button"
+              class="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-700"
+              @click="logout"
+            >
+              Log out
+            </button>
+          </template>
+          <template v-else>
+            <RouterLink
+              to="/login"
+              class="inline-flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
+            >
+              Log in
+            </RouterLink>
+            <RouterLink
+              to="/signup"
+              class="inline-flex w-full items-center justify-center rounded-full bg-brand px-5 py-2.5 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
+            >
+              Sign up
+            </RouterLink>
+          </template>
+        </div>
+      </div>
+    </Transition>
   </header>
 
   <!-- Main display -->
@@ -436,5 +553,15 @@ onBeforeUnmount(() => {
 .region-slide-backward-enter-from {
   opacity: 0;
   transform: translateX(-16px);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
