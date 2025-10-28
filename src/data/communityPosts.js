@@ -1,4 +1,5 @@
 export const communityPosts = [
+  // Australia
   {
     id: 'topic-first-year-essentials',
     title: 'Topic: What to buy for first-year students?',
@@ -101,40 +102,42 @@ export const communityPosts = [
     region: 'deakin',
     regions: ['deakin'],
   },
-  {
-    id: 'topic-hcmc-study-spots',
-    title: 'Topic: Favorite study spots around Thủ Đức?',
-    description:
-      'Share cafés, libraries, and quiet corners in HCMC where you get your best focus sessions in.',
-    discussion: 7,
-    cta: 'Discuss',
-    category: 'discussions',
-    tags: ['Vietnam', 'StudySpaces', 'Community'],
-    region: 'tphcm',
-    regions: ['tphcm'],
-  },
-  {
-    id: 'topic-iu-vnu-research-teams',
-    title: 'Topic: Joining multidisciplinary research teams at IU-VNU',
-    description:
-      'Which labs are welcoming undergrads this semester and what skills do they expect from applicants?',
-    discussion: 5,
-    cta: 'Discuss',
-    category: 'discussions',
-    tags: ['Research', 'Labs', 'IU-VNU'],
-    region: 'iu-vnu',
-    regions: ['iu-vnu'],
-  },
-  {
-    id: 'poll-vietnam-budget-apps',
-    title: 'Poll: Best budgeting app for Vietnamese students',
-    description:
-      'Vote for the finance app that actually helps you keep track of rent, food, and club fees.',
-    discussion: 9,
-    cta: 'Vote',
-    category: 'polls',
-    tags: ['Finance', 'Apps', 'Vietnam'],
-    region: 'vietnam',
-    regions: ['vietnam'],
+
+  // Vietnam
+{
+  id: 'topic-hcmc-study-spots',
+  title: 'Chủ đề: Địa điểm học yêu thích quanh Thủ Đức?',
+  description:
+    'Chia sẻ quán cà phê, thư viện hay góc yên tĩnh ở TP.HCM nơi bạn tập trung học tốt nhất.',
+  discussion: 7,
+  cta: 'Thảo luận',
+  category: 'discussions',
+  tags: ['Việt Nam', 'Địa điểm học', 'Cộng đồng'],
+  region: 'tphcm',
+  regions: ['tphcm'],
+},
+{
+  id: 'topic-iu-vnu-research-teams',
+  title: 'Chủ đề: Tham gia nhóm nghiên cứu đa ngành tại IU-VNU',
+  description:
+    'Những phòng lab nào đang mở cho sinh viên đại học kỳ này và họ yêu cầu kỹ năng gì?',
+  discussion: 5,
+  cta: 'Thảo luận',
+  category: 'discussions',
+  tags: ['Nghiên cứu', 'Phòng lab', 'IU-VNU'],
+  region: 'iu-vnu',
+  regions: ['iu-vnu'],
+},
+{
+  id: 'poll-vietnam-budget-apps',
+  title: 'Bình chọn: Ứng dụng quản lý chi tiêu tốt nhất cho sinh viên Việt Nam',
+  description:
+    'Bình chọn ứng dụng tài chính giúp bạn kiểm soát tiền thuê nhà, ăn uống và phí câu lạc bộ hiệu quả nhất.',
+  discussion: 9,
+  cta: 'Bình chọn',
+  category: 'polls',
+  tags: ['Tài chính', 'Ứng dụng', 'Việt Nam'],
+  region: 'vietnam',
+  regions: ['vietnam'],
   },
 ]
