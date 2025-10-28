@@ -6,7 +6,8 @@ import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useInsightPostsStore } from '@/stores/insightPosts'
 import { useRegionStore } from '@/stores/region'
-import { getItemRegionIds } from '@/utils/region'
+import { useAuthStore } from '@/stores/auth'
+import { getItemRegionIds, normalizeRegionId } from '@/utils/region'
 
 const statusStyles = {
   active: {
@@ -28,6 +29,17 @@ const { posts } = storeToRefs(insightPostsStore)
 
 const regionStore = useRegionStore()
 const { activeScope, activeRegion } = storeToRefs(regionStore)
+
+const authStore = useAuthStore()
+const { user, isAuthenticated } = storeToRefs(authStore)
+
+const currentUsername = computed(() => user.value?.username?.trim() || '')
+const currentRegionLabel = computed(() => user.value?.region?.toString().trim() || '')
+const fallbackRegionId = computed(() => normalizeRegionId(activeRegion.value?.id))
+const resolvedUserRegionId = computed(() => {
+  const normalized = normalizeRegionId(currentRegionLabel.value)
+  return normalized || fallbackRegionId.value
+})
 
 const filteredPosts = computed(() => {
   const scope = new Set(activeScope.value)
@@ -94,9 +106,9 @@ const statusOptions = [
   { value: 'closed', label: '⚪ Closed' },
 ]
 
-const formDefaults = {
+const formDefaults = computed(() => ({
   reward: '20',
-  author: '',
+  author: currentUsername.value || 'Community member',
   type: insightTypeOptions[0].value,
   status: statusOptions[0].value,
   duration: '5',
@@ -104,7 +116,7 @@ const formDefaults = {
   tags: '',
   participants: '0',
   questions: '0',
-}
+}))
 
 const router = useRouter()
 const openDetails = (item) => {
@@ -121,7 +133,15 @@ const openDiscussion = (item) => {
   })
 }
 const handleSubmit = (form) => {
-  insightPostsStore.addPost({ ...form, region: activeRegion.value?.id })
+  if (!isAuthenticated.value) return
+
+  const author = currentUsername.value || 'Community member'
+
+  insightPostsStore.addPost({
+    ...form,
+    author,
+    region: resolvedUserRegionId.value,
+  })
 }
 </script>
 
@@ -244,7 +264,12 @@ const handleSubmit = (form) => {
           type="text"
           placeholder="Add collaborator or institution"
           class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          readonly
         />
+        <p class="text-xs font-medium text-slate-500">
+          Posting as <span class="text-slate-700">{{ formState.author }}</span>
+          <span v-if="currentRegionLabel"> · {{ currentRegionLabel }}</span>
+        </p>
       </label>
 
       <label class="grid gap-2 text-sm font-semibold text-slate-800">

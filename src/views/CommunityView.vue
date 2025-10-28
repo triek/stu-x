@@ -6,7 +6,8 @@ import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useCommunityPostsStore } from '@/stores/communityPosts'
 import { useCommunityDiscussionsStore } from '@/stores/communityDiscussions'
 import { useRegionStore } from '@/stores/region'
-import { getItemRegionIds } from '@/utils/region'
+import { useAuthStore } from '@/stores/auth'
+import { getItemRegionIds, normalizeRegionId } from '@/utils/region'
 
 const communityPostsStore = useCommunityPostsStore()
 const communityDiscussionsStore = useCommunityDiscussionsStore()
@@ -14,6 +15,25 @@ const { posts } = storeToRefs(communityPostsStore)
 
 const regionStore = useRegionStore()
 const { activeScope, activeRegion } = storeToRefs(regionStore)
+
+const authStore = useAuthStore()
+const { user, isAuthenticated } = storeToRefs(authStore)
+
+const currentUsername = computed(() => user.value?.username?.trim() || '')
+const currentRegionLabel = computed(() => user.value?.region?.toString().trim() || '')
+const discussionIdentity = computed(() => {
+  if (!isAuthenticated.value) return ''
+
+  const name = currentUsername.value || 'Community member'
+  const region = currentRegionLabel.value
+  return region ? `${name} · ${region}` : name
+})
+
+const fallbackRegionId = computed(() => normalizeRegionId(activeRegion.value?.id))
+const resolvedUserRegionId = computed(() => {
+  const normalized = normalizeRegionId(currentRegionLabel.value)
+  return normalized || fallbackRegionId.value
+})
 
 const filteredPosts = computed(() => {
   const scope = new Set(activeScope.value)
@@ -91,6 +111,7 @@ const formatDiscussionCount = (post) => {
 
 const expandDraft = (postId) => {
   if (!commentDrafts[postId]) return
+  if (!isAuthenticated.value) return
   commentDrafts[postId].expanded = true
 }
 
@@ -116,16 +137,24 @@ const toggleThread = (postId) => {
 const submitComment = (postId) => {
   const draft = commentDrafts[postId]
   if (!draft?.message.trim()) return
+  if (!isAuthenticated.value) return
+
+  const author = currentUsername.value || 'Community member'
+  const region = currentRegionLabel.value
 
   communityDiscussionsStore.addComment(postId, {
-    author: draft.name,
-    role: draft.role,
+    author,
+    region,
+    role: region,
     message: draft.message,
   })
 
   communityPostsStore.incrementDiscussionCount(postId, 1)
   resetDraft(postId)
 }
+
+const getCommentRegion = (comment) =>
+  comment?.region?.toString().trim() || comment?.role?.toString().trim() || ''
 
 const baseConfig = {
   title: 'Community',
@@ -164,6 +193,12 @@ const formDefaults = {
 
 const handleSubmit = (form) => {
   communityPostsStore.addPost({ ...form, region: activeRegion.value?.id })
+  if (!isAuthenticated.value) return
+
+  communityPostsStore.addPost({
+    ...form,
+    region: resolvedUserRegionId.value,
+  })
 }
 </script>
 
@@ -207,7 +242,9 @@ const handleSubmit = (form) => {
         >
           <header class="text-xs font-semibold text-slate-500">
             <span class="text-slate-700">{{ getTopComment(item.id).author }}</span>
-            <span v-if="getTopComment(item.id).role"> · {{ getTopComment(item.id).role }}</span>
+            <span v-if="getCommentRegion(getTopComment(item.id))">
+              · {{ getCommentRegion(getTopComment(item.id)) }}
+            </span>
             <span> · {{ getTopComment(item.id).timeAgo }}</span>
           </header>
 
@@ -270,7 +307,10 @@ const handleSubmit = (form) => {
                   <div class="grid gap-1">
                     <p class="text-sm font-semibold text-slate-700">{{ comment.author }}</p>
                     <p class="text-xs text-slate-500">
-                      <span v-if="comment.role">{{ comment.role }} · </span>{{ comment.timeAgo }}
+                      <span v-if="getCommentRegion(comment)">
+                        {{ getCommentRegion(comment) }} ·
+                      </span>
+                      {{ comment.timeAgo }}
                     </p>
                   </div>
 
@@ -296,7 +336,7 @@ const handleSubmit = (form) => {
             <p v-else class="text-sm italic text-slate-500">Be the first to add a comment.</p>
 
             <form
-              v-if="commentDrafts[item.id]"
+              v-if="isAuthenticated && commentDrafts[item.id]"
               :class="[
                 'grid',
                 commentDrafts[item.id].expanded
@@ -324,32 +364,13 @@ const handleSubmit = (form) => {
                 ></textarea>
               </label>
 
-              <div v-if="commentDrafts[item.id].expanded" class="grid gap-2 sm:grid-cols-2">
-                <label class="grid gap-2">
-                  <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
-                    Your name
-                  </span>
-
-                  <input
-                    v-model="commentDrafts[item.id].name"
-                    type="text"
-                    placeholder="Add your name"
-                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  />
-                </label>
-
-                <label class="grid gap-2">
-                  <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
-                    Role or affiliation
-                  </span>
-
-                  <input
-                    v-model="commentDrafts[item.id].role"
-                    type="text"
-                    placeholder="e.g. Peer mentor"
-                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  />
-                </label>
+              <div
+                v-if="commentDrafts[item.id].expanded && discussionIdentity"
+                class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 text-xs font-medium text-slate-600"
+              >
+                <span>
+                  Posting as <span class="text-slate-700">{{ discussionIdentity }}</span>
+                </span>
               </div>
 
               <div v-if="commentDrafts[item.id].expanded" class="flex justify-end gap-3">
@@ -370,6 +391,13 @@ const handleSubmit = (form) => {
                 </button>
               </div>
             </form>
+
+            <p
+              v-else
+              class="rounded-2xl border border-dashed border-slate-300 bg-white p-4 text-sm text-slate-500"
+            >
+              Log in to add a comment.
+            </p>
           </section>
         </transition>
       </article>

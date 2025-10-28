@@ -8,6 +8,7 @@ import { useInsightDiscussionsStore } from '@/stores/insightDiscussions'
 import { useInsightPostsStore } from '@/stores/insightPosts'
 import { useRegionStore } from '@/stores/region'
 import { getItemRegionIds } from '@/utils/region'
+import { useAuthStore } from '@/stores/auth'
 
 const statusStyles = {
   active: {
@@ -32,6 +33,19 @@ const insightPostsStore = useInsightPostsStore()
 const { posts } = storeToRefs(insightPostsStore)
 const regionStore = useRegionStore()
 
+const authStore = useAuthStore()
+const { user, isAuthenticated } = storeToRefs(authStore)
+
+const currentUsername = computed(() => user.value?.username?.trim() || '')
+const currentRegionLabel = computed(() => user.value?.region?.toString().trim() || '')
+const postingIdentity = computed(() => {
+  if (!isAuthenticated.value) return ''
+
+  const name = currentUsername.value || 'Community member'
+  const region = currentRegionLabel.value
+  return region ? `${name} · ${region}` : name
+})
+
 const isDiscussionOpen = ref(false)
 const isSubmittingQuestion = ref(false)
 const activeReply = ref('')
@@ -39,8 +53,6 @@ const isQuestionFormExpanded = ref(false)
 const questionFormRef = ref(null)
 
 const newQuestion = reactive({
-  name: '',
-  role: '',
   question: '',
 })
 
@@ -49,15 +61,11 @@ const expandedReplies = reactive({})
 const replyFormRefs = reactive({})
 
 const resetForms = () => {
-  newQuestion.name = ''
-  newQuestion.role = ''
   newQuestion.question = ''
   isQuestionFormExpanded.value = false
 
   Object.keys(replyDrafts).forEach((key) => {
     replyDrafts[key] = {
-      name: '',
-      role: '',
       message: '',
     }
   })
@@ -109,12 +117,13 @@ const participate = () => {
   // Placeholder for participate action
 }
 
+const getParticipantRegion = (entry) =>
+  entry?.region?.toString().trim() || entry?.role?.toString().trim() || ''
+
 const ensureReplyDrafts = (threads) => {
   threads.forEach((thread) => {
     if (!replyDrafts[thread.id]) {
       replyDrafts[thread.id] = {
-        name: '',
-        role: '',
         message: '',
       }
     }
@@ -144,10 +153,12 @@ const ensureReplyDrafts = (threads) => {
 }
 
 const expandQuestionForm = () => {
+  if (!isAuthenticated.value) return
   isQuestionFormExpanded.value = true
 }
 
 const expandReplyForm = (threadId) => {
+  if (!isAuthenticated.value) return
   expandedReplies[threadId] = true
 }
 
@@ -229,12 +240,17 @@ onBeforeUnmount(() => {
 
 const handleSubmitQuestion = () => {
   if (!post.value?.id || !newQuestion.question.trim()) return
+  if (!isAuthenticated.value) return
 
   isSubmittingQuestion.value = true
 
+  const author = currentUsername.value || 'Community member'
+  const region = currentRegionLabel.value
+
   discussionsStore.addQuestion(post.value.id, {
-    author: newQuestion.name,
-    role: newQuestion.role,
+    author,
+    region,
+    role: region,
     question: newQuestion.question,
   })
 
@@ -245,18 +261,21 @@ const handleSubmitQuestion = () => {
 const handleSubmitReply = (threadId) => {
   const draft = replyDrafts[threadId]
   if (!post.value?.id || !threadId || !draft?.message.trim()) return
+  if (!isAuthenticated.value) return
 
   activeReply.value = threadId
 
+  const author = currentUsername.value || 'Community member'
+  const region = currentRegionLabel.value
+
   discussionsStore.addReply(post.value.id, threadId, {
-    author: draft.name,
-    role: draft.role,
+    author,
+    region,
+    role: region,
     message: draft.message,
   })
 
   replyDrafts[threadId] = {
-    name: '',
-    role: '',
     message: '',
   }
 
@@ -418,6 +437,7 @@ watch(
               ]"
             >
               <form
+                v-if="isAuthenticated"
                 ref="questionFormRef"
                 :class="['grid', isQuestionFormExpanded ? 'gap-4' : '']"
                 @submit.prevent="handleSubmitQuestion"
@@ -440,34 +460,12 @@ watch(
                   ></textarea>
                 </label>
                 <div
-                  v-if="isQuestionFormExpanded"
-                  class="grid gap-2 sm:grid-cols-2"
+                  v-if="isQuestionFormExpanded && postingIdentity"
+                  class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 text-xs font-medium text-slate-600"
                 >
-                  <label class="grid gap-2">
-                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
-                      Your name
-                    </span>
-
-                    <input
-                      v-model="newQuestion.name"
-                      type="text"
-                      placeholder="Add your name"
-                      class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                    />
-                  </label>
-
-                  <label class="grid gap-2">
-                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
-                      Role or affiliation
-                    </span>
-
-                    <input
-                      v-model="newQuestion.role"
-                      type="text"
-                      placeholder="e.g. Student Researcher"
-                      class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                    />
-                  </label>
+                  <span>
+                    Posting as <span class="text-slate-700">{{ postingIdentity }}</span>
+                  </span>
                 </div>
                 <div v-if="isQuestionFormExpanded" class="flex justify-end">
                   <button
@@ -479,6 +477,12 @@ watch(
                   </button>
                 </div>
               </form>
+              <p
+                v-else
+                class="rounded-2xl border border-dashed border-slate-300 bg-white p-5 text-sm text-slate-500"
+              >
+                Log in to post a question.
+              </p>
             </article>
 
             <article class="grid gap-4">
@@ -503,12 +507,15 @@ watch(
                   class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4"
                 >
                   <div class="flex items-start justify-between gap-3">
-                    <div>
-                      <p class="text-sm font-semibold text-slate-800">{{ thread.author }}</p>
-                      <p class="text-xs text-slate-500">
-                        <span v-if="thread.role">{{ thread.role }} · </span>{{ thread.timeAgo }}
-                      </p>
-                    </div>
+                  <div>
+                    <p class="text-sm font-semibold text-slate-800">{{ thread.author }}</p>
+                    <p class="text-xs text-slate-500">
+                      <span v-if="getParticipantRegion(thread)">
+                        {{ getParticipantRegion(thread) }} ·
+                      </span>
+                      {{ thread.timeAgo }}
+                    </p>
+                  </div>
                     <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">Question</span>
                   </div>
                   <p class="whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ thread.question }}</p>
@@ -519,16 +526,19 @@ watch(
                       :key="answer.id"
                       class="grid gap-1 rounded-xl border border-slate-200 bg-white p-3"
                     >
-                      <p class="text-sm font-semibold text-indigo-600">{{ answer.author }}</p>
-                      <p class="text-xs text-slate-500">
-                        <span v-if="answer.role">{{ answer.role }} · </span>{{ answer.timeAgo }}
-                      </p>
+                    <p class="text-sm font-semibold text-indigo-600">{{ answer.author }}</p>
+                    <p class="text-xs text-slate-500">
+                        <span v-if="getParticipantRegion(answer)">
+                          {{ getParticipantRegion(answer) }} ·
+                        </span>
+                        {{ answer.timeAgo }}
+                    </p>
                       <p class="whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ answer.message }}</p>
                     </li>
                   </ul>
 
                   <form
-                    v-if="replyDrafts[thread.id]"
+                    v-if="isAuthenticated && replyDrafts[thread.id]"
                     :ref="(el) => setReplyFormRef(thread.id, el)"
                     :class="[
                       'grid',
@@ -556,34 +566,12 @@ watch(
                       ></textarea>
                     </label>
                     <div
-                      v-if="expandedReplies[thread.id]"
-                      class="grid gap-2 sm:grid-cols-2"
+                      v-if="expandedReplies[thread.id] && postingIdentity"
+                      class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600"
                     >
-                      <label class="grid gap-2">
-                        <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
-                          Your name
-                        </span>
-
-                        <input
-                          v-model="replyDrafts[thread.id].name"
-                          type="text"
-                          placeholder="Add your name"
-                          class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                        />
-                      </label>
-
-                      <label class="grid gap-2">
-                        <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 px-1">
-                          Role or affiliation
-                        </span>
-
-                        <input
-                          v-model="replyDrafts[thread.id].role"
-                          type="text"
-                          placeholder="e.g. Host, Participant"
-                          class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                        />
-                      </label>
+                      <span>
+                        Replying as <span class="text-slate-700">{{ postingIdentity }}</span>
+                      </span>
                     </div>
                     <div v-if="expandedReplies[thread.id]" class="flex justify-end">
                       <button
@@ -595,6 +583,12 @@ watch(
                       </button>
                     </div>
                   </form>
+                  <p
+                    v-else
+                    class="rounded-2xl border border-dashed border-slate-300 bg-white p-3 text-sm text-slate-500"
+                  >
+                    Log in to reply.
+                  </p>
                 </li>
               </ul>
             </article>

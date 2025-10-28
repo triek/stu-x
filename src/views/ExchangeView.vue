@@ -5,7 +5,8 @@ import PillarLayout from '@/components/PillarLayout.vue'
 import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useExchangePostsStore } from '@/stores/exchangePosts'
 import { useRegionStore } from '@/stores/region'
-import { getItemRegionIds } from '@/utils/region'
+import { useAuthStore } from '@/stores/auth'
+import { getItemRegionIds, normalizeRegionId } from '@/utils/region'
 
 const categories = [
   {
@@ -60,6 +61,17 @@ const { posts } = storeToRefs(exchangePostsStore)
 
 const regionStore = useRegionStore()
 const { activeScope, activeRegion } = storeToRefs(regionStore)
+
+const authStore = useAuthStore()
+const { user, isAuthenticated } = storeToRefs(authStore)
+
+const currentUsername = computed(() => user.value?.username?.trim() || '')
+const currentRegionLabel = computed(() => user.value?.region?.toString().trim() || '')
+const fallbackRegionId = computed(() => normalizeRegionId(activeRegion.value?.id))
+const resolvedUserRegionId = computed(() => {
+  const normalized = normalizeRegionId(currentRegionLabel.value)
+  return normalized || fallbackRegionId.value
+})
 
 const filteredPosts = computed(() => {
   const scope = new Set(activeScope.value)
@@ -117,14 +129,22 @@ const config = computed(() => {
 
 const formDefaults = computed(() => ({
   category: activeCategory.value,
-  name: '',
+  name: currentUsername.value || 'Community member',
   reward: '10',
   tags: '',
 }))
 
 const handleSubmit = (form) => {
-  const regionId = activeRegion.value?.id
-  const post = exchangePostsStore.addPost({ ...form, region: regionId })
+  if (!isAuthenticated.value) return
+
+  const regionId = resolvedUserRegionId.value
+  const name = currentUsername.value || 'Community member'
+
+  const post = exchangePostsStore.addPost({
+    ...form,
+    name,
+    region: regionId,
+  })
   activeCategory.value = post.category
 }
 </script>
@@ -289,7 +309,12 @@ const handleSubmit = (form) => {
             type="text"
             placeholder="Who is offering this?"
             class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+            readonly
           />
+          <p class="text-xs font-medium text-slate-500">
+            Posting as <span class="text-slate-700">{{ formState.name }}</span>
+            <span v-if="currentRegionLabel"> · {{ currentRegionLabel }}</span>
+          </p>
         </label>
 
         <label class="grid gap-2 text-sm font-semibold text-slate-800">
