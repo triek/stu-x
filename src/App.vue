@@ -170,12 +170,14 @@ onBeforeUnmount(() => {
 <div class="flex min-h-screen flex-col">
   <header class="sticky top-0 z-10 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl">
     <div
-      class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 sm:flex-row sm:items-center sm:justify-between"
+      class="mx-auto flex w-full flex-col items-center gap-4 px-4 py-4 sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between"
     >
       <!-- Logo -->
       <RouterLink to="/" class="flex flex-col text-slate-900 no-underline">
-        <span class="text-2xl font-bold uppercase tracking-[0.08em] text-brand">StuX</span>
-        <span class="text-sm font-medium text-slate-500">The Human Insight Network</span>
+      <div class="flex flex-col items-center md:items-start text-center md:text-left">
+          <span class="text-2xl font-bold uppercase tracking-[0.08em] text-brand">StuX</span>
+          <span class="text-sm font-medium text-slate-500">The Human Insight Network</span>
+        </div>
       </RouterLink>
 
       <div class="relative flex flex-1 flex-wrap items-center justify-center gap-4 sm:justify-center">
