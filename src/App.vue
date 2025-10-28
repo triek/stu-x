@@ -197,7 +197,7 @@ onBeforeUnmount(() => {
 
 <template>
 <div
-  class="flex min-h-screen flex-col bg-slate-100 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100"
+  class="flex min-h-screen flex-col text-slate-900 transition-colors duration-300 dark:text-slate-100"
 >
   <header
     class="sticky top-0 z-40 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl dark:border-slate-800/60 dark:bg-slate-900/80"
