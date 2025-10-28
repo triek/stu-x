@@ -170,7 +170,7 @@ regions: ['iu-vnu'],
   authorRegion: 'IU-VNU',
   title: 'Xin in4 trai đẹp trường mình ạ 😆',
   description:
-    'Một bài đăng vui vẻ dành cho cộng đồng IU-VNU — nơi mọi người cùng chia sẻ “in4” các trai xinh gái đẹp của trường mình 👀💬',
+    '👀',
   discussion: 15,
   cta: 'Thảo luận',
   category: 'discussions',
