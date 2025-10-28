@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark :where(&)));
+
 @layer base {
   :root {
     --brand-color: #4338ca;

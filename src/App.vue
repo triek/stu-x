@@ -252,7 +252,7 @@ onBeforeUnmount(() => {
         </RouterLink>
       </nav>
 
-      <div class="relative flex min-w-[6rem] flex-wrap items-center justify-center gap-4 md:justify-center md:flex-none">
+      <div class="relative flex flex-wrap items-center justify-center gap-4 md:justify-center md:flex-none">
         <!-- Nav toggle -->
         <button
           type="button"
@@ -290,7 +290,7 @@ onBeforeUnmount(() => {
           :title="themeToggleLabel"
         >
           <span aria-hidden="true" class="text-base leading-none">{{ isDarkMode ? '🌙' : '☀️' }}</span>
-          <span class="hidden sm:inline">{{ isDarkMode ? 'Dark' : 'Light' }} mode</span>
+          <span class="hidden sm:inline">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
           <span class="sm:hidden">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
         </button>
 
