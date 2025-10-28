@@ -240,15 +240,15 @@ const handleSubmit = (form) => {
             <div class="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
               <span class="text-slate-700">{{ item.author }}</span>
               <span v-if="getPostAuthorRegion(item)">· {{ getPostAuthorRegion(item) }}</span>
+              <span
+                v-if="item.regionMeta"
+                class="inline-flex w-fit items-center rounded-full px-2 py-1 mx-2 text-xs font-semibold"
+                :class="item.regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+              >
+                📍 {{ item.regionMeta.shortLabel ?? item.regionMeta.label }}
+              </span>
             </div>
             <p class="text-slate-600">{{ item.description }}</p>
-            <span
-              v-if="item.regionMeta"
-              class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-              :class="item.regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
-            >
-              📍 {{ item.regionMeta.shortLabel ?? item.regionMeta.label }}
-            </span>
           </div>
         </header>
 
