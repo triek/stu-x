@@ -156,7 +156,7 @@ author: 'Trần Đăng Nhất',
 authorRegion: 'IU-VNU',
 title: '📝 IU LIBRARY TOUR - TOUR HƯỚNG DẪN SỬ DỤNG THƯ VIỆN DÀNH CHO TÂN SINH VIÊN',
 description:
-  'Cách đăng ký:\nĐăng ký tham gia Online tại đường link bên dưới.\nĐến trực tiếp Thư viện để đăng ký bằng cách điền thông tin tại quầy dịch vụ.\nThời lượng mỗi Tour:\nMỗi Tour có thời lượng từ 15-30 phút vào buổi sáng hoặc buổi chiều trong tuần theo bố trí của Thư viện.\n📝',
+  'Cách đăng ký:\nĐăng ký tham gia Online.\nĐến trực tiếp Thư viện để đăng ký bằng cách điền thông tin tại quầy dịch vụ.\nThời lượng mỗi Tour:\nMỗi Tour có thời lượng từ 15-30 phút vào buổi sáng hoặc buổi chiều trong tuần theo bố trí của Thư viện.\n📝',
 discussion: 6,
 cta: 'Thảo luận',
 category: 'events',
