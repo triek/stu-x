@@ -410,7 +410,7 @@ const handleSubmit = (form) => {
 
                 <button
                   type="submit"
-                  class="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                  class="btn btn-brand gap-2 px-5 py-2.5 disabled:opacity-70"
                   :disabled="!commentDrafts[item.id].message.trim()"
                 >
                   Post comment

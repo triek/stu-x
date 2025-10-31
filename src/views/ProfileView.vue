@@ -372,7 +372,7 @@ watch(isAuthenticated, (value) => {
             <input
               v-model="editForm.school"
               type="text"
-              class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              class="input-control"
               placeholder="StuX International Academy"
             />
           </label>
@@ -384,7 +384,7 @@ watch(isAuthenticated, (value) => {
             </span>
             <select
               v-model="editForm.regionId"
-              class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              class="input-control"
               name="region"
               required
               aria-required="true"
@@ -413,7 +413,7 @@ watch(isAuthenticated, (value) => {
           </p>
           <button
             type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+            class="btn btn-brand"
             :disabled="isSaving || !profileChanged"
           >
             <span v-if="isSaving" class="flex items-center gap-2">

@@ -490,7 +490,7 @@ watch(
                 <div v-if="isQuestionFormExpanded" class="flex justify-end">
                   <button
                     type="submit"
-                    class="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                    class="btn btn-brand gap-2 px-5 py-2.5 disabled:opacity-70"
                     :disabled="isSubmittingQuestion || !newQuestion.question.trim()"
                   >
                     {{ isSubmittingQuestion ? 'Sending...' : 'Post question' }}
@@ -640,7 +640,7 @@ watch(
       </p>
       <button
         type="button"
-        class="inline-flex items-center justify-center gap-2 self-center rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+        class="btn btn-brand gap-2 px-5 py-2.5 self-center"
         @click="backToInsight"
       >
         ← Back to Insight

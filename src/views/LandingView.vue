@@ -143,13 +143,13 @@ const handleSchoolSelect = (school) => {
       <div class="flex flex-wrap items-center gap-4">
         <RouterLink
           to="/signup"
-          class="inline-flex items-center rounded-full bg-brand px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
+          class="btn btn-brand px-7"
         >
           Create your account
         </RouterLink>
         <RouterLink
           to="/login"
-          class="inline-flex items-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50"
+          class="btn btn-outline px-7"
         >
           Log in
         </RouterLink>

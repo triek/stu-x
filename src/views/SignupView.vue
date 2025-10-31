@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia'
 
 import { useAuthStore } from '../stores/auth'
 import { REGION_DEFINITIONS } from '../constants/regions'
+import { buildRedirectRoute, resolveRedirectPath } from '@/utils/navigation'
 
 const router = useRouter()
 const route = useRoute()
@@ -28,24 +29,13 @@ const countryRegions = computed(() =>
   REGION_DEFINITIONS.filter((region) => region.statusLabel === 'National')
 )
 
-const redirectPath = computed(() => {
-  const { redirect } = route.query
+const redirectPath = computed(() =>
+  resolveRedirectPath(route.query.redirect),
+)
 
-  if (Array.isArray(redirect)) {
-    return redirect.find((entry) => typeof entry === 'string' && entry) ?? ''
-  }
-
-  return typeof redirect === 'string' ? redirect : ''
-})
-
-const loginLink = computed(() => {
-  const target = redirectPath.value
-  if (target) {
-    return { name: 'login', query: { redirect: target } }
-  }
-
-  return { name: 'login' }
-})
+const loginLink = computed(() =>
+  buildRedirectRoute('login', redirectPath.value),
+)
 
 const hasPasswordMismatch = computed(
   () =>
@@ -149,7 +139,7 @@ onMounted(() => {
           type="text"
           name="username"
           autocomplete="username"
-          class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="input-control"
           placeholder="alexmorgan"
           v-model="formState.name"
           required
@@ -167,7 +157,7 @@ onMounted(() => {
           type="email"
           name="email"
           autocomplete="email"
-          class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="input-control"
           placeholder="you@example.com"
           v-model="formState.email"
           required
@@ -180,7 +170,7 @@ onMounted(() => {
           id="school"
           type="text"
           name="school"
-          class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="input-control"
           placeholder="StuX International Academy"
           v-model="formState.school"
         />
@@ -194,7 +184,7 @@ onMounted(() => {
         <select
           id="region"
           name="region"
-          class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="input-control"
           v-model="formState.region"
           required
           aria-required="true"
@@ -220,7 +210,7 @@ onMounted(() => {
           type="password"
           name="password"
           autocomplete="new-password"
-          class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="input-control"
           placeholder="Create a strong password"
           v-model="formState.password"
           required
@@ -238,7 +228,7 @@ onMounted(() => {
           type="password"
           name="confirm-password"
           autocomplete="new-password"
-          class="rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="input-control"
           placeholder="Repeat your password"
           v-model="formState.confirmPassword"
           required
@@ -268,7 +258,7 @@ onMounted(() => {
       </p>
       <button
         type="submit"
-        class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+        class="btn btn-brand"
         :disabled="isSubmitDisabled"
       >
         <span v-if="isSubmitting" class="flex items-center gap-2">

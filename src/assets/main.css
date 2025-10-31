@@ -22,6 +22,31 @@
   }
 }
 
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-colors;
+  }
+
+  .btn-brand {
+    background-color: var(--pillar-accent, var(--brand-color));
+    @apply text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+  }
+
+  .btn-outline {
+    color: var(--pillar-accent, var(--brand-color));
+    @apply bg-white ring-1 ring-indigo-100 transition-colors hover:bg-indigo-50;
+  }
+
+  .btn-soft {
+    color: var(--pillar-accent, var(--brand-color));
+    @apply bg-indigo-100 transition-colors hover:bg-indigo-200/70;
+  }
+
+  .input-control {
+    @apply rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200;
+  }
+}
+
 @layer utilities {
   .text-brand {
     color: var(--pillar-accent, var(--brand-color));
