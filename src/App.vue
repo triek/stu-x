@@ -406,7 +406,7 @@ onBeforeUnmount(() => {
             </RouterLink>
             <RouterLink
               to="/signup"
-              class="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 dark:shadow-indigo-900/40"
+              class="btn btn-brand px-5 py-2.5 dark:shadow-indigo-900/40"
             >
               Sign up
             </RouterLink>
@@ -554,7 +554,7 @@ onBeforeUnmount(() => {
             </RouterLink>
             <RouterLink
               to="/signup"
-              class="inline-flex w-full items-center justify-center rounded-full bg-brand px-5 py-2.5 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 dark:shadow-indigo-900/40"
+              class="btn btn-brand w-full px-5 py-2.5 dark:shadow-indigo-900/40"
             >
               Sign up
             </RouterLink>

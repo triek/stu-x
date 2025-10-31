@@ -73,13 +73,13 @@ const pillars = [
       <div class="flex flex-wrap gap-3">
         <RouterLink
           to="/insight"
-          class="inline-flex items-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40"
+          class="btn btn-brand"
         >
           Explore Opportunities
         </RouterLink>
         <RouterLink
           to="/profile"
-          class="inline-flex items-center rounded-full bg-indigo-100 px-6 py-3 text-sm font-semibold text-brand transition-colors hover:bg-indigo-200/70"
+          class="btn btn-soft"
         >
           Check Your Wallet
         </RouterLink>
