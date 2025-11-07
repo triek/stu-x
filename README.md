@@ -2,6 +2,8 @@
 
 ## _Insight · Exchange · Community_
 
+## Website link: [triek.github.io/stu-x](https://triek.github.io/stu-x)
+
 A community-driven platform where students exchange authentic experiences and feedback.
 
 Insight:
