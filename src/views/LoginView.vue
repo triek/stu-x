@@ -27,20 +27,48 @@ const signupLink = computed(() =>
   buildRedirectRoute('signup', redirectPath.value),
 )
 
-const handleSubmit = () => {
+const quickLoginOptions = [
+  {
+    label: 'Log in as Admin',
+    username: 'admin@stux.community',
+    password: 'admin',
+  },
+  {
+    label: 'Log in as Tester',
+    username: 'tester@stux.community',
+    password: 'tester',
+  },
+]
+
+const attemptLogin = ({ username: loginUsername, password: loginPassword }) => {
   errorMessage.value = ''
 
   const { success, message } = authStore.login({
-    username: username.value,
-    password: password.value,
+    username: loginUsername,
+    password: loginPassword,
   })
 
   if (success) {
     router.push(redirectPath.value || '/profile')
-    return
+    return true
   }
 
   errorMessage.value = message ?? 'Unable to log in with those credentials.'
+  return false
+}
+
+const handleSubmit = () => {
+  void attemptLogin({
+    username: username.value,
+    password: password.value,
+  })
+}
+
+const handleQuickLogin = (option) => {
+  username.value = option.username
+  password.value = option.password
+
+  void attemptLogin(option)
 }
 
 onMounted(() => {
@@ -107,6 +135,19 @@ onMounted(() => {
         <input type="checkbox" name="remember" class="h-4 w-4 rounded border-indigo-200 text-brand focus:ring-indigo-200" />
         Remember this device
       </label>
+      <div class="grid gap-3 rounded-2xl border border-indigo-100/70 bg-indigo-50/60 p-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">Quick demo logins</p>
+        <button
+          v-for="option in quickLoginOptions"
+          :key="option.username"
+          type="button"
+          class="btn btn-outline w-full flex-col items-start gap-1 text-left sm:flex-row sm:items-center sm:justify-between"
+          @click="handleQuickLogin(option)"
+        >
+          <span>{{ option.label }}</span>
+          <span class="text-xs font-normal text-slate-500">{{ option.username }} / {{ option.password }}</span>
+        </button>
+      </div>
       <button
         type="submit"
         class="btn btn-brand"
