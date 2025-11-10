@@ -45,8 +45,6 @@ export const useThemeStore = defineStore('theme', () => {
 
       if (storedTheme === 'dark' || storedTheme === 'light') {
         preferredTheme = storedTheme
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        preferredTheme = 'dark'
       }
     }
 
