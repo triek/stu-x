@@ -200,7 +200,7 @@ onBeforeUnmount(() => {
   class="flex min-h-screen flex-col text-slate-900 transition-colors duration-300 dark:text-slate-100"
 >
   <header
-    class="sticky top-0 z-40 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl dark:border-slate-800/60 dark:bg-slate-900/80"
+    class="sticky top-0 z-40 border-b border-indigo-100/50 bg-white/80 backdrop-blur-xl dark:border-slate-800/60 dark:bg-slate-900/80 relative"
   >
     <div
       class="mx-auto flex w-full flex-col items-center gap-4 px-4 py-4 text-slate-900 transition-colors sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 dark:text-slate-100"
@@ -401,12 +401,14 @@ onBeforeUnmount(() => {
             <RouterLink
               to="/login"
               class="inline-flex items-center rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50 dark:bg-slate-800 dark:ring-slate-700 dark:hover:bg-slate-700"
+              @click="closeNavMenu"
             >
               Log in
             </RouterLink>
             <RouterLink
               to="/signup"
               class="btn btn-brand px-5 py-2.5 dark:shadow-indigo-900/40"
+              @click="closeNavMenu"
             >
               Sign up
             </RouterLink>
@@ -418,7 +420,7 @@ onBeforeUnmount(() => {
     <Transition name="fade">
       <div
         v-if="navMenuOpen"
-        class="ml-auto mr-4 mt-2 flex w-fit flex-col gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg transition-colors lg:hidden dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:shadow-slate-900/40"
+        class="absolute right-4 top-full z-50 mt-3 flex w-72 max-w-[calc(100vw-2rem)] flex-col gap-4 rounded-2xl border border-indigo-100 bg-white p-4 text-sm font-semibold text-slate-600 shadow-lg transition-colors lg:hidden dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:shadow-slate-900/40"
       >
         <button
           type="button"
@@ -549,12 +551,14 @@ onBeforeUnmount(() => {
             <RouterLink
               to="/login"
               class="inline-flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-brand ring-1 ring-indigo-100 transition hover:bg-indigo-50 dark:bg-slate-800 dark:ring-slate-700 dark:hover:bg-slate-700"
+              @click="closeNavMenu"
             >
               Log in
             </RouterLink>
             <RouterLink
               to="/signup"
               class="btn btn-brand w-full px-5 py-2.5 dark:shadow-indigo-900/40"
+              @click="closeNavMenu"
             >
               Sign up
             </RouterLink>
