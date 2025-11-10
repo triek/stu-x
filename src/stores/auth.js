@@ -100,9 +100,81 @@ const ADMIN_ACCOUNT = {
   ],
 }
 
+const TESTER_ACCOUNT = {
+  id: 'tester',
+  username: 'tester',
+  email: 'tester@stux.community',
+  password: 'tester',
+  name: 'Tester User',
+  role: 'Tester',
+  school: 'StuX HQ',
+  region: 'Global',
+  balance: 340,
+  bio: 'StuX tester account mirroring administrator capabilities for quality assurance.',
+  posts: [
+    {
+      id: 'post-tester-1',
+      title: 'Mentor Circle: Design your semester impact plan',
+      summary:
+        'Shared facilitation notes from this week’s mentor circle on setting measurable, student-led impact goals.',
+      createdAt: '2025-01-22T13:10:00.000Z',
+    },
+    {
+      id: 'post-tester-2',
+      title: 'Exchange recap: Micro-internship partnerships',
+      summary:
+        'Posted a recap on how micro-internship partners can source projects that respect student time and learning.',
+      createdAt: '2025-02-05T09:45:00.000Z',
+    },
+  ],
+  activity: [
+    createActivityEntry({
+      description: 'Awarded 120 Stunix for facilitating an inclusion workshop.',
+      type: 'earn',
+      timestamp: '2025-02-14T16:20:00.000Z',
+    }),
+    createActivityEntry({
+      description: 'Redeemed 80 Stunix to sponsor a student research sprint.',
+      type: 'spend',
+      timestamp: '2025-02-18T10:05:00.000Z',
+    }),
+    createActivityEntry({
+      description: 'Published a new insight prompt for community review.',
+      type: 'insight',
+      timestamp: '2025-03-03T08:15:00.000Z',
+    }),
+  ],
+  wallet: [
+    createWalletEntry({
+      amount: 220,
+      description: 'Balance forward',
+      type: 'info',
+      date: '2025-01-01T08:00:00.000Z',
+    }),
+    createWalletEntry({
+      amount: 120,
+      description: 'Facilitated inclusion workshop',
+      type: 'credit',
+      date: '2025-02-14T16:20:00.000Z',
+    }),
+    createWalletEntry({
+      amount: -80,
+      description: 'Sponsored student research sprint',
+      type: 'debit',
+      date: '2025-02-18T10:05:00.000Z',
+    }),
+    createWalletEntry({
+      amount: 80,
+      description: 'Insight prompt milestone bonus',
+      type: 'credit',
+      date: '2025-03-03T08:15:00.000Z',
+    }),
+  ],
+}
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    accounts: [ADMIN_ACCOUNT],
+    accounts: [ADMIN_ACCOUNT, TESTER_ACCOUNT],
     user: null,
     error: null,
   }),
