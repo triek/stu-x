@@ -70,7 +70,7 @@ const handleSchoolSelect = (school) => {
 
 <template>
   <section class="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
-    <div class="feature-surface sm:p-14">
+    <div class="grid gap-10 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-10 shadow-primary ring-1 ring-indigo-100/70 sm:p-14">
       <div class="space-y-4">
         <div class="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-brand shadow-sm ring-1 ring-indigo-100">
           <span>StuX</span>
