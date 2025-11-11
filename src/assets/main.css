@@ -45,6 +45,14 @@
   .input-control {
     @apply rounded-xl border border-indigo-100 px-4 py-3 text-sm text-slate-700 shadow-inner focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200;
   }
+
+  .panel-surface {
+    @apply grid gap-5 rounded-3xl bg-white p-6 shadow-panel ring-1;
+  }
+
+  .feature-surface {
+    @apply grid gap-10 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-10 shadow-primary ring-1 ring-indigo-100/70;
+  }
 }
 
 @layer utilities {
