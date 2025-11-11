@@ -230,7 +230,7 @@ const handleSubmit = (form) => {
       <article
         v-for="item in items"
         :key="item.id"
-        class="grid gap-5 rounded-3xl bg-white p-6 shadow-panel ring-1"
+        class="panel-surface"
         :style="{ '--tw-ring-color': `${accent}80` }"
       >
         <header class="flex items-start gap-4">
