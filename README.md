@@ -24,5 +24,3 @@ Community:
 Built to restore human connection in the AI era - where real experiences still matter.
 
 _We use **Stunix** points system to reward survey participations and feedback contributions, creating a fair and active ecosystem._
-
-## Link to website: [triek.github.io/stu-x/](https://triek.github.io/stu-x/)
