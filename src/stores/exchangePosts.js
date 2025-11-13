@@ -3,11 +3,13 @@ import { ref } from 'vue'
 
 import { exchangePosts as initialPosts } from '@/data/exchangePosts'
 import { DEFAULT_REGION_ID } from '@/constants/regions'
-import { normalizeRegionId } from '@/utils/region'
-
-const clonePosts = (data) => JSON.parse(JSON.stringify(data ?? []))
-
-const createId = () => `exchange-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+import {
+  cloneSeedData,
+  generatePostId,
+  parsePositiveInt,
+  parseTagString,
+  resolveRegionIds,
+} from '@/utils/postForm'
 
 const CATEGORY_META = {
   mentors: {
@@ -69,44 +71,6 @@ const DEFAULT_META = {
   ],
 }
 
-const parseTags = (input) => {
-  if (!input) return []
-
-  return input
-    .split(',')
-    .flatMap((segment) => segment.split(/\s+/))
-    .map((tag) => tag.replace(/^#/, '').trim())
-    .filter(Boolean)
-}
-
-const parsePositiveInt = (value) => {
-  const number = Number.parseInt(value, 10)
-  return Number.isNaN(number) || number < 0 ? 0 : number
-}
-
-const resolveRegions = (form = {}) => {
-  const ids = new Set()
-
-  const collect = (value) => {
-    const normalized = normalizeRegionId(value)
-    if (normalized) {
-      ids.add(normalized)
-    }
-  }
-
-  collect(form.region ?? form.regionId)
-
-  if (Array.isArray(form.regions)) {
-    form.regions.forEach(collect)
-  }
-
-  if (!ids.size) {
-    ids.add(DEFAULT_REGION_ID)
-  }
-
-  return Array.from(ids)
-}
-
 const createPostFromForm = (form = {}) => {
   const category = form.category in CATEGORY_META ? form.category : form.category?.trim()
   const resolvedCategory = category && CATEGORY_META[category] ? category : 'mentors'
@@ -116,7 +80,7 @@ const createPostFromForm = (form = {}) => {
   const summary = form.description?.trim()
   const name = form.name?.trim()
   const reward = parsePositiveInt(form.reward)
-  const tags = parseTags(form.tags)
+  const tags = parseTagString(form.tags)
 
   const details = []
 
@@ -126,10 +90,10 @@ const createPostFromForm = (form = {}) => {
 
   details.push('🆕 Community submission')
 
-  const regions = resolveRegions(form)
+  const regions = resolveRegionIds(form)
 
   return {
-    id: form.id ?? createId(),
+    id: form.id ?? generatePostId('exchange'),
     category: resolvedCategory,
     image: meta.image ?? DEFAULT_META.image,
     type: meta.type ?? DEFAULT_META.type,
@@ -146,7 +110,7 @@ const createPostFromForm = (form = {}) => {
 }
 
 export const useExchangePostsStore = defineStore('exchangePosts', () => {
-  const posts = ref(clonePosts(initialPosts))
+  const posts = ref(cloneSeedData(initialPosts))
 
   const addPost = (form) => {
     const post = createPostFromForm(form)
