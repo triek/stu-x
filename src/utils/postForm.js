@@ -1,24 +1,18 @@
-import { DEFAULT_REGION_ID } from '@/constants/regions'
-import { normalizeRegionId } from '@/utils/region'
+import { DEFAULT_REGION_ID } from '../constants/regions.js'
+import { normalizeRegionId } from './region.js'
 
-export const cloneSeedData = (data) => {
-  if (data == null) {
-    return []
-  }
+export const cloneSeedData = (data) => JSON.parse(JSON.stringify(data ?? []))
 
-  return JSON.parse(JSON.stringify(data))
+export const generatePostId = (prefix = '') => {
+  const normalizedPrefix = prefix?.toString().trim()
+  const safePrefix = normalizedPrefix ? `${normalizedPrefix}-` : ''
+  const random = Math.random().toString(36).slice(2, 8)
+  return `${safePrefix}${Date.now()}-${random}`
 }
 
-export const generatePostId = (prefix) => {
-  const normalizedPrefix = prefix?.toString().trim() || 'post'
-  const randomSegment = Math.random().toString(36).slice(2, 8)
-
-  return `${normalizedPrefix}-${Date.now()}-${randomSegment}`
-}
-
-export const parsePositiveInt = (value) => {
+export const parsePositiveInt = (value, fallback = 0) => {
   const number = Number.parseInt(value, 10)
-  return Number.isNaN(number) || number < 0 ? 0 : number
+  return Number.isNaN(number) || number < 0 ? fallback : number
 }
 
 export const parseTagString = (input) => {
@@ -31,7 +25,8 @@ export const parseTagString = (input) => {
     .filter(Boolean)
 }
 
-export const resolveRegionIds = (form = {}) => {
+export const resolveRegionIds = (form = {}, options = {}) => {
+  const { defaultRegionId = DEFAULT_REGION_ID } = options
   const ids = new Set()
 
   const collect = (value) => {
@@ -41,14 +36,20 @@ export const resolveRegionIds = (form = {}) => {
     }
   }
 
-  collect(form.region ?? form.regionId)
+  if (form.region != null) {
+    collect(form.region)
+  }
+
+  if (form.regionId != null) {
+    collect(form.regionId)
+  }
 
   if (Array.isArray(form.regions)) {
     form.regions.forEach(collect)
   }
 
-  if (!ids.size) {
-    ids.add(DEFAULT_REGION_ID)
+  if (!ids.size && defaultRegionId) {
+    ids.add(defaultRegionId)
   }
 
   return Array.from(ids)

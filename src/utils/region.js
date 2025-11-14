@@ -1,4 +1,4 @@
-import { DEFAULT_REGION_ID } from '@/constants/regions'
+import { DEFAULT_REGION_ID } from '../constants/regions.js'
 
 export const normalizeRegionId = (value) => {
   if (value == null) return ''

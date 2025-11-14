@@ -3,13 +3,7 @@ import { ref } from 'vue'
 
 import { communityPosts as initialPosts } from '@/data/communityPosts'
 import { DEFAULT_REGION_ID } from '@/constants/regions'
-import {
-  cloneSeedData,
-  generatePostId,
-  parsePositiveInt,
-  parseTagString,
-  resolveRegionIds,
-} from '@/utils/postForm'
+import { parsePositiveInt, parseTagString, cloneSeedData, generatePostId, resolveRegionIds } from '@/utils/postForm'
 
 const createPostFromForm = (form = {}) => {
   const title = form.title?.trim()
@@ -20,6 +14,7 @@ const createPostFromForm = (form = {}) => {
   const tags = parseTagString(form.tags)
   const author = form.author?.toString().trim()
   const authorRegion = form.authorRegion?.toString().trim()
+
   const regions = resolveRegionIds(form)
 
   return {

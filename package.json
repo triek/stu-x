@@ -11,6 +11,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
+    "test": "node --test src/utils/postForm.test.js",
     "format": "prettier --write src/",
     "deploy": "gh-pages -d dist",
     "postbuild": "cp dist/index.html dist/404.html || copy dist\\index.html dist\\404.html"
