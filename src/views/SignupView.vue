@@ -106,7 +106,7 @@ onMounted(() => {
     <div class="space-y-6">
       <div class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">Join StuX</p>
-        <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Create your account</h1>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100 sm:text-4xl">Create your account</h1>
         <p class="text-sm text-slate-600 dark:text-slate-300">
           Tell us a little about yourself to start earning and spending Stunix. We will match you
           with the right Insight, Exchange, and Community circles.
@@ -115,7 +115,7 @@ onMounted(() => {
       <div
         class="rounded-3xl bg-gradient-to-br from-brand/10 via-white to-indigo-50 dark:from-transparent dark:via-slate-800/40 dark:to-indigo-900/20 p-6"
       >
-        <h2 class="text-lg font-semibold text-slate-900">What you get</h2>
+        <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">What you get</h2>
         <ul class="mt-4 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
           <li class="flex items-start gap-3">
             <span class="mt-1 text-brand">◆</span

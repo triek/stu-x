@@ -74,30 +74,34 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="mx-auto grid max-w-5xl gap-10 rounded-3xl bg-white/90 p-8 shadow-primary ring-1 ring-indigo-100/60 lg:grid-cols-2 lg:p-12">
+  <section class="mx-auto grid max-w-5xl gap-10 rounded-3xl bg-white/90 dark:bg-slate-900/90 p-8 shadow-primary ring-1 ring-indigo-100/60 lg:grid-cols-2 lg:p-12">
     <div class="space-y-6">
+      <!-- Header -->
       <div class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">Welcome back</p>
-        <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Log in to StuX</h1>
-        <p class="text-sm text-slate-600">Enter your credentials to continue your journey through Insight, Exchange, and Community.</p>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100 sm:text-4xl">Log in to StuX</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Enter your credentials to continue your journey through Insight, Exchange, and Community.</p>
       </div>
+      <!-- Pillars -->
       <ul class="grid gap-4 text-sm text-slate-600">
         <li class="flex items-center gap-3 rounded-2xl bg-indigo-50/80 p-4"><span class="text-lg">💡</span><span>Access saved insights and ongoing exchanges.</span></li>
         <li class="flex items-center gap-3 rounded-2xl bg-emerald-50/80 p-4"><span class="text-lg">🤝</span><span>Track Stunix balances and pending mentorship requests.</span></li>
         <li class="flex items-center gap-3 rounded-2xl bg-amber-50/80 p-4"><span class="text-lg">💬</span><span>Continue community reflections with your cohort.</span></li>
       </ul>
-      <p class="text-sm text-slate-500">
+      <!-- Need an account -->
+      <p class="text-sm text-slate-500 dark:text-slate-400">
         Need an account?
         <RouterLink :to="signupLink" class="font-semibold text-brand hover:underline">Create one here</RouterLink>.
       </p>
     </div>
 
+    <!-- Login form -->
     <form
-      class="grid gap-6 rounded-3xl border border-indigo-100/70 bg-white/80 p-6 shadow-panel"
+      class="grid gap-6 rounded-3xl border border-indigo-100/70 bg-white/80 dark:bg-slate-900/80 p-6 shadow-panel"
       @submit.prevent="handleSubmit"
     >
       <div class="grid gap-2">
-        <label for="username" class="text-sm font-semibold text-slate-700">Username or email</label>
+        <label for="username" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Username or email</label>
         <input
           id="username"
           type="text"
@@ -110,7 +114,7 @@ onMounted(() => {
       </div>
       <div class="grid gap-2">
         <div class="flex items-center justify-between">
-          <label for="password" class="text-sm font-semibold text-slate-700">Password</label>
+          <label for="password" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Password</label>
           <a href="#" class="text-xs font-semibold text-brand hover:underline">Forgot?</a>
         </div>
         <input
@@ -126,7 +130,7 @@ onMounted(() => {
       <p v-if="errorMessage" class="text-sm font-semibold text-rose-500">
         {{ errorMessage }}
       </p>
-      <label class="flex items-center gap-3 text-sm text-slate-600">
+      <label class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
         <input type="checkbox" name="remember" class="h-4 w-4 rounded border-indigo-200 text-brand focus:ring-indigo-200" />
         Remember this device
       </label>
@@ -151,7 +155,7 @@ onMounted(() => {
         <span class="text-xs font-normal text-slate-500">{{ option.username }} / {{ option.password }}</span>
       </button>
 
-      <p class="text-xs text-slate-500">By logging in you agree to the StuX community guidelines and honor-code.</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400">By logging in you agree to the StuX community guidelines and honor-code.</p>
     </form>
   </section>
 </template>

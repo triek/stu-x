@@ -13,15 +13,18 @@ import { useAuthStore } from '@/stores/auth'
 const statusStyles = {
   active: {
     label: '🟢 Active',
-    classes: 'border border-emerald-200/70 bg-emerald-50 text-emerald-600',
+    classes:
+      'border border-emerald-200/70 bg-emerald-50 text-emerald-600 dark:border-emerald-900/40 dark:bg-emerald-900/30 dark:text-emerald-200',
   },
   closing: {
     label: '🟠 Closing Soon',
-    classes: 'border border-amber-200/70 bg-amber-50 text-amber-600',
+    classes:
+      'border border-amber-200/70 bg-amber-50 text-amber-600 dark:border-amber-900/40 dark:bg-amber-900/30 dark:text-amber-200',
   },
   closed: {
     label: '⚪ Closed',
-    classes: 'border border-slate-200 bg-slate-100 text-slate-500',
+    classes:
+      'border border-slate-200 bg-slate-100 text-slate-500 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
   },
 }
 
@@ -211,11 +214,7 @@ const handleDocumentClick = (event) => {
   }
 
   Object.keys(expandedReplies).forEach((key) => {
-    if (
-      expandedReplies[key] &&
-      replyFormRefs[key] &&
-      !replyFormRefs[key].contains(target)
-    ) {
+    if (expandedReplies[key] && replyFormRefs[key] && !replyFormRefs[key].contains(target)) {
       collapseReplyForm(key)
     }
   })
@@ -310,7 +309,7 @@ watch(
       isDiscussionOpen.value = true
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
@@ -319,7 +318,7 @@ watch(
     if (isOpen) {
       resetForms()
     }
-  }
+  },
 )
 
 watch(
@@ -327,7 +326,7 @@ watch(
   (threads) => {
     ensureReplyDrafts(threads)
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 
@@ -343,7 +342,7 @@ watch(
 
     <article
       v-if="post"
-      class="grid gap-6 rounded-3xl bg-white p-8 shadow-panel ring-1"
+      class="grid gap-6 rounded-3xl bg-white dark:bg-slate-900/80 p-8 shadow-panel ring-1"
       :style="{ '--tw-ring-color': `${accent}40` }"
     >
       <header class="flex flex-wrap items-center justify-between gap-4">
@@ -366,37 +365,48 @@ watch(
 
       <div class="grid gap-4">
         <div class="grid gap-2">
-          <h1 class="text-3xl font-bold text-slate-900">{{ post.title }}</h1>
-          <p class="text-base text-slate-600">{{ post.subtitle }}</p>
+          <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">{{ post.title }}</h1>
+          <p class="text-base text-slate-600 dark:text-slate-300">{{ post.subtitle }}</p>
         </div>
 
         <span
           v-if="regionMeta"
           class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-          :class="regionMeta.chipClass ?? 'border border-slate-200 bg-slate-100 text-slate-600'"
+          :class="
+            regionMeta.chipClass ??
+            'border border-slate-200 bg-slate-100 text-slate-600 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-300'
+          "
         >
           📍 {{ regionMeta.shortLabel ?? regionMeta.label }}
         </span>
 
-        <p v-if="post.author" class="text-sm font-medium text-slate-500">
-          Hosted by <span class="text-slate-700">{{ post.author }}</span>
+        <p v-if="post.author" class="text-sm font-medium text-slate-500 dark:text-slate-300">
+          Hosted by <span class="text-slate-700 dark:text-slate-200">{{ post.author }}</span>
         </p>
 
-        <div v-if="post.details?.length" class="flex flex-wrap gap-3 text-sm font-semibold text-slate-600">
+        <div
+          v-if="post.details?.length"
+          class="flex flex-wrap gap-3 text-sm font-semibold text-slate-600 dark:text-slate-300"
+        >
           <span
             v-for="detail in post.details"
             :key="detail"
-            class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-indigo-600"
+            class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-indigo-600 dark:text-indigo-200"
           >
             {{ detail }}
           </span>
         </div>
       </div>
 
-      <div v-if="post.stats?.length" class="grid gap-4 rounded-2xl bg-slate-50 p-5 sm:grid-cols-2">
+      <div
+        v-if="post.stats?.length"
+        class="grid gap-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 p-5 sm:grid-cols-2"
+      >
         <div v-for="stat in post.stats" :key="stat.label" class="flex items-center gap-3">
           <span class="text-xl">{{ stat.icon }}</span>
-          <span class="text-sm font-semibold text-slate-600">{{ stat.label }}</span>
+          <span class="text-sm font-semibold text-slate-600 dark:text-slate-300">{{
+            stat.label
+          }}</span>
         </div>
       </div>
 
@@ -406,7 +416,7 @@ watch(
           <span
             v-for="tag in post.tags"
             :key="tag"
-            class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-brand"
+            class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-xs font-semibold text-brand dark:text-indigo-200"
           >
             #{{ tag }}
           </span>
@@ -414,14 +424,14 @@ watch(
       </div>
 
       <footer class="flex flex-wrap items-center justify-between gap-3">
-        <div class="text-sm text-slate-500">
+        <div class="text-sm text-slate-500 dark:text-slate-300">
           Want to learn more? Join the discussion or submit your insight to connect with peers.
         </div>
 
         <div class="flex flex-wrap gap-3">
           <button
             type="button"
-            class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-700"
+            class="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-700 dark:hover:text-slate-200"
             @click="isDiscussionOpen ? closeDiscussion() : openDiscussion()"
           >
             <span v-if="isDiscussionOpen">Hide discussion</span>
@@ -442,17 +452,19 @@ watch(
       <transition name="fade">
         <section
           v-if="isDiscussionOpen"
-          class="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-6"
+          class="grid gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 p-6"
         >
           <header class="flex flex-wrap items-start justify-between gap-4">
-            <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 px-1">Start a new question</h3>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 px-1">
+              Start a new question
+            </h3>
           </header>
 
           <section class="grid gap-6">
             <article
               :class="[
                 'grid gap-3',
-                isQuestionFormExpanded ? 'rounded-2xl border border-slate-200 bg-white p-5' : ''
+                isQuestionFormExpanded ? 'rounded-2xl border border-slate-200 bg-white p-5' : '',
               ]"
             >
               <form
@@ -473,7 +485,7 @@ watch(
                     v-model="newQuestion.question"
                     :rows="isQuestionFormExpanded ? 4 : 1"
                     placeholder="What would you like to know?"
-                    class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                    class="w-full rounded-xl border border-slate-300/80 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-100 px-3 py-2 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
                     @focus="expandQuestionForm"
                     @click="expandQuestionForm"
                     @input="expandQuestionForm"
@@ -481,7 +493,7 @@ watch(
                 </label>
                 <div
                   v-if="isQuestionFormExpanded && postingIdentity"
-                  class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 text-xs font-medium text-slate-600"
+                  class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/40 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300"
                 >
                   <span>
                     Posting as <span class="text-slate-700">{{ postingIdentity }}</span>
@@ -516,12 +528,14 @@ watch(
                 <h3 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 px-1">
                   Threaded questions
                 </h3>
-                <span class="text-xs font-medium text-slate-400">{{ discussionThreads.length }} total</span>
+                <span class="text-xs font-medium text-slate-400"
+                  >{{ discussionThreads.length }} total</span
+                >
               </div>
 
               <p
                 v-if="!discussionThreads.length"
-                class="rounded-2xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500"
+                class="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-6 text-center text-sm text-slate-500 dark:text-slate-300"
               >
                 No questions yet. Be the first to start the conversation.
               </p>
@@ -530,36 +544,50 @@ watch(
                 <li
                   v-for="thread in discussionThreads"
                   :key="thread.id"
-                  class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4"
+                  class="grid gap-3 rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900/80 p-4"
                 >
                   <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="text-sm font-semibold text-slate-800">{{ thread.author }}</p>
-                    <p class="text-xs text-slate-500">
-                      <span v-if="getParticipantRegion(thread)">
-                        {{ getParticipantRegion(thread) }} ·
-                      </span>
-                      {{ thread.timeAgo }}
-                    </p>
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                        {{ thread.author }}
+                      </p>
+                      <p class="text-xs text-slate-500 dark:text-slate-300">
+                        <span v-if="getParticipantRegion(thread)">
+                          {{ getParticipantRegion(thread) }} ·
+                        </span>
+                        {{ thread.timeAgo }}
+                      </p>
+                    </div>
+                    <span
+                      class="rounded-full bg-slate-100 dark:bg-slate-800/40 px-3 py-1 text-xs font-semibold text-slate-500 dark:text-slate-300"
+                      >Question</span
+                    >
                   </div>
-                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">Question</span>
-                  </div>
-                  <p class="whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ thread.question }}</p>
+                  <p
+                    class="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-300"
+                  >
+                    {{ thread.question }}
+                  </p>
 
-                  <ul v-if="thread.answers?.length" class="grid gap-3 rounded-2xl bg-slate-100 p-1">
+                  <ul
+                    v-if="thread.answers?.length"
+                    class="grid gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800/40 p-1"
+                  >
                     <li
                       v-for="answer in thread.answers"
                       :key="answer.id"
-                      class="grid gap-1 rounded-xl border border-slate-200 bg-white p-3"
+                      class="grid gap-1 rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900/80 p-3"
                     >
-                    <p class="text-sm font-semibold text-indigo-600">{{ answer.author }}</p>
-                    <p class="text-xs text-slate-500">
+                      <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ answer.author }}</p>
+                      <p class="text-xs text-slate-500 dark:text-slate-300">
                         <span v-if="getParticipantRegion(answer)">
                           {{ getParticipantRegion(answer) }} ·
                         </span>
                         {{ answer.timeAgo }}
-                    </p>
-                      <p class="whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ answer.message }}</p>
+                      </p>
+                      <p class="whitespace-pre-line text-sm leading-relaxed text-slate-900 dark:text-slate-300">
+                        {{ answer.message }}
+                      </p>
                     </li>
                   </ul>
 
@@ -569,15 +597,15 @@ watch(
                     :class="[
                       'grid',
                       expandedReplies[thread.id]
-                        ? 'gap-3 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/40 p-3'
-                        : ''
+                        ? 'gap-3 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/40 dark:border-indigo-900/40 dark:bg-indigo-900/20 p-3'
+                        : '',
                     ]"
                     @submit.prevent="handleSubmitReply(thread.id)"
                   >
                     <label :class="['grid', expandedReplies[thread.id] ? 'gap-2' : '']">
                       <span
                         v-if="expandedReplies[thread.id]"
-                        class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600"
+                        class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-400"
                       >
                         Your reply
                       </span>
@@ -585,7 +613,7 @@ watch(
                         v-model="replyDrafts[thread.id].message"
                         :rows="expandedReplies[thread.id] ? 3 : 1"
                         placeholder="Share your answer or follow-up"
-                        class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                        class="w-full rounded-xl border border-slate-300/80 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
                         @focus="expandReplyForm(thread.id)"
                         @click="expandReplyForm(thread.id)"
                         @input="expandReplyForm(thread.id)"
@@ -593,17 +621,19 @@ watch(
                     </label>
                     <div
                       v-if="expandedReplies[thread.id] && postingIdentity"
-                      class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600"
+                      class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900/80 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400"
                     >
                       <span>
-                        Replying as <span class="text-slate-700">{{ postingIdentity }}</span>
+                        Replying as <span class="text-slate-700 dark:text-slate-300">{{ postingIdentity }}</span>
                       </span>
                     </div>
                     <div v-if="expandedReplies[thread.id]" class="flex justify-end">
                       <button
                         type="submit"
                         class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
-                        :disabled="activeReply === thread.id || !replyDrafts[thread.id].message.trim()"
+                        :disabled="
+                          activeReply === thread.id || !replyDrafts[thread.id].message.trim()
+                        "
                       >
                         {{ activeReply === thread.id ? 'Sending...' : 'Send reply' }}
                       </button>
@@ -636,7 +666,8 @@ watch(
     >
       <h1 class="text-2xl font-semibold text-slate-900">Insight not found</h1>
       <p class="text-slate-600">
-        The insight you are looking for may have been moved or is no longer available. Please return to the feed to explore the latest opportunities.
+        The insight you are looking for may have been moved or is no longer available. Please return
+        to the feed to explore the latest opportunities.
       </p>
       <button
         type="button"

@@ -246,7 +246,7 @@ const handleSubmit = (form) => {
         />
       </label>
 
-      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+          <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Author
         <input
           v-model="formState.author"
@@ -255,10 +255,10 @@ const handleSubmit = (form) => {
           class="w-full rounded-2xl border border-slate-300/60 px-4 py-3 text-base outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
           readonly
         />
-        <p class="text-xs font-medium text-slate-500">
-          Posting as <span class="text-slate-700">{{ formState.author }}</span>
-          <span v-if="currentRegionLabel"> · {{ currentRegionLabel }}</span>
-        </p>
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-300">
+              Posting as <span class="text-slate-700 dark:text-slate-200">{{ formState.author }}</span>
+              <span v-if="currentRegionLabel"> · {{ currentRegionLabel }}</span>
+            </p>
       </label>
 
       <label class="grid gap-2 text-sm font-semibold text-slate-800">

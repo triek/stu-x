@@ -70,35 +70,35 @@ const handleSchoolSelect = (school) => {
 
 <template>
   <section class="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
-    <div class="grid gap-10 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-10 shadow-primary ring-1 ring-indigo-100/70 sm:p-14">
+    <div class="grid gap-10 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900 dark:via-slate-900 dark:to-purple-900 p-10 shadow-primary ring-1 ring-indigo-100/70 sm:p-14">
       <div class="space-y-4">
-        <div class="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-brand shadow-sm ring-1 ring-indigo-100">
+        <div class="inline-flex items-center gap-3 rounded-full bg-white/70 dark:bg-slate-900/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-brand shadow-sm ring-1 ring-indigo-100">
           <span>StuX</span>
           <span class="text-slate-400">Network</span>
         </div>
-        <h1 class="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl md:text-[56px]">
+        <h1 class="text-4xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:text-5xl md:text-[56px]">
           Experience-powered learning starts here.
         </h1>
-        <p class="max-w-2xl text-lg text-slate-600">
+        <p class="max-w-2xl text-lg text-slate-600 dark:text-slate-400">
           Join the StuX community to earn Stunix by sharing knowledge, choose your learning region or school, and unlock a curated network of peers ready to collaborate.
         </p>
       </div>
 
       <div class="grid gap-6">
         <div class="space-y-3">
-          <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Choose your region</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">Choose your region</h2>
           <div class="flex gap-4">
             <button
               v-for="region in regionCards"
               :key="region.id"
               type="button"
-              class="group grid gap-3 rounded-2xl bg-white/80 p-4 text-left shadow-panel ring-1 ring-indigo-100/70 transition-transform hover:-translate-y-1 hover:shadow-lg"
+              class="group grid gap-3 rounded-2xl bg-white/80 dark:bg-slate-900/80 p-4 text-left shadow-panel ring-1 ring-indigo-100/70 transition-transform hover:-translate-y-1 hover:shadow-lg"
               @click="handleRegionSelect(region)"
             >
               <span :class="['inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold gap-2', region.accent]">
                 <span>{{ region.title }}</span>
               </span>
-              <span class="text-sm text-slate-600">{{ region.description }}</span>
+              <span class="text-sm text-slate-600 dark:text-slate-400">{{ region.description }}</span>
               <span class="text-xs font-semibold text-brand opacity-0 transition-opacity group-hover:opacity-100">
                 {{ region.isActive ? 'Explore region →' : 'Join waitlist →' }}
               </span>
@@ -107,7 +107,7 @@ const handleSchoolSelect = (school) => {
         </div>
 
         <div class="space-y-3">
-          <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Or pick your school</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">Or pick your school</h2>
           <div class="flex flex-wrap gap-3">
             <button
               v-for="school in schools"
@@ -116,15 +116,15 @@ const handleSchoolSelect = (school) => {
               class="rounded-full border border-indigo-100/80 px-4 py-2 text-sm font-medium transition"
               :class="[
                 school.isActive !== false
-                  ? 'bg-white/70 text-slate-700 hover:border-indigo-200 hover:text-indigo-600'
-                  : 'cursor-not-allowed bg-slate-100 text-slate-400',
+                  ? 'bg-white/70 dark:bg-slate-900/70 text-slate-700 dark:text-slate-300 hover:border-indigo-200 hover:text-indigo-600'
+                  : 'cursor-not-allowed bg-slate-100 dark:bg-slate-800 text-slate-400',
               ]"
               @click="handleSchoolSelect(school)"
             >
               {{ school.label }}
               <span
                 v-if="school.statusLabel"
-                class="ml-2 inline-flex items-center rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500"
+                class="ml-2 inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500"
               >
                 {{ school.statusLabel }}
               </span>
@@ -153,14 +153,14 @@ const handleSchoolSelect = (school) => {
         >
           Log in
         </RouterLink>
-        <p class="text-sm text-slate-500">Already part of a partner school? Use your issued StuX ID.</p>
+        <p class="text-sm text-slate-500 dark:text-slate-300">Already part of a partner school? Use your issued StuX ID.</p>
       </div>
     </div>
 
-    <div class="grid gap-8 rounded-3xl border border-indigo-100/70 bg-white/90 p-8 shadow-panel">
+    <div class="grid gap-8 rounded-3xl border border-indigo-100/70 bg-white/90 dark:bg-slate-900/90 p-8 shadow-panel">
       <div class="space-y-3">
-        <h2 class="text-2xl font-semibold text-slate-900">Why StuX?</h2>
-        <p class="text-slate-600">
+        <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Why StuX?</h2>
+        <p class="text-slate-600 dark:text-slate-400">
           We blend verified experience, community mentorship, and exchange-driven learning to help every student grow faster together.
         </p>
       </div>
@@ -176,11 +176,11 @@ const handleSchoolSelect = (school) => {
           :style="{ color: pillar.accent }">
           {{ pillar.title }}
         </dt>
-        <dd class="mt-2 text-sm text-slate-600">{{ pillar.description }}</dd>
+        <dd class="mt-2 text-sm text-slate-600 dark:text-slate-400">{{ pillar.description }}</dd>
         </div>
       </dl>
 
-      <div class="rounded-2xl bg-slate-900 p-6 text-white">
+      <div class="rounded-2xl bg-slate-900 dark:bg-slate-800 p-6 text-white">
         <p class="text-sm uppercase tracking-[0.18em] text-slate-300">Beta Access</p>
         <p class="mt-2 text-lg font-semibold">Founding cohort seats are limited.</p>
         <RouterLink
