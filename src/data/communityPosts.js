@@ -128,7 +128,7 @@ author: 'Trần Đăng Nhất',
 authorRegion: 'IU-VNU',
 title: '🍁❤️ TOPIC 💜 TRAO ĐỔI VÀ MUA BÁN SÁCH/TÀI LIỆU HỌC TẬP 🏳️‍🌈',
 description:
-  'Chia sẻ quán cà phê, thư viện hay góc yên tĩnh ở TP.HCM nơi bạn tập trung học tốt nhất.',
+  '',
 discussion: 12,
 cta: 'Thảo luận',
 category: 'discussions',

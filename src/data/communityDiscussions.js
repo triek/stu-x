@@ -1,5 +1,6 @@
 export const communityDiscussions = {
 'topic-first-year-essentials': [
+  // Australia
   {
     id: 'comment-essentials-lily',
     author: 'Lily P.',
@@ -355,6 +356,28 @@ export const communityDiscussions = {
     downvotes: 0,
   },
 ],
+'topic-iu-handsome-info': [
+  {
+    id: 'comment-iu-221',
+    author: 'Anonymous participant 221',
+    role: 'Participant · IU-VNU',
+    message:
+      'Thiệt lun hả bà thơ =))\n Nói v th chứ tips là nhắm được ai cứ hỏi bài lab hay assignment trước là an toàn nhất',
+    timeAgo: '30m ago',
+    upvotes: 12,
+    downvotes: 1,
+  },
+  {
+    id: 'comment-iu-handsome-thao',
+    author: 'Thảo',
+    role: 'Biotech Junior',
+    message:
+      '@An An m hỏi đúng ko :)))',
+    timeAgo: '10m ago',
+    upvotes: 1,
+    downvotes: 0,
+  },
+],
 'topic-vn-military-memories': [
   {
     id: 'comment-vn-author1',
@@ -502,7 +525,7 @@ export const communityDiscussions = {
     author: 'Vy',
     role: 'Logistics Major · HCMC',
     message:
-      'CoLab Thủ Đức is quiet before noon and their Wi-Fi rarely drops. Bring a jacket though—the AC is serious.',
+      'CoLab Thủ Đức buổi sáng khá yên tĩnh, wifi ổn. Nhưng nên mang áo khoác, máy lạnh ở đó hơi lạnh nha.',
     timeAgo: '1h ago',
     upvotes: 17,
     downvotes: 0,
@@ -512,7 +535,17 @@ export const communityDiscussions = {
     author: 'Tuấn',
     role: 'CS Sophomore',
     message:
-      'For late nights I go to The Coffee House on Võ Văn Ngân. Plenty of plugs and the staff let study groups stay past 10pm.',
+      'Ban đêm mình hay ngồi The Coffee House Võ Văn Ngân. Ổ điện nhiều, nhân viên cũng dễ tính. Các bạn muốn thì có thể tham gia nha, nhóm học thường ngồi tới khoảng 10 giờ.',
+    timeAgo: '45m ago',
+    upvotes: 11,
+    downvotes: 1,
+  },
+  {
+    id: 'comment-hcmc-mai',
+    author: 'Mai',
+    role: 'Marketing Freshman',
+    message:
+      'Mình thích đi WorkFlow ở Linh Trung. Ko gian sáng sủa, ít ồn, mà buổi chiều hơi đông chủ yếu là sv với ng làm việc remote. Đi sớm thì sẽ thoải mái hơn',
     timeAgo: '45m ago',
     upvotes: 11,
     downvotes: 1,
@@ -524,7 +557,7 @@ export const communityDiscussions = {
     author: 'Anh',
     role: 'Biomedical Engineering',
     message:
-      'The BioMEMS Lab posts openings on the faculty Slack. They expect MATLAB basics and one semester of circuits.',
+      'BioMEMS Lab thường đăng tuyển trên Slack của khoa. Chỉ cần biết MATLAB cơ bản và đã học intro về mạch ',
     timeAgo: '3h ago',
     upvotes: 14,
     downvotes: 0,
@@ -534,9 +567,19 @@ export const communityDiscussions = {
     author: 'Linh',
     role: 'Teaching Assistant',
     message:
-      'If you are into data science, check the Smart Health Analytics group. Send them a GitHub link plus your GPA and they usually reply within a week.',
+      'Nếu thích data science thì nên thử Smart Health Analytics group. Gửi GitHub và GPA là họ reply trong khoảng một tuần.',
     timeAgo: '2h ago',
     upvotes: 9,
+    downvotes: 0,
+  },
+  {
+    id: 'comment-iu-vnu-phuc',
+    author: 'Phúc',
+    role: 'Computer Engineering Senior',
+    message:
+      'AIoT thì bạn hỏi lab Embedded Systems. Giảng viên kỹ tính nhưng được dùng thiết bị mới và project khá thực tế.',
+    timeAgo: '1h ago',
+    upvotes: 6,
     downvotes: 0,
   },
 ],
@@ -546,9 +589,9 @@ export const communityDiscussions = {
     author: 'Hạnh',
     role: 'Economics Junior',
     message:
-      'Money Lover syncs bank SMS really well. I tag meals vs. transport so I know when to slow down on Grab.',
+      'Money Lover đồng bộ SMS ngân hàng tiện nha. Nó có tự động tag ăn uống và di chuyển để biết khi nào phải bớt đặt đồ ăn 😅',
     timeAgo: '6h ago',
-    upvotes: 21,
+    upvotes: 6,
     downvotes: 2,
   },
   {
@@ -556,9 +599,19 @@ export const communityDiscussions = {
     author: 'Quang',
     role: 'Student Union Finance',
     message:
-      'If you prefer free, try Sổ Thu Chi. We export monthly reports and it still handles multi-currency clubs without glitches.',
+      'CLB mình xuất báo cáo tháng bằng Sổ Thu Chi cũng ok, xử lý mượt, nhiều tính năng, quan trọng nhất là free cho sv =))',
     timeAgo: '5h ago',
-    upvotes: 16,
+    upvotes: 4,
+    downvotes: 1,
+  },
+  {
+    id: 'comment-budget-duy',
+    author: 'Duy',
+    role: 'Business Analytics',
+    message:
+      'Nếu hay thanh toán QR thì dùng nhật ký chi tiêu trong Momo á, app quốc ',
+    timeAgo: '4h ago',
+    upvotes: 21,
     downvotes: 1,
   },
 ],
