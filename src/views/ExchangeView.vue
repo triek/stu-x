@@ -198,7 +198,7 @@ const handleSubmit = (form) => {
             v-for="post in items"
             :key="post.id"
             class="grid gap-5 rounded-3xl bg-white dark:bg-slate-900/80 p-6 shadow-panel ring-1 transition hover:-translate-y-1 hover:shadow-xl"
-            :style="{ '--tw-ring-color': `var(--pillar-ring-strong)` }"
+            :style="{ '--tw-ring-color': `var(--pillar-accent)` }"
           >
             <div class="flex items-center gap-4">
               <!-- Image -->

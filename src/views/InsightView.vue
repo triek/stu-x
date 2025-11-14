@@ -133,7 +133,7 @@ const handleSubmit = (form) => {
         v-for="item in items"
         :key="item.id"
         class="grid gap-5 rounded-3xl bg-white dark:bg-slate-900/80 p-6 shadow-panel ring-1"
-        :style="{ '--tw-ring-color': `${accent}80` }"
+        :style="{ '--tw-ring-color': `${accent}` }"
       >
         <!-- Post header -->
         <header class="flex flex-wrap items-center justify-between gap-3">
@@ -236,7 +236,7 @@ const handleSubmit = (form) => {
 
     <!-- Create post form -->
     <template #form-fields="{ formState }">
-      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Title
         <input
           v-model="formState.title"
@@ -261,7 +261,7 @@ const handleSubmit = (form) => {
         </p>
       </label>
 
-      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Summary
         <textarea
           v-model="formState.description"
@@ -272,7 +272,7 @@ const handleSubmit = (form) => {
       </label>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Type tag
           <select
             v-model="formState.type"
@@ -284,7 +284,7 @@ const handleSubmit = (form) => {
           </select>
         </label>
 
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Status
           <select
             v-model="formState.status"
@@ -298,7 +298,7 @@ const handleSubmit = (form) => {
       </div>
 
       <div class="grid gap-4 md:grid-cols-3">
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Duration (minutes)
           <input
             v-model="formState.duration"
@@ -308,7 +308,7 @@ const handleSubmit = (form) => {
           />
         </label>
 
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Reward (Stunix)
           <input
             v-model="formState.reward"
@@ -319,7 +319,7 @@ const handleSubmit = (form) => {
           />
         </label>
 
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Closes on
           <input
             v-model="formState.closingDate"
@@ -329,7 +329,7 @@ const handleSubmit = (form) => {
         </label>
       </div>
 
-      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Tags
         <input
           v-model="formState.tags"
@@ -340,7 +340,7 @@ const handleSubmit = (form) => {
       </label>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Estimated participants
           <input
             v-model="formState.participants"
@@ -350,7 +350,7 @@ const handleSubmit = (form) => {
           />
         </label>
 
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Questions / prompts
           <input
             v-model="formState.questions"

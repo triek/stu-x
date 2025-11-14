@@ -388,7 +388,7 @@ const submitForm = () => {
         <span
           v-for="highlight in config.highlights"
           :key="highlight"
-          class="inline-flex w-auto max-w-max self-auto items-center gap-2 rounded-full bg-slate-100 dark:bg-slate-800/40 px-4 py-2 font-semibold whitespace-nowrap"
+          class="inline-flex w-auto max-w-max self-auto items-center gap-2 rounded-full bg-slate-100 dark:bg-slate-800/70 px-4 py-2 font-semibold whitespace-nowrap"
         >
           {{ highlight }}
         </span>

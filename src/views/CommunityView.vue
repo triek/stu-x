@@ -208,7 +208,7 @@ const handleSubmit = (form) => {
         v-for="item in items"
         :key="item.id"
         class="grid gap-5 rounded-3xl bg-white dark:bg-slate-900/80 p-6 shadow-panel ring-1"
-        :style="{ '--tw-ring-color': `${accent}80` }"
+        :style="{ '--tw-ring-color': `${accent}` }"
       >
         <header class="flex items-start gap-4">
           <span class="text-3xl">💬</span>
@@ -253,7 +253,7 @@ const handleSubmit = (form) => {
           class="grid gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/60 dark:border-indigo-900/40 dark:bg-indigo-900/20 p-4"
         >
           <header class="text-xs font-semibold text-slate-500">
-            <span class="text-slate-700">{{ getTopComment(item.id).author }}</span>
+            <span class="text-slate-700 dark:text-slate-300">{{ getTopComment(item.id).author }}</span>
             <span v-if="getCommentRegion(getTopComment(item.id))">
               · {{ getCommentRegion(getTopComment(item.id)) }}
             </span>
@@ -420,7 +420,7 @@ const handleSubmit = (form) => {
 
             <p
               v-else
-              class="rounded-2xl border border-dashed border-slate-300 bg-white p-4 text-sm text-slate-500"
+              class="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 text-sm text-slate-500"
             >
               Log in to add a comment.
             </p>
@@ -430,7 +430,7 @@ const handleSubmit = (form) => {
     </template>
 
     <template #form-fields="{ formState }">
-      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Title
         <input
           v-model="formState.title"
@@ -440,7 +440,7 @@ const handleSubmit = (form) => {
         />
       </label>
 
-      <label class="grid gap-2 text-sm font-semibold text-slate-800">
+      <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Summary
         <textarea
           v-model="formState.description"
@@ -451,7 +451,7 @@ const handleSubmit = (form) => {
       </label>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Starting discussions
           <input
             v-model="formState.discussion"
@@ -461,7 +461,7 @@ const handleSubmit = (form) => {
           />
         </label>
 
-        <label class="grid gap-2 text-sm font-semibold text-slate-800">
+        <label class="grid gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
           Call to action
           <input
             v-model="formState.cta"

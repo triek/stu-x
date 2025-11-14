@@ -60,7 +60,7 @@ const pillars = [
   <section class="flex flex-col gap-5">
     <!-- Banner -->
     <div
-      class="grid gap-12 rounded-3xl bg-white dark:bg-slate-900/80 p-10 shadow-primary ring-1 ring-indigo-100/60 sm:p-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-center"
+      class="grid gap-12 rounded-3xl bg-white dark:bg-slate-900/80 p-10 shadow-primary ring-1 ring-indigo-100/60 dark:ring-indigo-600 sm:p-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-center"
     >
       <div class="flex flex-col gap-6">
         <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
@@ -104,7 +104,7 @@ const pillars = [
       >
         <RouterLink
           :to="pillar.route"
-          class="z-20 flex flex-col gap-4 rounded-3xl bg-white dark:bg-slate-900/80 p-8 shadow-panel ring-1 ring-indigo-100/50 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
+          class="z-20 flex flex-col gap-4 rounded-3xl bg-white dark:bg-slate-900 p-8 shadow-panel ring-1 ring-indigo-100/50 dark:ring-indigo-800 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
           <div class="flex flex-wrap gap-3">
             <span class="text-4xl">{{ pillar.icon }}</span>
@@ -117,7 +117,7 @@ const pillars = [
 
         <!-- How it works -->
         <div
-          class="relative z-10 -mt-10 flex flex-1 flex-col rounded-2xl bg-white/50 dark:bg-slate-800/40 px-7 pb-7 pt-16 shadow-panel ring-1 ring-indigo-100/60 transition-transform duration-300 group-hover:-translate-y-1 md:-mt-16 md:pt-20 gap-2"
+          class="relative z-10 -mt-10 flex flex-1 flex-col rounded-2xl bg-white/50 dark:bg-slate-800/40 px-7 pb-7 pt-16 shadow-panel ring-1 ring-indigo-100/60 dark:ring-indigo-500/60 transition-transform duration-300 group-hover:-translate-y-1 md:-mt-16 md:pt-20 gap-2"
         >
           <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
             {{ pillar.how.title }}
