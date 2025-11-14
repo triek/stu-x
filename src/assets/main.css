@@ -31,16 +31,19 @@
   .btn-brand {
     background-color: var(--pillar-accent, var(--brand-color));
     @apply text-white shadow-lg shadow-indigo-500/30 transition-transform hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+    @apply dark:shadow-indigo-500/20 dark:hover:shadow-indigo-500/30;
   }
 
   .btn-outline {
     color: var(--pillar-accent, var(--brand-color));
     @apply bg-white ring-1 ring-indigo-100 transition-colors hover:bg-indigo-50;
+    @apply dark:bg-slate-800 dark:ring-slate-700 dark:hover:bg-slate-700 dark:text-indigo-200;
   }
 
   .btn-soft {
     color: var(--pillar-accent, var(--brand-color));
     @apply bg-indigo-100 transition-colors hover:bg-indigo-200/70;
+    @apply dark:bg-indigo-900/30 dark:text-indigo-200 dark:hover:bg-indigo-900/40;
   }
 
   .input-control {
@@ -50,7 +53,7 @@
 
   .panel-surface {
     @apply grid gap-5 rounded-3xl bg-white p-6 ring-1;
-    @apply dark:bg-slate-900/80;
+    @apply dark:bg-slate-900/80 dark:ring-slate-700/40;
     --tw-shadow: var(--pillar-shadow-panel, 0 12px 32px -20px rgba(79, 70, 229, 0.35));
     --tw-shadow-colored: var(--pillar-shadow-panel, 0 12px 32px -20px rgba(79, 70, 229, 0.35));
     box-shadow:
@@ -60,6 +63,7 @@
   .feature-surface {
     @apply grid gap-10 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-10 ring-1 ring-indigo-100/70;
     @apply dark:from-transparent dark:via-slate-800/40 dark:to-indigo-900/20;
+    @apply dark:ring-slate-700/30;
     --tw-shadow: 0 25px 55px rgba(79, 70, 229, 0.12);
     --tw-shadow-colored: 0 25px 55px rgba(79, 70, 229, 0.12);
     box-shadow:
@@ -70,10 +74,12 @@
 @layer utilities {
   .text-brand {
     color: var(--pillar-accent, var(--brand-color));
+    @apply dark:text-indigo-500;
   }
 
   .bg-brand {
     background-color: var(--pillar-accent, var(--brand-color));
+    @apply dark:bg-indigo-900/30;
   }
 
   .shadow-primary {
@@ -81,6 +87,7 @@
     --tw-shadow-colored: 0 25px 55px rgba(79, 70, 229, 0.12);
     box-shadow:
       var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    @apply dark:shadow-indigo-500/10;
   }
 
   .shadow-panel {
@@ -88,5 +95,6 @@
     --tw-shadow-colored: var(--pillar-shadow-panel, 0 12px 32px -20px rgba(79, 70, 229, 0.35));
     box-shadow:
       var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    @apply dark:shadow-slate-900/40;
   }
 }
