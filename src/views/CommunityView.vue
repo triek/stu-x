@@ -7,52 +7,32 @@ import { useCommunityPostsStore } from '@/stores/communityPosts'
 import { useCommunityDiscussionsStore } from '@/stores/communityDiscussions'
 import { useRegionStore } from '@/stores/region'
 import { useAuthStore } from '@/stores/auth'
-import { getItemRegionIds, normalizeRegionId } from '@/utils/region'
+import { useRegionScopedFeed } from '@/composables/useRegionScopedFeed'
 
 const communityPostsStore = useCommunityPostsStore()
 const communityDiscussionsStore = useCommunityDiscussionsStore()
 const { posts } = storeToRefs(communityPostsStore)
 
 const regionStore = useRegionStore()
-const { activeScope, activeRegion } = storeToRefs(regionStore)
+const { activeRegion } = storeToRefs(regionStore)
 
 const authStore = useAuthStore()
 const { user, isAuthenticated } = storeToRefs(authStore)
 
+const {
+  scopedFeed: filteredPosts,
+  resolveRegionMeta,
+  userRegionLabel: currentRegionLabel,
+  userRegionId: resolvedUserRegionId,
+} = useRegionScopedFeed(posts)
+
 const currentUsername = computed(() => user.value?.username?.trim() || '')
-const currentRegionLabel = computed(() => user.value?.region?.toString().trim() || '')
 const discussionIdentity = computed(() => {
   if (!isAuthenticated.value) return ''
 
   const name = currentUsername.value || 'Community member'
   const region = currentRegionLabel.value
   return region ? `${name} · ${region}` : name
-})
-
-const fallbackRegionId = computed(() => normalizeRegionId(activeRegion.value?.id))
-const resolvedUserRegionId = computed(() => {
-  const normalized = normalizeRegionId(currentRegionLabel.value)
-  return normalized || fallbackRegionId.value
-})
-
-const filteredPosts = computed(() => {
-  const scope = new Set(activeScope.value)
-
-  return posts.value
-    .filter((post) => {
-      const regionIds = getItemRegionIds(post)
-      return regionIds.some((id) => scope.has(id))
-    })
-    .map((post) => {
-      const regionIds = getItemRegionIds(post)
-      const regionMeta = regionStore.getRegionMeta(post.region ?? regionIds[0])
-
-      return {
-        ...post,
-        regionIds,
-        regionMeta,
-      }
-    })
 })
 
 const openThreads = reactive({})
@@ -161,7 +141,7 @@ const getPostAuthorRegion = (post) =>
 
 const resolveRegionLabel = (regionId) => {
   if (!regionId) return ''
-  return regionStore.getRegionMeta(regionId)?.label ?? ''
+  return resolveRegionMeta(regionId)?.label ?? ''
 }
 
 const baseConfig = {

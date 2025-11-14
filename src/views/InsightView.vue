@@ -7,7 +7,7 @@ import { PILLAR_ACCENTS } from '@/constants/pillarAccents'
 import { useInsightPostsStore } from '@/stores/insightPosts'
 import { useRegionStore } from '@/stores/region'
 import { useAuthStore } from '@/stores/auth'
-import { getItemRegionIds, normalizeRegionId } from '@/utils/region'
+import { useRegionScopedFeed } from '@/composables/useRegionScopedFeed'
 
 const statusStyles = {
   active: {
@@ -28,38 +28,17 @@ const insightPostsStore = useInsightPostsStore()
 const { posts } = storeToRefs(insightPostsStore)
 
 const regionStore = useRegionStore()
-const { activeScope, activeRegion } = storeToRefs(regionStore)
+const { activeRegion } = storeToRefs(regionStore)
 
 const authStore = useAuthStore()
 const { user, isAuthenticated } = storeToRefs(authStore)
 
 const currentUsername = computed(() => user.value?.username?.trim() || '')
-const currentRegionLabel = computed(() => user.value?.region?.toString().trim() || '')
-const fallbackRegionId = computed(() => normalizeRegionId(activeRegion.value?.id))
-const resolvedUserRegionId = computed(() => {
-  const normalized = normalizeRegionId(currentRegionLabel.value)
-  return normalized || fallbackRegionId.value
-})
-
-const filteredPosts = computed(() => {
-  const scope = new Set(activeScope.value)
-
-  return posts.value
-    .filter((item) => {
-      const regionIds = getItemRegionIds(item)
-      return regionIds.some((id) => scope.has(id))
-    })
-    .map((item) => {
-      const regionIds = getItemRegionIds(item)
-      const regionMeta = regionStore.getRegionMeta(item.region ?? regionIds[0])
-
-      return {
-        ...item,
-        regionIds,
-        regionMeta,
-      }
-    })
-})
+const {
+  scopedFeed: filteredPosts,
+  userRegionId: resolvedUserRegionId,
+  userRegionLabel: currentRegionLabel,
+} = useRegionScopedFeed(posts)
 
 const baseConfig = {
   title: 'Insight',

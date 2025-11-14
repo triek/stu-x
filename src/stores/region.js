@@ -5,8 +5,8 @@ import {
   DEFAULT_REGION_ID,
   REGION_DEFINITIONS,
   REGION_SCOPES,
-} from '@/constants/regions'
-import { normalizeRegionId } from '@/utils/region'
+} from '../constants/regions.js'
+import { normalizeRegionId } from '../utils/region.js'
 
 const regionMap = REGION_DEFINITIONS.reduce((map, region) => {
   map.set(region.id, region)
