@@ -37,7 +37,9 @@ const goBack = () => {
 </script>
 
 <template>
-  <section class="mx-auto flex max-w-5xl flex-col gap-8 rounded-3xl bg-white p-6 shadow-panel ring-1 ring-indigo-100/60 sm:p-10">
+  <section
+    class="mx-auto flex max-w-5xl flex-col gap-8 rounded-3xl bg-white dark:bg-slate-900/80 p-6 shadow-panel ring-1 ring-indigo-100/60 sm:p-10"
+  >
     <button
       type="button"
       class="inline-flex w-fit items-center gap-2 text-sm font-semibold text-indigo-600 transition hover:text-indigo-700"
@@ -47,11 +49,15 @@ const goBack = () => {
     </button>
 
     <header class="space-y-3">
-      <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Choose your school</p>
+      <p
+        class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-300"
+      >
+        Choose your school
+      </p>
       <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">
         {{ regionMeta?.label ?? 'Select your region' }}
       </h1>
-      <p v-if="regionMeta?.tagline" class="text-slate-600">
+      <p v-if="regionMeta?.tagline" class="text-slate-600 dark:text-slate-300">
         {{ regionMeta.tagline }}
       </p>
     </header>
@@ -64,24 +70,30 @@ const goBack = () => {
         class="group flex flex-col gap-2 rounded-2xl border p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
         :class="[
           school.isActive !== false
-            ? 'border-indigo-100/80 bg-white/80'
-            : 'cursor-not-allowed border-slate-200 bg-slate-50 text-slate-400',
+            ? 'border-indigo-100/80 bg-white/80 dark:bg-slate-800/50 dark:border-indigo-900/40'
+            : 'cursor-not-allowed border-slate-200 bg-slate-50 dark:bg-slate-800/40 text-slate-400 dark:text-slate-500',
         ]"
         @click="handleSchoolSelect(school)"
       >
         <span
           class="inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-          :class="school.accent ?? 'bg-indigo-50 text-indigo-700'"
+          :class="
+            school.accent ??
+            'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-200'
+          "
         >
           <span>{{ school.label }}</span>
           <span
             v-if="school.statusLabel"
-            class="rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600"
+            class="rounded-full bg-white/70 dark:bg-slate-800/50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300"
           >
             {{ school.statusLabel }}
           </span>
         </span>
-        <span class="text-sm text-slate-600" :class="{ 'text-slate-400': school.isActive === false }">
+        <span
+          class="text-sm text-slate-600 dark:text-slate-300"
+          :class="{ 'text-slate-400 dark:text-slate-500': school.isActive === false }"
+        >
           {{ school.description || 'Join peers and collaborators in this network.' }}
         </span>
         <span
@@ -94,8 +106,9 @@ const goBack = () => {
       </button>
     </div>
 
-    <p v-if="!schools.length" class="text-sm text-slate-500">
-      We’re still onboarding schools for this region. Check back soon or request your school on the landing page.
+    <p v-if="!schools.length" class="text-sm text-slate-500 dark:text-slate-300">
+      We’re still onboarding schools for this region. Check back soon or request your school on the
+      landing page.
     </p>
   </section>
 </template>

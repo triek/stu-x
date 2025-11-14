@@ -4,16 +4,16 @@ import { RouterLink } from 'vue-router'
 const steps = [
   {
     title: '1. Offer your insight',
-    description: 'Answer a survey, review a draft, or provide feedback.'
+    description: 'Answer a survey, review a draft, or provide feedback.',
   },
   {
     title: '2. Earn Stunix',
-    description: 'Each contribution rewards verified stunix you can trust across the network.'
+    description: 'Each contribution rewards verified stunix you can trust across the network.',
   },
   {
     title: '3. Redeem help',
-    description: 'Spend stunix on requests: survey data, project feedback, or donate them.'
-  }
+    description: 'Spend stunix on requests: survey data, project feedback, or donate them.',
+  },
 ]
 
 const pillars = [
@@ -26,8 +26,8 @@ const pillars = [
     how: {
       title: 'A. Spend and earn Stunix',
       description1: 'Join or host short surveys and feedback rounds for real student projects.',
-      description2: 'Share opinions, gather data, and earn Stunix for every meaningful response.'
-    }
+      description2: 'Share opinions, gather data, and earn Stunix for every meaningful response.',
+    },
   },
   {
     route: '/exchange',
@@ -38,8 +38,8 @@ const pillars = [
     how: {
       title: 'B. Non-Stunix trading',
       description1: 'Find mentors or peers to trade study help and specialized skills.',
-      description2: 'Build your profile, gain trust, and grow through mutual learning rewards.'
-    }
+      description2: 'Build your profile, gain trust, and grow through mutual learning rewards.',
+    },
   },
   {
     route: '/community',
@@ -50,85 +50,84 @@ const pillars = [
     how: {
       title: 'C. Discussion forum',
       description1: 'Discuss study experiences and reflect on challenges together.',
-      description2: 'Post ideas, support others, and earn Stunix through authentic contributions.'
-    }
-  }
+      description2: 'Post ideas, support others, and earn Stunix through authentic contributions.',
+    },
+  },
 ]
 </script>
 
 <template>
-<section class="flex flex-col gap-5">
-  <!-- Banner -->
-  <div
-    class="grid gap-12 rounded-3xl bg-white p-10 shadow-primary ring-1 ring-indigo-100/60 sm:p-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-center"
-  >
-    <div class="flex flex-col gap-6">
-      <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">Built on Insight · Exchange · Community</p>
-      <h1 class="max-w-2xl text-4xl font-bold leading-tight text-slate-900 sm:text-5xl md:text-[48px]">
-        Experience-powered learning, unlocked by the StuX network.
-      </h1>
-      <p class="max-w-2xl text-lg text-slate-600">
-        Earn Stunix by helping others, spend them to get help.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <RouterLink
-          to="/insight"
-          class="btn btn-brand"
-        >
-          Explore Opportunities
-        </RouterLink>
-        <RouterLink
-          to="/profile"
-          class="btn btn-soft"
-        >
-          Check Your Wallet
-        </RouterLink>
-      </div>
-    </div>
-
-    <!-- 3 steps -->
-    <div class="grid gap-3 rounded-2xl bg-slate-100/50 p-4 sm:grid-cols-3 sm:gap-4 sm:p-6 lg:col-start-2 lg:grid-cols-1 lg:self-start">
-      <div
-        v-for="step in steps"
-        :key="step.title"
-        class="flex flex-col gap-2 rounded-xl bg-white/80 p-4 shadow-sm ring-1 ring-indigo-100/60"
-      >
-        <h3 class="text-lg font-semibold text-brand">{{ step.title }}</h3>
-        <p class="text-sm text-slate-600">{{ step.description }}</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3 pillar cards -->
-  <div class="grid gap-4 md:auto-rows-fr md:grid-cols-3">
+  <section class="flex flex-col gap-5">
+    <!-- Banner -->
     <div
-      v-for="pillar in pillars"
-      :key="pillar.title"
-      class="group relative flex h-full flex-col"
+      class="grid gap-12 rounded-3xl bg-white dark:bg-slate-900/80 p-10 shadow-primary ring-1 ring-indigo-100/60 sm:p-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-center"
     >
-      <RouterLink
-        :to="pillar.route"
-        class="z-20 flex flex-col gap-4 rounded-3xl bg-white p-8 shadow-panel ring-1 ring-indigo-100/50 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
-      >
+      <div class="flex flex-col gap-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
+          Built on Insight · Exchange · Community
+        </p>
+        <h1
+          class="max-w-2xl text-4xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:text-5xl md:text-[48px]"
+        >
+          Experience-powered learning, unlocked by the StuX network.
+        </h1>
+        <p class="max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+          Earn Stunix by helping others, spend them to get help.
+        </p>
         <div class="flex flex-wrap gap-3">
-          <span class="text-4xl">{{ pillar.icon }}</span>
-          <h2 class="text-2xl font-semibold text-slate-900">{{ pillar.title }}</h2>
+          <RouterLink to="/insight" class="btn btn-brand"> Explore Opportunities </RouterLink>
+          <RouterLink to="/profile" class="btn btn-soft"> Check Your Wallet </RouterLink>
         </div>
-        <p class="text-base text-slate-600">{{ pillar.description }}</p>
-      </RouterLink>
+      </div>
 
-      <!-- How it works -->
+      <!-- 3 steps -->
       <div
-        class="relative z-10 -mt-10 flex flex-1 flex-col rounded-2xl bg-white/50 px-7 pb-7 pt-16 shadow-panel ring-1 ring-indigo-100/60 transition-transform duration-300 group-hover:-translate-y-1 md:-mt-16 md:pt-20 gap-2"
+        class="grid gap-3 rounded-2xl bg-slate-100/50 dark:bg-slate-800/30 p-4 sm:grid-cols-3 sm:gap-4 sm:p-6 lg:col-start-2 lg:grid-cols-1 lg:self-start"
       >
-        <h3 class="text-lg font-semibold text-slate-800">{{ pillar.how.title }}</h3>
-        <p class="text-sm text-slate-600">{{ pillar.how.description1 }}</p>
-        <p class="text-sm text-slate-600">{{ pillar.how.description2 }}</p>
+        <div
+          v-for="step in steps"
+          :key="step.title"
+          class="flex flex-col gap-2 rounded-xl bg-white/80 dark:bg-slate-900/70 p-4 shadow-sm ring-1 ring-indigo-100/60"
+        >
+          <h3 class="text-lg font-semibold text-brand">{{ step.title }}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300">{{ step.description }}</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+
+    <!-- 3 pillar cards -->
+    <div class="grid gap-4 md:auto-rows-fr md:grid-cols-3">
+      <div
+        v-for="pillar in pillars"
+        :key="pillar.title"
+        class="group relative flex h-full flex-col"
+      >
+        <RouterLink
+          :to="pillar.route"
+          class="z-20 flex flex-col gap-4 rounded-3xl bg-white dark:bg-slate-900/80 p-8 shadow-panel ring-1 ring-indigo-100/50 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
+        >
+          <div class="flex flex-wrap gap-3">
+            <span class="text-4xl">{{ pillar.icon }}</span>
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+              {{ pillar.title }}
+            </h2>
+          </div>
+          <p class="text-base text-slate-600 dark:text-slate-300">{{ pillar.description }}</p>
+        </RouterLink>
+
+        <!-- How it works -->
+        <div
+          class="relative z-10 -mt-10 flex flex-1 flex-col rounded-2xl bg-white/50 dark:bg-slate-800/40 px-7 pb-7 pt-16 shadow-panel ring-1 ring-indigo-100/60 transition-transform duration-300 group-hover:-translate-y-1 md:-mt-16 md:pt-20 gap-2"
+        >
+          <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
+            {{ pillar.how.title }}
+          </h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300">{{ pillar.how.description1 }}</p>
+          <p class="text-sm text-slate-600 dark:text-slate-300">{{ pillar.how.description2 }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

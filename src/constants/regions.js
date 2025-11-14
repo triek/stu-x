@@ -8,7 +8,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'AUS',
     tagline: '3 Regions',
     accent: 'bg-indigo-100 text-indigo-700',
-    chipClass: 'border border-indigo-200/60 bg-indigo-50 text-indigo-700',
+    chipClass:
+      'border border-indigo-200/60 bg-indigo-50 text-indigo-700 dark:border-indigo-900/40 dark:bg-indigo-900/30 dark:text-indigo-200',
     statusLabel: 'National',
     isActive: true,
     showInSwitcher: true,
@@ -19,7 +20,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'Mel',
     tagline: '2 Universities',
     accent: 'bg-emerald-100 text-emerald-700',
-    chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
+    chipClass:
+      'border border-emerald-200/60 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/30 dark:text-emerald-200',
     statusLabel: 'Live',
     isActive: true,
     showInSwitcher: true,
@@ -30,7 +32,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'Deakin',
     tagline: 'Burwood campus pilot',
     accent: 'bg-emerald-100 text-emerald-700',
-    chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
+    chipClass:
+      'border border-emerald-200/60 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/30 dark:text-emerald-200',
     statusLabel: 'Live',
     isActive: true,
     showInSwitcher: true,
@@ -41,7 +44,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'Monash',
     tagline: 'Clayton campus pilot',
     accent: 'bg-amber-100 text-amber-700',
-    chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
+    chipClass:
+      'border border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/30 dark:text-amber-200',
     statusLabel: 'Waitlist',
     isActive: false,
     showInSwitcher: true,
@@ -52,7 +56,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'Syd',
     tagline: '1 University',
     accent: 'bg-amber-100 text-amber-700',
-    chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
+    chipClass:
+      'border border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/30 dark:text-amber-200',
     statusLabel: 'Waitlist',
     isActive: false,
     showInSwitcher: true,
@@ -63,7 +68,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'USYD',
     tagline: 'All campuses',
     accent: 'bg-amber-100 text-amber-700',
-    chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
+    chipClass:
+      'border border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/30 dark:text-amber-200',
     statusLabel: 'Waitlist',
     isActive: false,
     showInSwitcher: true,
@@ -76,7 +82,8 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'VN',
     tagline: '3 Regions',
     accent: 'bg-indigo-100 text-indigo-700',
-    chipClass: 'border border-indigo-200/60 bg-indigo-50 text-indigo-700',
+    chipClass:
+      'border border-indigo-200/60 bg-indigo-50 text-indigo-700 dark:border-indigo-900/40 dark:bg-indigo-900/30 dark:text-indigo-200',
     statusLabel: 'National',
     isActive: true,
     showInSwitcher: true,
@@ -87,55 +94,59 @@ export const REGION_DEFINITIONS = [
     shortLabel: 'HCMC',
     tagline: '2 Universities',
     accent: 'bg-emerald-100 text-emerald-700',
-    chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
+    chipClass:
+      'border border-emerald-200/60 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/30 dark:text-emerald-200',
     statusLabel: 'Live',
     isActive: true,
     showInSwitcher: true,
   },
   {
-  id: 'iu-vnu',
-  label: 'International University - VNU',
-  shortLabel: 'IU-VNU',
-  tagline: 'Cơ sở Thủ Đức',
-  accent: 'bg-emerald-100 text-emerald-700',
-  chipClass: 'border border-emerald-200/60 bg-emerald-50 text-emerald-700',
-  statusLabel: 'Live',
-  isActive: true,
-  showInSwitcher: true,
+    id: 'iu-vnu',
+    label: 'International University - VNU',
+    shortLabel: 'IU-VNU',
+    tagline: 'Cơ sở Thủ Đức',
+    accent: 'bg-emerald-100 text-emerald-700',
+    chipClass:
+      'border border-emerald-200/60 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/30 dark:text-emerald-200',
+    statusLabel: 'Live',
+    isActive: true,
+    showInSwitcher: true,
   },
   {
-  id: 'ussh',
-  label: 'University of Social Sciences and Humanities',
-  shortLabel: 'USSH',
-  tagline: 'Mọi cơ sở',
-  accent: 'bg-amber-100 text-amber-700',
-  chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
-  statusLabel: 'Waitlist',
-  isActive: false,
-  showInSwitcher: true,
+    id: 'ussh',
+    label: 'University of Social Sciences and Humanities',
+    shortLabel: 'USSH',
+    tagline: 'Mọi cơ sở',
+    accent: 'bg-amber-100 text-amber-700',
+    chipClass:
+      'border border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/30 dark:text-amber-200',
+    statusLabel: 'Waitlist',
+    isActive: false,
+    showInSwitcher: true,
   },
   {
-  id: 'danang',
-  label: 'Đà Nẵng',
-  shortLabel: 'DN',
-  tagline: 'Central hub with campus partners',
-  accent: 'bg-amber-100 text-amber-700',
-  chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
-  statusLabel: 'Waitlist',
-  isActive: false,
-  showInSwitcher: true,
-},
-{
-  id: 'hanoi',
-  label: 'Hà Nội',
-  shortLabel: 'HN',
-  tagline: 'Capital region with campus partners',
-  accent: 'bg-amber-100 text-amber-700',
-  chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
-  statusLabel: 'Waitlist',
-  isActive: false,
-  showInSwitcher: true,
-},
+    id: 'danang',
+    label: 'Đà Nẵng',
+    shortLabel: 'DN',
+    tagline: 'Central hub with campus partners',
+    accent: 'bg-amber-100 text-amber-700',
+    chipClass:
+      'border border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/30 dark:text-amber-200',
+    statusLabel: 'Waitlist',
+    isActive: false,
+    showInSwitcher: true,
+  },
+  {
+    id: 'hanoi',
+    label: 'Hà Nội',
+    shortLabel: 'HN',
+    tagline: 'Capital region with campus partners',
+    accent: 'bg-amber-100 text-amber-700',
+    chipClass: 'border border-amber-200/60 bg-amber-50 text-amber-700',
+    statusLabel: 'Waitlist',
+    isActive: false,
+    showInSwitcher: true,
+  },
 ]
 
 export const REGION_CHILDREN = {
@@ -166,8 +177,6 @@ const buildRegionScope = (regionId, visited = new Set()) => {
 
 export const REGION_SCOPES = REGION_DEFINITIONS.reduce((scopes, region) => {
   const scope = buildRegionScope(region.id, new Set())
-  scopes[region.id] = scope.length
-    ? Array.from(new Set(scope))
-    : [region.id.toLowerCase()]
+  scopes[region.id] = scope.length ? Array.from(new Set(scope)) : [region.id.toLowerCase()]
   return scopes
 }, {})
